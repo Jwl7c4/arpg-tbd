@@ -94,6 +94,7 @@ void AARPGCplusplusCharacter::AddInitialCharacterAbilities()
 			{
 				FGameplayAbilitySpec AbilitySpec(CurrentAbility, 1, static_cast<int32>(CurrentAbility->AbilityInputId), this);
 				AbilitySystemComponent->GiveAbility(AbilitySpec);
+				UE_LOG(LogTemp, Warning, TEXT("Ability Name : %s"), *CurrentGameplayAbilityClass.GetDefaultObject()->GetName());
 			}
 		}
 	}
@@ -151,7 +152,6 @@ void AARPGCplusplusCharacter::Dodge()
 	FVector x = fv * 5000;
 
 	GetCharacterMovement()->Velocity = x;
-	
 }
 
 void AARPGCplusplusCharacter::BasicAttack()
