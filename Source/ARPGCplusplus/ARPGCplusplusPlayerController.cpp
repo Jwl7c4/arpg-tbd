@@ -127,7 +127,6 @@ void AARPGCplusplusPlayerController::Dodge()
 {
 	if (PossessedPawn != nullptr)
 	{
-		PossessedPawn->
 		//PossessedPawn->DisableInput(this);
 		PossessedPawn->Dodge();
 		//PossessedPawn->EnableInput(this);
