@@ -42,7 +42,7 @@ protected:
 	UGT_AttributeSet* AttributeSet;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Values")
-	float DodgeDistance = 100.f;
+	float DodgeDistance = 2000.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
 	TArray<TSubclassOf<UGT_GameplayAbility>> InitialGameplayAbility;
