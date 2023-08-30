@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "InputActionValue.h"
 #include "ARPGCplusplusCharacter.h"
+#include "ARPGCplusplus.h"
 #include "ARPGCplusplusPlayerController.generated.h"
 
 /** Forward declaration to improve compiling times */

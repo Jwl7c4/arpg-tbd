@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "ARPGCplusplus.h"
 #include "ARPGCplusplusCharacter.generated.h"
 
 class UAbilitySystemComponent;
@@ -29,7 +30,7 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 	// called actions
-	void Dodge();
+	void Dodge(const EGT_AbilityInput AbilityInput);
 	void BasicAttack();
 
 protected:

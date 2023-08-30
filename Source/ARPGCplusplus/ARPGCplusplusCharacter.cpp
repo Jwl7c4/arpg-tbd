@@ -141,17 +141,21 @@ void AARPGCplusplusCharacter::SetupAbilitiesInputs()
 	bInputsBound = true;
 }
 
-void AARPGCplusplusCharacter::Dodge()
+void AARPGCplusplusCharacter::Dodge(const EGT_AbilityInput AbilityInputId)
 {
+	// my own hack
 	UE_LOG(LogTemp, Warning, TEXT("Dodge on character called"));
 	//GetCharacterMovement()->MaxWalkSpeed = 2000.f;
+	//FVector fv = GetActorForwardVector();
+	//// todo jake - set 5000 as variable
+	//FVector x = fv * 5000;
+	//GetCharacterMovement()->Velocity = x;
 
-	FVector fv = GetActorForwardVector();
+	UE_LOG(LogTemp, Warning, TEXT("Ability id: %d"), AbilityInputId);
+	UE_LOG(LogTemp, Warning, TEXT("Needed Ability id: %d"), EGT_AbilityInput::Dodge);
 
-	// todo jake - set 5000 as variable
-	FVector x = fv * 5000;
-
-	GetCharacterMovement()->Velocity = x;
+	// ability system
+	AbilitySystemComponent->AbilityLocalInputPressed(static_cast<int32>(AbilityInputId));
 }
 
 void AARPGCplusplusCharacter::BasicAttack()

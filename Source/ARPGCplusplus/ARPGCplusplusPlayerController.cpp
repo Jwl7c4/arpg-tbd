@@ -8,6 +8,7 @@
 #include "InputMappingContext.h"
 #include "ARPGCplusplusCharacter.h"
 #include "Engine/World.h"
+#include "ARPGCplusplus.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -127,9 +128,7 @@ void AARPGCplusplusPlayerController::Dodge()
 {
 	if (PossessedPawn != nullptr)
 	{
-		//PossessedPawn->DisableInput(this);
-		PossessedPawn->Dodge();
-		//PossessedPawn->EnableInput(this);
+		PossessedPawn->Dodge(EGT_AbilityInput::Dodge);
 	}
 }
 
