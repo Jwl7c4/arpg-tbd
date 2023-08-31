@@ -30,8 +30,7 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 	// called actions
-	void Dodge(const EGT_AbilityInput AbilityInput);
-	void BasicAttack();
+	void ActivateAbility(const EGT_AbilityInput AbilityInput);
 
 protected:
 
@@ -40,9 +39,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UGT_AttributeSet* AttributeSet;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Values")
-	float DodgeDistance = 2000.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
 	TArray<TSubclassOf<UGT_GameplayAbility>> InitialGameplayAbility;

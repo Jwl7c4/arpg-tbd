@@ -9,6 +9,7 @@ UGT_AttributeSet::UGT_AttributeSet()
 {
 	MaxHealth = 100.0f;
 	Health = 100.0f;
+	DodgeDistance = 3000.0f;
 }
 
 void UGT_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -35,4 +36,9 @@ void UGT_AttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealt
 void UGT_AttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGT_AttributeSet, Health, OldHealth);
+}
+
+void UGT_AttributeSet::OnRep_DodgeDistance(const FGameplayAttributeData& OldDodgeDistance)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGT_AttributeSet, DodgeDistance, OldDodgeDistance);
 }

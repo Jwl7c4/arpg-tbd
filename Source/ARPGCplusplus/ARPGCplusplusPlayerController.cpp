@@ -126,9 +126,10 @@ void AARPGCplusplusPlayerController::OnTouchReleased()
 
 void AARPGCplusplusPlayerController::Dodge()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Dodge on controller called"));
 	if (PossessedPawn != nullptr)
 	{
-		PossessedPawn->Dodge(EGT_AbilityInput::Dodge);
+		PossessedPawn->ActivateAbility(EGT_AbilityInput::Dodge);
 	}
 }
 
@@ -136,6 +137,6 @@ void AARPGCplusplusPlayerController::BasicAttack()
 {
 	if (PossessedPawn != nullptr)
 	{
-		PossessedPawn->BasicAttack();
+		PossessedPawn->ActivateAbility(EGT_AbilityInput::Punch);
 	}
 }

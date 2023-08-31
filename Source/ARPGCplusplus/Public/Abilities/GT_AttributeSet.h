@@ -44,4 +44,11 @@ protected:
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Dodge", ReplicatedUsing = OnRep_DodgeDistance)
+	FGameplayAttributeData DodgeDistance;
+	ATTRIBUTE_ACCESSORS(UGT_AttributeSet, DodgeDistance);
+
+	UFUNCTION()
+	void OnRep_DodgeDistance(const FGameplayAttributeData& OldDodgeDistance);
 };
