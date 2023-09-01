@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "InputActionValue.h"
 #include "ARPGCplusplusCharacter.h"
+#include "Blueprint/UserWidget.h"
 #include "ARPGCplusplus.h"
 #include "ARPGCplusplusPlayerController.generated.h"
 
@@ -30,16 +31,25 @@ public:
 	UNiagaraSystem* FXCursor;
 
 	/** MappingContext */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputMappingContext* DefaultMappingContext;
-	
+
 	/** Click Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* SetDestinationClickAction;
 
 	/** Touch Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* SetDestinationTouchAction;
+
+	// Pause Game
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* PauseGameAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = UI)
+	TSubclassOf<UUserWidget> PauseMenuWidget;
+
+	UUserWidget* WidgetInstance;
 
 	/** Dodge Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -47,6 +57,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* BasicAttackAction;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsMenuActive;
 
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
@@ -56,7 +69,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void OnPossess(APawn* aPawn) override;
-	
+
 	// To add mapping context
 	virtual void BeginPlay();
 
@@ -66,6 +79,9 @@ protected:
 	void OnSetDestinationReleased();
 	void OnTouchTriggered();
 	void OnTouchReleased();
+
+	// menu
+	void HandleMenu();
 
 	// abilities
 	void Dodge();

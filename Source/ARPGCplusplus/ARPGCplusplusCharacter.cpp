@@ -63,10 +63,10 @@ AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 	SetupAbilitiesInputs();
 }
 
-void AARPGCplusplusCharacter::Tick(float DeltaSeconds)
-{
-    Super::Tick(DeltaSeconds);
-}
+//void AARPGCplusplusCharacter::Tick(float DeltaSeconds)
+//{
+//    Super::Tick(DeltaSeconds);
+//}
 
 void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 {
@@ -144,10 +144,8 @@ void AARPGCplusplusCharacter::SetupAbilitiesInputs()
 
 void AARPGCplusplusCharacter::ActivateAbility(const EGT_AbilityInput AbilityInputId)
 {
-	// my own hack
-	UE_LOG(LogTemp, Warning, TEXT("ActivateAbility on character called"));
 
-	UE_LOG(LogTemp, Warning, TEXT("Ability id: %d"), AbilityInputId);
+	UE_LOG(LogTemp, Warning, TEXT("ActivateAbility on character called. Ability id: %d"), AbilityInputId);
 
 	// ability system
 	AbilitySystemComponent->AbilityLocalInputPressed(static_cast<int32>(AbilityInputId));

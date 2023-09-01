@@ -13,5 +13,9 @@ enum class EGT_AbilityInput : uint8
 	Confirm,
 	Cancel,
 	Dodge,
-	Punch
+	InitialAbility,
+	Attack1,
+	Attack2,
+	Attack3,
+	Attack4
 };

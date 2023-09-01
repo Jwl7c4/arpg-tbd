@@ -25,6 +25,8 @@ void AARPGCplusplusPlayerController::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
+	bIsMenuActive = false;
+
 	//Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
@@ -36,8 +38,6 @@ void AARPGCplusplusPlayerController::BeginPlay()
 
 void AARPGCplusplusPlayerController::SetupInputComponent()
 {
-	UE_LOG(LogTemp, Warning, TEXT("SetupInputComponent on controller called"));
-
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
@@ -55,6 +55,9 @@ void AARPGCplusplusPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Triggered, this, &AARPGCplusplusPlayerController::OnTouchTriggered);
 		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Completed, this, &AARPGCplusplusPlayerController::OnTouchReleased);
 		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Canceled, this, &AARPGCplusplusPlayerController::OnTouchReleased);
+
+		// pause menu
+		EnhancedInputComponent->BindAction(PauseGameAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::HandleMenu);
 
 		// need to figure out how to set this binding and call gameplay ability
 		EnhancedInputComponent->BindAction(DodgeAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::Dodge);
@@ -79,7 +82,7 @@ void AARPGCplusplusPlayerController::OnSetDestinationTriggered()
 {
 	// We flag that the input is being pressed
 	FollowTime += GetWorld()->GetDeltaSeconds();
-	
+
 	// We look for the location in the world where the player has pressed the input
 	FHitResult Hit;
 	bool bHitSuccessful = false;
@@ -97,7 +100,7 @@ void AARPGCplusplusPlayerController::OnSetDestinationTriggered()
 	{
 		CachedDestination = Hit.Location;
 	}
-	
+
 	// Move towards mouse pointer or touch
 	APawn* ControlledPawn = GetPawn();
 	if (ControlledPawn != nullptr)
@@ -133,6 +136,31 @@ void AARPGCplusplusPlayerController::OnTouchReleased()
 	OnSetDestinationReleased();
 }
 
+void AARPGCplusplusPlayerController::HandleMenu()
+{
+	if (PauseMenuWidget != nullptr)
+	{
+		WidgetInstance = CreateWidget(this, PauseMenuWidget);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Configure the Pause Menue Widget in Controller"));
+	}
+
+	if (WidgetInstance != nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("HandleMenu - in widget on controller called"));
+		if (bIsMenuActive) {
+			UE_LOG(LogTemp, Warning, TEXT("HandleMenu - menu active on controller called"));
+			WidgetInstance->RemoveFromParent();
+		}
+		else {
+			UE_LOG(LogTemp, Warning, TEXT("HandleMenu - menu inactive on controller called"));
+			WidgetInstance->AddToViewport(0);
+		}
+		bIsMenuActive = !bIsMenuActive;
+	}
+}
+
 void AARPGCplusplusPlayerController::Dodge()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Dodge on controller called"));
@@ -146,6 +174,6 @@ void AARPGCplusplusPlayerController::BasicAttack()
 {
 	if (PossessedPawn != nullptr)
 	{
-		PossessedPawn->ActivateAbility(EGT_AbilityInput::Punch);
+		PossessedPawn->ActivateAbility(EGT_AbilityInput::InitialAbility);
 	}
 }
