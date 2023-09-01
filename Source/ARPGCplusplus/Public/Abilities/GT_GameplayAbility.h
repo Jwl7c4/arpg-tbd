@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
-#include <ARPGCplusplus/ARPGCplusplus.h>
+#include <ARPGCplusplus.h>
 #include "GT_GameplayAbility.generated.h"
 
 /**
- * 
+ * todo jake - rename this better
  */
 UCLASS()
 class ARPGCPLUSPLUS_API UGT_GameplayAbility : public UGameplayAbility

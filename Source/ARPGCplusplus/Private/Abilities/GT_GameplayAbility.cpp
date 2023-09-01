@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Abilities/GT_GameplayAbility.h"
+#include <Abilities/GT_GameplayAbility.h>
 
 UGT_GameplayAbility::UGT_GameplayAbility()
 {
