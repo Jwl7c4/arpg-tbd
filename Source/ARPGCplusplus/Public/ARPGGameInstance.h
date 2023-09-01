@@ -21,7 +21,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	TArray<TSubclassOf<APawn>> getAllAvailablePawns();
-
+	
+	UFUNCTION(BlueprintCallable)
 	void setSelectedPawn(TSubclassOf<APawn> SelectedPawn);
 
 private:
