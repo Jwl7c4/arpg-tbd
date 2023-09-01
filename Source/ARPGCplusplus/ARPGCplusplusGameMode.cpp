@@ -2,6 +2,7 @@
 
 #include "ARPGCplusplusGameMode.h"
 #include "ARPGCplusplusPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "ARPGCplusplusCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
@@ -10,12 +11,12 @@ AARPGCplusplusGameMode::AARPGCplusplusGameMode()
 	// use our custom PlayerController class
 	PlayerControllerClass = AARPGCplusplusPlayerController::StaticClass();
 
+	GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
 	// set default pawn class to our Blueprinted character
-	//static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDown/Blueprints/BP_TopDownCharacter"));
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDown/Blueprints/BP_KnightCharacter"));
-	if (PlayerPawnBPClass.Class != nullptr)
+	if (GameInstance != nullptr)
 	{
-		DefaultPawnClass = PlayerPawnBPClass.Class;
+		DefaultPawnClass = GameInstance->getCurrentDesiredPawn();
 	}
 
 	// set default controller to our Blueprinted controller

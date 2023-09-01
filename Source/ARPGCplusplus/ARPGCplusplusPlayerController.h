@@ -53,6 +53,9 @@ protected:
 	uint32 bMoveToMouseCursor : 1;
 
 	virtual void SetupInputComponent() override;
+
+	UFUNCTION(BlueprintCallable)
+	virtual void OnPossess(APawn* aPawn) override;
 	
 	// To add mapping context
 	virtual void BeginPlay();

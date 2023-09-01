@@ -36,6 +36,8 @@ void AARPGCplusplusPlayerController::BeginPlay()
 
 void AARPGCplusplusPlayerController::SetupInputComponent()
 {
+	UE_LOG(LogTemp, Warning, TEXT("SetupInputComponent on controller called"));
+
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
@@ -58,6 +60,13 @@ void AARPGCplusplusPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(DodgeAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::Dodge);
 		EnhancedInputComponent->BindAction(BasicAttackAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::BasicAttack);
 	}
+}
+
+void AARPGCplusplusPlayerController::OnPossess(APawn* aPawn)
+{
+	Super::OnPossess(aPawn);
+
+	PossessedPawn = Cast<AARPGCplusplusCharacter>(aPawn);
 }
 
 void AARPGCplusplusPlayerController::OnInputStarted()
