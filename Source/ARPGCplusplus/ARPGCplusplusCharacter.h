@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "ARPGCplusplus.h"
 #include "ARPGCplusplusCharacter.generated.h"
 
 class UAbilitySystemComponent;
@@ -29,8 +30,7 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 	// called actions
-	void Dodge();
-	void BasicAttack();
+	void ActivateAbility(const EGT_AbilityInput AbilityInput);
 
 protected:
 
@@ -39,9 +39,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UGT_AttributeSet* AttributeSet;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Values")
-	float DodgeDistance = 100.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
 	TArray<TSubclassOf<UGT_GameplayAbility>> InitialGameplayAbility;

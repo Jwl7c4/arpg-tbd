@@ -17,6 +17,7 @@
 #include "Engine/World.h"
 #include "Abilities/GT_AttributeSet.h"
 #include "Abilities/GT_GameplayAbility.h"
+#include <Kismet/KismetSystemLibrary.h>
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 {
@@ -141,22 +142,14 @@ void AARPGCplusplusCharacter::SetupAbilitiesInputs()
 	bInputsBound = true;
 }
 
-void AARPGCplusplusCharacter::Dodge()
+void AARPGCplusplusCharacter::ActivateAbility(const EGT_AbilityInput AbilityInputId)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Dodge on character called"));
-	//GetCharacterMovement()->MaxWalkSpeed = 2000.f;
+	// my own hack
+	UE_LOG(LogTemp, Warning, TEXT("ActivateAbility on character called"));
 
-	FVector fv = GetActorForwardVector();
+	UE_LOG(LogTemp, Warning, TEXT("Ability id: %d"), AbilityInputId);
 
-	// todo jake - set 5000 as variable
-	FVector x = fv * 5000;
-
-	GetCharacterMovement()->Velocity = x;
-}
-
-void AARPGCplusplusCharacter::BasicAttack()
-{
-	UE_LOG(LogTemp, Warning, TEXT("BasicAttack on character called"));
-	GetCharacterMovement()->StopActiveMovement();
+	// ability system
+	AbilitySystemComponent->AbilityLocalInputPressed(static_cast<int32>(AbilityInputId));
 }
 
