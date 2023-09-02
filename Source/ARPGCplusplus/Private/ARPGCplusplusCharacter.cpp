@@ -15,7 +15,8 @@
 #include "Materials/Material.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Engine/World.h"
-#include "Abilities/GT_AttributeSet.h"
+#include "AbilityAttributeSet.h"
+#include "Abilities/CharacterAttributeSet.h"
 #include "Abilities/GT_GameplayAbility.h"
 #include <Kismet/KismetSystemLibrary.h>
 
@@ -52,11 +53,14 @@ AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
+	// Non Ability attributes
+	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
+
 	// Ability Systems
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Full);
-	AttributeSet = CreateDefaultSubobject<UGT_AttributeSet>(TEXT("AttributeSet"));
+	AbilityAttributeSet = CreateDefaultSubobject<UAbilityAttributeSet>(TEXT("AbilityAttributeSet"));
 	bWerecharacterAbilitiesGiven = false;
 	bWereCharacterEffectsGiven = false;
 	bInputsBound = false;
@@ -72,7 +76,7 @@ void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (IsValid(AbilitySystemComponent) && IsValid(AttributeSet))
+	if (IsValid(AbilitySystemComponent) && IsValid(AbilityAttributeSet))
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 		AddInitialCharacterAbilities();
@@ -136,7 +140,7 @@ void AARPGCplusplusCharacter::SetupAbilitiesInputs()
 
 	AbilitySystemComponent->BindAbilityActivationToInputComponent(
 	    InputComponent,
-		FGameplayAbilityInputBinds("Confirm", "Cancel", "EGT_AbilityInput", static_cast<int32>(EGT_AbilityInput::Confirm), static_cast<int32>(EGT_AbilityInput::Cancel))
+		FGameplayAbilityInputBinds("Confirm", "Cancel", FTopLevelAssetPath("EGT_AbilityInput"), static_cast<int32>(EGT_AbilityInput::Confirm), static_cast<int32>(EGT_AbilityInput::Cancel))
 	);
 
 	bInputsBound = true;

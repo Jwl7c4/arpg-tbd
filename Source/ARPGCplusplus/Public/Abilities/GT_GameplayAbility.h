@@ -17,7 +17,6 @@ class ARPGCPLUSPLUS_API UGT_GameplayAbility : public UGameplayAbility
 
 	UGT_GameplayAbility();
 
-
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input Id")
 	EGT_AbilityInput AbilityInputId;

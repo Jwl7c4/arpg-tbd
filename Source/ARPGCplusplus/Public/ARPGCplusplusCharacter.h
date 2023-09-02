@@ -8,7 +8,8 @@
 #include "ARPGCplusplusCharacter.generated.h"
 
 class UAbilitySystemComponent;
-class UGT_AttributeSet;
+class UCharacterAttributeSet;
+class UAbilityAttributeSet;
 class UGT_GameplayAbility;
 class UGameplayEffect;
 
@@ -38,7 +39,10 @@ protected:
 	UAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UGT_AttributeSet* AttributeSet;
+	UCharacterAttributeSet* CharacterAttributeSet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UAbilityAttributeSet* AbilityAttributeSet;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
 	TArray<TSubclassOf<UGT_GameplayAbility>> InitialGameplayAbility;

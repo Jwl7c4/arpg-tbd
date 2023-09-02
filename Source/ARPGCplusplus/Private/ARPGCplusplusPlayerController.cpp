@@ -172,6 +172,7 @@ void AARPGCplusplusPlayerController::Dodge()
 
 void AARPGCplusplusPlayerController::BasicAttack()
 {
+	UE_LOG(LogTemp, Warning, TEXT("InitialAbility on controller called"));
 	if (PossessedPawn != nullptr)
 	{
 		PossessedPawn->ActivateAbility(EGT_AbilityInput::InitialAbility);

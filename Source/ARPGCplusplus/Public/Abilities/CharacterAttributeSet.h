@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
 #include "AbilitySystemComponent.h"
-#include "GT_AttributeSet.generated.h"
+#include "CharacterAttributeSet.generated.h"
 
 
 // Uses macros from AttributeSet.h
@@ -15,15 +15,13 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
-/**
- * 
- */
+
 UCLASS()
-class ARPGCPLUSPLUS_API UGT_AttributeSet : public UAttributeSet
+class ARPGCPLUSPLUS_API UCharacterAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
-	UGT_AttributeSet();
+	UCharacterAttributeSet();
 
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data);
 
@@ -33,11 +31,11 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_MaxHealth)
 	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UGT_AttributeSet, MaxHealth);
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxHealth);
 
 	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_Health)
 	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UGT_AttributeSet, Health);
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Health);
 
 	UFUNCTION()
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth);
@@ -45,10 +43,4 @@ protected:
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth);
 
-	UPROPERTY(BlueprintReadOnly, Category = "Dodge", ReplicatedUsing = OnRep_DodgeDistance)
-	FGameplayAttributeData DodgeDistance;
-	ATTRIBUTE_ACCESSORS(UGT_AttributeSet, DodgeDistance);
-
-	UFUNCTION()
-	void OnRep_DodgeDistance(const FGameplayAttributeData& OldDodgeDistance);
 };
