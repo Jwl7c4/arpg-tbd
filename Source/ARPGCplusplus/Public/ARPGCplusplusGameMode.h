@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ARPGGameInstance.h"
 #include "GameFramework/GameModeBase.h"
 #include "ARPGCplusplusGameMode.generated.h"
 
@@ -16,5 +15,5 @@ public:
 	AARPGCplusplusGameMode();
 
 private:
-	UARPGGameInstance* GameInstance;
+	class UARPGGameInstance* GameInstance;
 };

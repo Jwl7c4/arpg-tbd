@@ -1,11 +1,13 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "ARPGCplusplusPlayerController.h"
+
 #include "GameFramework/Pawn.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "NiagaraSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "InputMappingContext.h"
+#include "Blueprint/UserWidget.h"
 #include "ARPGCplusplusCharacter.h"
 #include "Engine/World.h"
 #include "ARPGCplusplus.h"
@@ -140,7 +142,7 @@ void AARPGCplusplusPlayerController::HandleMenu()
 {
 	if (PauseMenuWidget != nullptr)
 	{
-		WidgetInstance = CreateWidget(this, PauseMenuWidget);
+		WidgetInstance = CreateWidget(this, PauseMenuWidget, "PauseMenu");
 	}
 	else
 	{

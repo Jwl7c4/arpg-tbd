@@ -16,6 +16,36 @@ public:
 	AARPGCplusplusEnemyCharacter();
 
 protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	class UAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	class UCharacterAttributeSet* CharacterAttributeSet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	class UAbilityAttributeSet* AbilityAttributeSet;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
+	TArray<TSubclassOf<class UGT_GameplayAbility>> InitialGameplayAbility;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
+	TArray<TSubclassOf<class UGameplayEffect>> InitialGameplayEffects;
+
+	uint8 bWerecharacterAbilitiesGiven : 1;
+
+	uint8 bWereCharacterEffectsGiven : 1;
+
+	void AddInitialCharacterAbilities();
+
+	void AddInitialCharacterEffects();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = UI)
+	TSubclassOf<class UUserWidget> HealthBarWidgetClass;
+	
+	UPROPERTY(VisibleAnywhere, Category = UI)
+	class UWidgetComponent* HealthBarWidgetComponent;
+
 	// Called when the game starts or when spawned
 	//virtual void BeginPlay() override;
 

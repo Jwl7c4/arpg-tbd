@@ -7,12 +7,6 @@
 #include "ARPGCplusplus.h"
 #include "ARPGCplusplusCharacter.generated.h"
 
-class UAbilitySystemComponent;
-class UCharacterAttributeSet;
-class UAbilityAttributeSet;
-class UGT_GameplayAbility;
-class UGameplayEffect;
-
 UCLASS(Blueprintable)
 class AARPGCplusplusCharacter : public ACharacter
 {
@@ -36,19 +30,19 @@ public:
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UAbilitySystemComponent* AbilitySystemComponent;
+	class UAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UCharacterAttributeSet* CharacterAttributeSet;
+	class UCharacterAttributeSet* CharacterAttributeSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UAbilityAttributeSet* AbilityAttributeSet;
+	class UAbilityAttributeSet* AbilityAttributeSet;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
-	TArray<TSubclassOf<UGT_GameplayAbility>> InitialGameplayAbility;
+	TArray<TSubclassOf<class UGT_GameplayAbility>> InitialGameplayAbility;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
-	TArray<TSubclassOf<UGameplayEffect>> InitialGameplayEffects;
+	TArray<TSubclassOf<class UGameplayEffect>> InitialGameplayEffects;
 
 	uint8 bWerecharacterAbilitiesGiven : 1;
 

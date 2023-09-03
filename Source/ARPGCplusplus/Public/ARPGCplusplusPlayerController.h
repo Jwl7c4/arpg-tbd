@@ -6,8 +6,6 @@
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
 #include "InputActionValue.h"
-#include "ARPGCplusplusCharacter.h"
-#include "Blueprint/UserWidget.h"
 #include "ARPGCplusplus.h"
 #include "ARPGCplusplusPlayerController.generated.h"
 
@@ -47,9 +45,9 @@ public:
 	class UInputAction* PauseGameAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = UI)
-	TSubclassOf<UUserWidget> PauseMenuWidget;
+	TSubclassOf<class UUserWidget> PauseMenuWidget;
 
-	UUserWidget* WidgetInstance;
+	class UUserWidget* WidgetInstance;
 
 	/** Dodge Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -93,7 +91,7 @@ private:
 	bool bIsTouch; // Is it a touch device
 	float FollowTime; // For how long it has been pressed
 
-	AARPGCplusplusCharacter* PossessedPawn;
+	class AARPGCplusplusCharacter* PossessedPawn;
 };
 
 
