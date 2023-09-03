@@ -25,6 +25,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void setSelectedPawn(TSubclassOf<APawn> SelectedPawn);
 
+	void Init();
+
+//protected:
+//	void Init() override;
+
 private:
 	TArray<TSubclassOf<APawn>> AvailablePawns;
 

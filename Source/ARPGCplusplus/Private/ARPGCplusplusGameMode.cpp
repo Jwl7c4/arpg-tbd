@@ -10,6 +10,7 @@
 
 AARPGCplusplusGameMode::AARPGCplusplusGameMode()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Game mode constructor"));
 	// use our custom PlayerController class
 	PlayerControllerClass = AARPGCplusplusPlayerController::StaticClass();
 
@@ -18,6 +19,7 @@ AARPGCplusplusGameMode::AARPGCplusplusGameMode()
 	// set default pawn class to our Blueprinted character
 	if (GameInstance != nullptr)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Game mode setting pawn class"));
 		DefaultPawnClass = GameInstance->getCurrentDesiredPawn();
 	}
 
