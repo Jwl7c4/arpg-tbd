@@ -5,12 +5,13 @@
 
 UARPGGameInstance::UARPGGameInstance()
 {
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassOne(TEXT("/Game/TopDown/Blueprints/BP_TopDownCharacter"));
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassTwo(TEXT("/Game/TopDown/Blueprints/BP_KnightCharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassOne(TEXT("/Game/Characters/Mannequins/BP_TopDownCharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassTwo(TEXT("/Game/Characters/Knight/BP_KnightCharacter"));
 	AvailablePawns.Add(PlayerPawnBPClassOne.Class);
 	AvailablePawns.Add(PlayerPawnBPClassTwo.Class);
 
-	//SelectedPawnsClass = AvailablePawns[1];
+	SelectedPawnsClass = AvailablePawns[1];
+	UE_LOG(LogTemp, Warning, TEXT("Class of: %s"), SelectedPawnsClass);
 }
 
 TSubclassOf<APawn> UARPGGameInstance::getCurrentDesiredPawn()
