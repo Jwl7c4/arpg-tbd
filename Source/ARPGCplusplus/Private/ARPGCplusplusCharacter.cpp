@@ -116,7 +116,7 @@ void AARPGCplusplusCharacter::AddInitialCharacterEffects()
 	FGameplayEffectContextHandle EffectContextHandle = AbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 
-	for (TSubclassOf<UGameplayEffect> CurrentGameplayEffectClass : InitialGameplayAbility)
+	for (TSubclassOf<UGameplayEffect> CurrentGameplayEffectClass : InitialGameplayEffects)
 	{
 		if (IsValid(CurrentGameplayEffectClass))
 		{
