@@ -5,6 +5,7 @@
 #include "ARPGCplusplusPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "ARPGCplusplusCharacter.h"
+#include "Player/PlayerStateBase.h"
 #include "ARPGGameInstance.h"
 #include "UObject/ConstructorHelpers.h"
 
@@ -29,4 +30,6 @@ AARPGCplusplusGameMode::AARPGCplusplusGameMode()
 	{
 		PlayerControllerClass = PlayerControllerBPClass.Class;
 	}
+
+	PlayerStateClass = APlayerStateBase::StaticClass();
 }

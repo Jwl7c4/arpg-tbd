@@ -9,10 +9,13 @@
 #include "InputMappingContext.h"
 #include "Blueprint/UserWidget.h"
 #include "ARPGCplusplusCharacter.h"
+#include "Components/WidgetComponent.h"
 #include "Engine/World.h"
 #include "ARPGCplusplus.h"
+#include "Blueprint/UserWidget.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include <Player/PlayerStateBase.h>
 
 AARPGCplusplusPlayerController::AARPGCplusplusPlayerController()
 {
@@ -20,7 +23,64 @@ AARPGCplusplusPlayerController::AARPGCplusplusPlayerController()
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
+	//HUDComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerHUD"));
 }
+
+//void AARPGCplusplusPlayerController::CreateHUD()
+//{
+//	// Only create once
+//	if (UIHUDWidget)
+//	{
+//		return;
+//	}
+//
+//	if (!UIHUDWidgetClass)
+//	{
+//		UE_LOG(LogTemp, Error, TEXT("%s() Missing UIHUDWidgetClass. Please fill in on the Blueprint of the PlayerController."), *FString(__FUNCTION__));
+//		return;
+//	}
+//
+//	// Only create a HUD for local player
+//	if (!IsLocalPlayerController())
+//	{
+//		return;
+//	}
+//
+//	// Need a valid PlayerState to get APlayerStateBase from
+//	APlayerStateBase* PS = GetPlayerState<APlayerStateBase>();
+//	if (!PS)
+//	{
+//		return;
+//	}
+//
+//	//UIHUDWidget = CreateWidget<URPGHud>(this, URPGHud::StaticClass());
+//	//UIHUDWidget = CreateWidget<URPGHud>(this, UIHUDWidgetClass);
+//	//UIHUDWidget->AddToViewport();
+//
+//	//// Set attributes
+//	//UIHUDWidget->SetCurrentHealth(PS->GetHealth());
+//	//UIHUDWidget->SetMaxHealth(PS->GetMaxHealth());
+//	//UIHUDWidget->SetHealthPercentage(PS->GetHealth() / FMath::Max<float>(PS->GetMaxHealth(), 1.f));
+//	//UIHUDWidget->SetHealthRegenRate(PS->GetHealthRegenRate());
+//
+//	//UIHUDWidget->SetCurrentMana(PS->GetMana());
+//	//UIHUDWidget->SetMaxMana(PS->GetMaxMana());
+//	//UIHUDWidget->SetManaPercentage(PS->GetMana() / FMath::Max<float>(PS->GetMaxMana(), 1.f));
+//	//UIHUDWidget->SetManaRegenRate(PS->GetManaRegenRate());
+//	//UIHUDWidget->SetCurrentStamina(PS->GetStamina());
+//	//UIHUDWidget->SetMaxStamina(PS->GetMaxStamina());
+//	//UIHUDWidget->SetStaminaPercentage(PS->GetStamina() / FMath::Max<float>(PS->GetMaxStamina(), 1.f));
+//	//UIHUDWidget->SetStaminaRegenRate(PS->GetStaminaRegenRate());
+//	//UIHUDWidget->SetExperience(PS->GetXP());
+//	//UIHUDWidget->SetGold(PS->GetGold());
+//	//UIHUDWidget->SetHeroLevel(PS->GetCharacterLevel());
+//}
+
+//URPGHud* AARPGCplusplusPlayerController::GetHUD()
+//{
+//	return UIHUDWidget;
+//}
+
 
 void AARPGCplusplusPlayerController::BeginPlay()
 {
@@ -72,6 +132,14 @@ void AARPGCplusplusPlayerController::OnPossess(APawn* aPawn)
 	Super::OnPossess(aPawn);
 
 	PossessedPawn = Cast<AARPGCplusplusCharacter>(aPawn);
+}
+
+void AARPGCplusplusPlayerController::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// For edge cases where the PlayerState is repped before the Hero is possessed.
+	//CreateHUD();
 }
 
 void AARPGCplusplusPlayerController::OnInputStarted()
