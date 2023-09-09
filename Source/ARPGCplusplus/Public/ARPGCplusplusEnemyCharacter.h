@@ -40,18 +40,23 @@ protected:
 
 	void AddInitialCharacterEffects();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = UI)
-	TSubclassOf<class UUserWidget> HealthBarWidgetClass;
-	
-	UPROPERTY(VisibleAnywhere, Category = UI)
+	//UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	//TSubclassOf<class UUserWidget> HealthBarWidgetClass;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
 	class UWidgetComponent* HealthBarWidgetComponent;
+
+	// todo jake - how to get this being set??
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	class UFloatingHealthBarWidget* FloatingHealthBarWidget;
 
 	// Called when the game starts or when spawned
 	void BeginPlay();
 
-public:	
+
+public:
 	// Called every frame
-	//void Tick(float DeltaTime) override;
+	void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

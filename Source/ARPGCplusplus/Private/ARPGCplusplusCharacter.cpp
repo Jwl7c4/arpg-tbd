@@ -15,7 +15,9 @@
 #include "Materials/Material.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Engine/World.h"
+#include "Player/PlayerStateBase.h"
 #include "AbilityAttributeSet.h"
+#include "Components/WidgetComponent.h"
 #include "Abilities/CharacterAttributeSet.h"
 #include "Abilities/GT_GameplayAbility.h"
 #include <Kismet/KismetSystemLibrary.h>
@@ -67,19 +69,44 @@ AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 	SetupAbilitiesInputs();
 }
 
-//void AARPGCplusplusCharacter::Tick(float DeltaSeconds)
-//{
-//    Super::Tick(DeltaSeconds);
-//}
-
 void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (IsValid(AbilitySystemComponent) && IsValid(AbilityAttributeSet))
+	APlayerStateBase* PS = GetPlayerState<APlayerStateBase>();
+	if (PS)
 	{
-		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+		// Set the ASC on the Server. Clients do this in OnRep_PlayerState()
+		AbilitySystemComponent = Cast<UAbilitySystemComponent>(PS->GetAbilitySystemComponent());
+
+		// AI won't have PlayerControllers so we can init again here just to be sure. No harm in initing twice for heroes that have PlayerControllers.
+		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
+
+
 		AddInitialCharacterAbilities();
+		AddInitialCharacterEffects();
+	}
+}
+
+void AARPGCplusplusCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	if (AbilitySystemComponent == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("OnRep_PlayerState - ASC null"));
+	}
+
+	APlayerStateBase* PS = GetPlayerState<APlayerStateBase>();
+	if (PS)
+	{
+		// Set the ASC on the Server. Clients do this in OnRep_PlayerState()
+		AbilitySystemComponent = Cast<UAbilitySystemComponent>(PS->GetAbilitySystemComponent());
+
+		// AI won't have PlayerControllers so we can init again here just to be sure. No harm in initing twice for heroes that have PlayerControllers.
+		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
+
+
+		//AddInitialCharacterAbilities();
 		AddInitialCharacterEffects();
 	}
 }
@@ -98,8 +125,8 @@ void AARPGCplusplusCharacter::AddInitialCharacterAbilities()
 			if (IsValid(CurrentAbility))
 			{
 				FGameplayAbilitySpec AbilitySpec(CurrentAbility, 1, static_cast<int32>(CurrentAbility->AbilityInputId), this);
-				AbilitySystemComponent->GiveAbility(AbilitySpec);
-				UE_LOG(LogTemp, Warning, TEXT("Ability Name : %s"), *CurrentGameplayAbilityClass.GetDefaultObject()->GetName());
+				AbilitySystemComponent->GiveAbility(
+					FGameplayAbilitySpec(CurrentAbility, 1, static_cast<int32>(CurrentAbility->AbilityInputId), this));
 			}
 		}
 	}
@@ -107,6 +134,7 @@ void AARPGCplusplusCharacter::AddInitialCharacterAbilities()
 	bWerecharacterAbilitiesGiven = true;
 }
 
+// todo - adding extra end effect as it gets ignored (duplicated extra dodge)
 void AARPGCplusplusCharacter::AddInitialCharacterEffects()
 {
 	if (!IsValid(AbilitySystemComponent) || bWereCharacterEffectsGiven) {
@@ -139,7 +167,7 @@ void AARPGCplusplusCharacter::SetupAbilitiesInputs()
 	}
 
 	AbilitySystemComponent->BindAbilityActivationToInputComponent(
-	    InputComponent,
+		InputComponent,
 		FGameplayAbilityInputBinds("Confirm", "Cancel", FTopLevelAssetPath("EGT_AbilityInput"), static_cast<int32>(EGT_AbilityInput::Confirm), static_cast<int32>(EGT_AbilityInput::Cancel))
 	);
 

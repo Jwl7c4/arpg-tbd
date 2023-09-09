@@ -12,6 +12,8 @@
 #include "Components/WidgetComponent.h"
 #include "AttributeSet.h"
 #include "Abilities/GT_GameplayAbility.h"
+#include <Widgets/FloatingHealthBarWidget.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 AARPGCplusplusEnemyCharacter::AARPGCplusplusEnemyCharacter()
@@ -22,9 +24,7 @@ AARPGCplusplusEnemyCharacter::AARPGCplusplusEnemyCharacter()
 	RootComponent = GetCapsuleComponent();
 
 	HealthBarWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBar"));
-	if (HealthBarWidgetClass != nullptr) {
-		HealthBarWidgetComponent->SetWidgetClass(HealthBarWidgetClass);
-	}
+	HealthBarWidgetComponent->SetupAttachment(RootComponent);
 	HealthBarWidgetComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
 	// Non Ability attributes
@@ -39,29 +39,24 @@ AARPGCplusplusEnemyCharacter::AARPGCplusplusEnemyCharacter()
 	bWereCharacterEffectsGiven = false;
 }
 
+// Called when the game starts or when spawned
 void AARPGCplusplusEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	if (IsValid(AbilitySystemComponent) && IsValid(AbilityAttributeSet))
+
+	if (IsValid(AbilitySystemComponent))
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 		AddInitialCharacterAbilities();
 		AddInitialCharacterEffects();
 	}
-
-	//TSubclas
-	//AbilitySystemComponent->GetAttributeSet(CharacterAttributeSet.);
-
-	TArray<FGameplayAttribute> OutAttributes;
-	AbilitySystemComponent->GetAllAttributes(OutAttributes);
-	for (FGameplayAttribute att : OutAttributes) {
-		
-		FString x = att.GetName();
-		//const UAttributeSet* InternalAttributeSet = AbilitySystemComponent->GetAttributeSubobject(att.GetAttributeSetClass());
-		//AbilitySystemComponent
-		//float y = att.GetNumericValue(CharacterAttributeSet);
-		UE_LOG(LogTemp, Warning, TEXT("Attribute name: %s. Value: %d"), *FString(x), 000);
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Ability System not done on enemy"));
 	}
+
+	FloatingHealthBarWidget = Cast<UFloatingHealthBarWidget>(HealthBarWidgetComponent->GetWidget());
+	FloatingHealthBarWidget->setHealthPercent(CharacterAttributeSet->GetHealth(), CharacterAttributeSet->GetMaxHealth());
+	//FloatingHealthBarWidget->setHealthPercent(200.f, 250.f);
 }
 
 void AARPGCplusplusEnemyCharacter::AddInitialCharacterAbilities()
@@ -79,7 +74,7 @@ void AARPGCplusplusEnemyCharacter::AddInitialCharacterAbilities()
 			{
 				FGameplayAbilitySpec AbilitySpec(CurrentAbility, 1, static_cast<int32>(CurrentAbility->AbilityInputId), this);
 				AbilitySystemComponent->GiveAbility(AbilitySpec);
-				UE_LOG(LogTemp, Warning, TEXT("Ability Name : %s"), *CurrentGameplayAbilityClass.GetDefaultObject()->GetName());
+				UE_LOG(LogTemp, Warning, TEXT("Enemy Ability Name : %s"), *CurrentGameplayAbilityClass.GetDefaultObject()->GetName());
 			}
 		}
 	}
@@ -87,6 +82,7 @@ void AARPGCplusplusEnemyCharacter::AddInitialCharacterAbilities()
 	bWerecharacterAbilitiesGiven = true;
 }
 
+// todo - adding extra end effect as it gets ignored (dodge bc dont use on enemy)
 void AARPGCplusplusEnemyCharacter::AddInitialCharacterEffects()
 {
 	if (!IsValid(AbilitySystemComponent) || bWereCharacterEffectsGiven) {
@@ -95,8 +91,6 @@ void AARPGCplusplusEnemyCharacter::AddInitialCharacterEffects()
 
 	FGameplayEffectContextHandle EffectContextHandle = AbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
-
-	//FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(InitialGameplayEffects, 1, EffectContextHandle);
 
 	UE_LOG(LogTemp, Warning, TEXT("Effects on enemy character being set"));
 	for (TSubclassOf<UGameplayEffect> CurrentGameplayEffectClass : InitialGameplayEffects)
@@ -109,7 +103,7 @@ void AARPGCplusplusEnemyCharacter::AddInitialCharacterEffects()
 			if (CurrentEffectHandle.IsValid())
 			{
 				// able to use to remove certain effects based on state
-				FActiveGameplayEffectHandle ActiveGameplayEffectHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*CurrentEffectHandle.Data.Get());
+				FActiveGameplayEffectHandle ActiveGameplayEffectHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*CurrentEffectHandle.Data.Get(), AbilitySystemComponent);
 				UE_LOG(LogTemp, Warning, TEXT("Effect name: %s"), *CurrentGameplayEffectClass.GetDefaultObject()->GetName());
 			}
 		}
@@ -117,20 +111,13 @@ void AARPGCplusplusEnemyCharacter::AddInitialCharacterEffects()
 	bWereCharacterEffectsGiven = true;
 }
 
-
-// Called when the game starts or when spawned
-//void AARPGCplusplusEnemyCharacter::BeginPlay()
-//{
-//	Super::BeginPlay();
-//	
-//}
-
 // Called every frame
-//void AARPGCplusplusEnemyCharacter::Tick(float DeltaTime)
-//{
-//	Super::Tick(DeltaTime);
-//	
-//}
+// todo jake - delegates for this
+void AARPGCplusplusEnemyCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	FloatingHealthBarWidget->setHealthPercent(CharacterAttributeSet->GetHealth(), CharacterAttributeSet->GetMaxHealth());
+}
 
 // Called to bind functionality to input
 //void AARPGCplusplusEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

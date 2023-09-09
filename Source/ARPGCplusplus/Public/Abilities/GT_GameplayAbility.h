@@ -23,5 +23,4 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input Id")
 	EGT_AbilityInput AbilityId;
-	
 };

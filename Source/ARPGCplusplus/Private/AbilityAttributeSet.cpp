@@ -8,6 +8,11 @@
 UAbilityAttributeSet::UAbilityAttributeSet()
 {
 	DodgeDistance = 3000.0f;
+	MaxDodgeDistance = DodgeDistance;
+}
+
+void UAbilityAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
 }
 
 void UAbilityAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -29,4 +34,9 @@ void UAbilityAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 void UAbilityAttributeSet::OnRep_DodgeDistance(const FGameplayAttributeData& OldDodgeDistance)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAbilityAttributeSet, DodgeDistance, OldDodgeDistance);
+}
+
+void UAbilityAttributeSet::OnRep_MaxDodgeDistance(const FGameplayAttributeData& OldMaxDodgeDistance)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAbilityAttributeSet, MaxDodgeDistance, OldMaxDodgeDistance);
 }

@@ -23,7 +23,9 @@ class ARPGCPLUSPLUS_API UCharacterAttributeSet : public UAttributeSet
 
 	UCharacterAttributeSet();
 
-	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data);
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
 
@@ -37,10 +39,17 @@ public:
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Health);
 
+	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_HealthRegenRate)
+	FGameplayAttributeData HealthRegenRate;
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, HealthRegenRate);
+
 protected:
 	UFUNCTION()
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth);
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth);
+
+	UFUNCTION()
+	void OnRep_HealthRegenRate(const FGameplayAttributeData& OldHealthRegenRate);
 };

@@ -20,6 +20,10 @@ class AARPGCplusplusPlayerController : public APlayerController
 public:
 	AARPGCplusplusPlayerController();
 
+	void CreateHUD();
+
+	class URPGHud* GetHUD();
+
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float ShortPressThreshold;
@@ -67,6 +71,8 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void OnPossess(APawn* aPawn) override;
+
+	virtual void OnRep_PlayerState() override;
 
 	// To add mapping context
 	virtual void BeginPlay();

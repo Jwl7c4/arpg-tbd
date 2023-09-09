@@ -21,17 +21,26 @@ class ARPGCPLUSPLUS_API UAbilityAttributeSet : public UAttributeSet
 
 	UAbilityAttributeSet();
 
-	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data);
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
 
 protected:
 
-	UPROPERTY(BlueprintReadOnly, Category = "Dodge", ReplicatedUsing = OnRep_DodgeDistance)
+	UPROPERTY(BlueprintReadOnly, Category = "Ability", ReplicatedUsing = OnRep_DodgeDistance)
 	FGameplayAttributeData DodgeDistance;
 	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, DodgeDistance);
 
+
+	UPROPERTY(BlueprintReadOnly, Category = "Ability", ReplicatedUsing = OnRep_MaxDodgeDistance)
+	FGameplayAttributeData MaxDodgeDistance;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, MaxDodgeDistance);
+
 	UFUNCTION()
 	void OnRep_DodgeDistance(const FGameplayAttributeData& OldDodgeDistance);
-	
+
+	UFUNCTION()
+	void OnRep_MaxDodgeDistance(const FGameplayAttributeData& OldMaxDodgeDistance);
 };

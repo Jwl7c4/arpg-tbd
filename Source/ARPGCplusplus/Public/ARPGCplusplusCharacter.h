@@ -56,7 +56,11 @@ protected:
 
 	void SetupAbilitiesInputs();
 
-	virtual void PossessedBy(AController* NewController);
+	// Called on the server to acknowledge possession of this Character.
+	virtual void PossessedBy(AController* NewController) override;
+
+	// Called on the client when the Character is assigned it's Player State.
+	virtual void OnRep_PlayerState() override;
 
 private:
 	/** Top down camera */
