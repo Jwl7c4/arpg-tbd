@@ -20,12 +20,15 @@ public:
 
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
-	
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 	// called actions
 	void ActivateAbility(const EGT_AbilityInput AbilityInput);
+
+	UFUNCTION(BlueprintCallable)
+	void HandleNotifyInitialAbility();
 
 protected:
 

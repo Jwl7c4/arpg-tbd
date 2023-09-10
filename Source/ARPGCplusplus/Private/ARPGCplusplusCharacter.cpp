@@ -16,11 +16,13 @@
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Engine/World.h"
 #include "Player/PlayerStateBase.h"
+#include "ARPGCplusplusEnemyCharacter.h"
 #include "AbilityAttributeSet.h"
 #include "Components/WidgetComponent.h"
 #include "Abilities/CharacterAttributeSet.h"
 #include "Abilities/GT_GameplayAbility.h"
 #include <Kismet/KismetSystemLibrary.h>
+#include "DrawDebugHelpers.h" // delete
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 {
@@ -183,3 +185,43 @@ void AARPGCplusplusCharacter::ActivateAbility(const EGT_AbilityInput AbilityInpu
 	AbilitySystemComponent->AbilityLocalInputPressed(static_cast<int32>(AbilityInputId));
 }
 
+void AARPGCplusplusCharacter::HandleNotifyInitialAbility()
+{
+	UE_LOG(LogTemp, Warning, TEXT("HandleNotifyInitialAbility on character called"));
+
+	USkeletalMeshComponent* mesh = GetMesh();
+	// todo - change to dynamic if different models
+	FVector location = mesh->GetSocketLocation("RightHand");
+	FVector locationL = mesh->GetSocketLocation("LeftHand");
+
+	const TArray<AActor*> actorIgnore{ this };
+
+	TArray<TEnumAsByte<EObjectTypeQuery>> collisionQuery;
+	collisionQuery.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn));
+
+	TArray<AActor*> outActors;
+
+	bool bHitSomething = UKismetSystemLibrary::SphereOverlapActors
+	(
+		GetWorld(),
+		location,
+		50.0f,
+		collisionQuery,
+		AARPGCplusplusEnemyCharacter::StaticClass(),
+		actorIgnore,
+		outActors
+	);
+	// todo jake - remove after debug or flag passed in
+	DrawDebugSphere(GetWorld(), location, 50.f, 5, FColor::Green, false, 10.f, 2, 3.f);
+
+	if (bHitSomething) {
+		UE_LOG(LogTemp, Warning, TEXT("HandleNotifyInitialAbility - WE HAVE A HIT"));
+		for (auto actors : outActors)
+		{
+			ACharacter* actor = Cast<ACharacter>(actors);			
+		}
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("HandleNotifyInitialAbility - WHIFFFFFF"));
+	}
+}

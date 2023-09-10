@@ -53,12 +53,7 @@ protected:
 	// Called when the game starts or when spawned
 	void BeginPlay();
 
-
-public:
 	// Called every frame
 	void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
