@@ -115,6 +115,11 @@ void AARPGCplusplusCharacter::OnRep_PlayerState()
 	}
 }
 
+UAbilitySystemComponent* AARPGCplusplusCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 void AARPGCplusplusCharacter::AddInitialCharacterAbilities()
 {
 	if (!IsValid(AbilitySystemComponent) || bWerecharacterAbilitiesGiven) {
