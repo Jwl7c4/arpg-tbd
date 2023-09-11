@@ -27,9 +27,6 @@ public:
 
 	void Init();
 
-//protected:
-//	void Init() override;
-
 private:
 	TArray<TSubclassOf<APawn>> AvailablePawns;
 

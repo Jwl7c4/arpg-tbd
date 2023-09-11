@@ -5,8 +5,6 @@
 
 UARPGGameInstance::UARPGGameInstance()
 {
-	//Super::UGameInstance();
-	UE_LOG(LogTemp, Warning, TEXT("Game Instance Constructor"));
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassOne(TEXT("/Game/Characters/Mannequins/BP_TopDownCharacter"));
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassTwo(TEXT("/Game/Characters/Knight/BP_KnightCharacter"));
 	AvailablePawns.Add(PlayerPawnBPClassOne.Class);
@@ -30,7 +28,5 @@ void UARPGGameInstance::setSelectedPawn(TSubclassOf<APawn> SelectedPawn)
 
 void UARPGGameInstance::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Game Instance init"));
-
-	SelectedPawnsClass = AvailablePawns[1];
+	//SelectedPawnsClass = AvailablePawns[1];
 }

@@ -95,9 +95,12 @@ private:
 	FVector CachedDestination;
 
 	bool bIsTouch; // Is it a touch device
+
 	float FollowTime; // For how long it has been pressed
 
 	class AARPGCplusplusCharacter* PossessedPawn;
+
+	bool CanPossessedPawnMove();
 };
 
 

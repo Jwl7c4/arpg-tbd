@@ -112,7 +112,7 @@ void AARPGCplusplusPlayerController::OnSetDestinationTriggered()
 	}
 
 	// Move towards mouse pointer or touch
-	if (PossessedPawn != nullptr)
+	if (CanPossessedPawnMove())
 	{
 		FVector WorldDirection = (CachedDestination - PossessedPawn->GetActorLocation()).GetSafeNormal();
 		PossessedPawn->AddMovementInput(WorldDirection, 1.0, false);
@@ -122,7 +122,7 @@ void AARPGCplusplusPlayerController::OnSetDestinationTriggered()
 void AARPGCplusplusPlayerController::OnSetDestinationReleased()
 {
 	// If it was a short press
-	if (FollowTime <= ShortPressThreshold)
+	if (FollowTime <= ShortPressThreshold && CanPossessedPawnMove())
 	{
 		// We move there and spawn some particles
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
@@ -130,6 +130,11 @@ void AARPGCplusplusPlayerController::OnSetDestinationReleased()
 	}
 
 	FollowTime = 0.f;
+}
+
+bool AARPGCplusplusPlayerController::CanPossessedPawnMove()
+{
+	return PossessedPawn != nullptr && PossessedPawn->CanMove();
 }
 
 // Triggered every frame when the input is held down

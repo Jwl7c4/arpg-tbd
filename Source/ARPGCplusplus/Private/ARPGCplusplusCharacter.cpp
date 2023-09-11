@@ -14,6 +14,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "GameFramework/FloatingPawnMovement.h"
+#include "GameplayTagsManager.h"
 #include "Engine/World.h"
 #include "Player/PlayerStateBase.h"
 #include "ARPGCplusplusEnemyCharacter.h"
@@ -184,6 +185,27 @@ void AARPGCplusplusCharacter::ActivateAbility(const EGT_AbilityInput AbilityInpu
 
 	// ability system
 	AbilitySystemComponent->AbilityLocalInputPressed(static_cast<int32>(AbilityInputId));
+}
+
+bool AARPGCplusplusCharacter::CanMove()
+{
+	//FGameplayTagContainer* TagContainer = {};
+	//AbilitySystemComponent->GetOwnedGameplayTags(*TagContainer);
+
+	FGameplayTagContainer TargetTags;
+	AbilitySystemComponent->GetOwnedGameplayTags(TargetTags);
+
+	// get tags where cant move
+
+	// todo jake - has any and create configed container vs adding line for each
+	// todo jake - this currently stops the dodge impulse too
+	//FGameplayTag dodge = UGameplayTagsManager::Get().RequestGameplayTag(TEXT("Character.State.Dodging"));
+	FGameplayTag attack = UGameplayTagsManager::Get().RequestGameplayTag(TEXT("Character.State.Attacking"));
+	//if (TargetTags.HasTag(dodge) || TargetTags.HasTag(attack)) {
+	if (TargetTags.HasTag(attack)) {
+		return false;
+	}
+	return true;
 }
 
 //void AARPGCplusplusCharacter::HandleNotifyInitialAbility()
