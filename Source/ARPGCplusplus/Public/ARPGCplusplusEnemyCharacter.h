@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "ARPGCplusplusEnemyCharacter.generated.h"
 
 UCLASS()
-class ARPGCPLUSPLUS_API AARPGCplusplusEnemyCharacter : public ACharacter
+class ARPGCPLUSPLUS_API AARPGCplusplusEnemyCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -55,5 +56,9 @@ protected:
 
 	// Called every frame
 	void Tick(float DeltaTime) override;
+
+
+	// Inherited via IAbilitySystemInterface
+	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 };

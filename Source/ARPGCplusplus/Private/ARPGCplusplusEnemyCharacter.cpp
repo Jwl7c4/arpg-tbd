@@ -119,6 +119,11 @@ void AARPGCplusplusEnemyCharacter::Tick(float DeltaTime)
 	FloatingHealthBarWidget->setHealthPercent(CharacterAttributeSet->GetHealth(), CharacterAttributeSet->GetMaxHealth());
 }
 
+UAbilitySystemComponent* AARPGCplusplusEnemyCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 // Called to bind functionality to input
 //void AARPGCplusplusEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 //{

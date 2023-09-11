@@ -27,7 +27,7 @@ public:
 	// called actions
 	void ActivateAbility(const EGT_AbilityInput AbilityInput);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void HandleNotifyInitialAbility();
 
 protected:
