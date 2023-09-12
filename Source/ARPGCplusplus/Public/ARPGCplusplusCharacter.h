@@ -25,6 +25,9 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+	UPROPERTY(EditAnywhere, BlueprintREadOnly)
+	class UInventoryComponent* Inventory;
+
 	// called actions
 	void ActivateAbility(const EGT_AbilityInput AbilityInput);
 
@@ -67,6 +70,9 @@ protected:
 
 	// Called on the client when the Character is assigned it's Player State.
 	virtual void OnRep_PlayerState() override;
+
+	UFUNCTION(BlueprintCallable)
+	void UseItem(class UItem* Item);
 
 private:
 	/** Top down camera */

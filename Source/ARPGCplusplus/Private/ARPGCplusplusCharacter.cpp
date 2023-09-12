@@ -24,7 +24,9 @@
 #include "Abilities/CharacterAttributeSet.h"
 #include "Abilities/GT_GameplayAbility.h"
 #include <Kismet/KismetSystemLibrary.h>
-#include "DrawDebugHelpers.h" // delete
+//#include "DrawDebugHelpers.h" // delete
+#include "Item/Item.h"
+#include "InventoryComponent.h"
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 {
@@ -58,6 +60,10 @@ AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	// Inventory
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	Inventory->Capacity = 20;
 
 	// Non Ability attributes
 	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
@@ -112,6 +118,15 @@ void AARPGCplusplusCharacter::OnRep_PlayerState()
 
 		//AddInitialCharacterAbilities();
 		AddInitialCharacterEffects();
+	}
+}
+
+void AARPGCplusplusCharacter::UseItem(UItem* Item)
+{
+	if (Item)
+	{
+		Item->Use(this);
+		Item->OnUse(this); // blue print callable
 	}
 }
 
