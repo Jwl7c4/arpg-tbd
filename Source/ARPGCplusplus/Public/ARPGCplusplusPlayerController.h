@@ -48,6 +48,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* PauseGameAction;
 
+	// Inventory
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InventoryAction;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void HandleInventory();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = UI)
 	TSubclassOf<class UUserWidget> PauseMenuWidget;
 
