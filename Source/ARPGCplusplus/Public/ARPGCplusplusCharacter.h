@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ARPGCplusplus.h"
+#include "AbilitySystemInterface.h"
 #include "ARPGCplusplusCharacter.generated.h"
 
 UCLASS(Blueprintable)
-class AARPGCplusplusCharacter : public ACharacter
+class AARPGCplusplusCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -20,12 +21,17 @@ public:
 
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
-	
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 	// called actions
 	void ActivateAbility(const EGT_AbilityInput AbilityInput);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void HandleNotifyInitialAbility();
+
+	bool CanMove();
 
 protected:
 
@@ -56,7 +62,11 @@ protected:
 
 	void SetupAbilitiesInputs();
 
-	virtual void PossessedBy(AController* NewController);
+	// Called on the server to acknowledge possession of this Character.
+	virtual void PossessedBy(AController* NewController) override;
+
+	// Called on the client when the Character is assigned it's Player State.
+	virtual void OnRep_PlayerState() override;
 
 private:
 	/** Top down camera */
@@ -66,6 +76,10 @@ private:
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
+
+
+	// Inherited via IAbilitySystemInterface
+	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 };
 

@@ -9,10 +9,13 @@
 #include "InputMappingContext.h"
 #include "Blueprint/UserWidget.h"
 #include "ARPGCplusplusCharacter.h"
+#include "Components/WidgetComponent.h"
 #include "Engine/World.h"
 #include "ARPGCplusplus.h"
+#include "Blueprint/UserWidget.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include <Player/PlayerStateBase.h>
 
 AARPGCplusplusPlayerController::AARPGCplusplusPlayerController()
 {
@@ -74,6 +77,11 @@ void AARPGCplusplusPlayerController::OnPossess(APawn* aPawn)
 	PossessedPawn = Cast<AARPGCplusplusCharacter>(aPawn);
 }
 
+void AARPGCplusplusPlayerController::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+}
+
 void AARPGCplusplusPlayerController::OnInputStarted()
 {
 	StopMovement();
@@ -104,18 +112,17 @@ void AARPGCplusplusPlayerController::OnSetDestinationTriggered()
 	}
 
 	// Move towards mouse pointer or touch
-	APawn* ControlledPawn = GetPawn();
-	if (ControlledPawn != nullptr)
+	if (CanPossessedPawnMove())
 	{
-		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
-		ControlledPawn->AddMovementInput(WorldDirection, 1.0, false);
+		FVector WorldDirection = (CachedDestination - PossessedPawn->GetActorLocation()).GetSafeNormal();
+		PossessedPawn->AddMovementInput(WorldDirection, 1.0, false);
 	}
 }
 
 void AARPGCplusplusPlayerController::OnSetDestinationReleased()
 {
 	// If it was a short press
-	if (FollowTime <= ShortPressThreshold)
+	if (FollowTime <= ShortPressThreshold && CanPossessedPawnMove())
 	{
 		// We move there and spawn some particles
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
@@ -123,6 +130,11 @@ void AARPGCplusplusPlayerController::OnSetDestinationReleased()
 	}
 
 	FollowTime = 0.f;
+}
+
+bool AARPGCplusplusPlayerController::CanPossessedPawnMove()
+{
+	return PossessedPawn != nullptr && PossessedPawn->CanMove();
 }
 
 // Triggered every frame when the input is held down

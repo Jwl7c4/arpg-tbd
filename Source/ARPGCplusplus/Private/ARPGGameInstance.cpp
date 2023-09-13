@@ -9,9 +9,6 @@ UARPGGameInstance::UARPGGameInstance()
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassTwo(TEXT("/Game/Characters/Knight/BP_KnightCharacter"));
 	AvailablePawns.Add(PlayerPawnBPClassOne.Class);
 	AvailablePawns.Add(PlayerPawnBPClassTwo.Class);
-
-	SelectedPawnsClass = AvailablePawns[1];
-	UE_LOG(LogTemp, Warning, TEXT("Class of: %s"), SelectedPawnsClass);
 }
 
 TSubclassOf<APawn> UARPGGameInstance::getCurrentDesiredPawn()
@@ -27,4 +24,9 @@ TArray<TSubclassOf<APawn>> UARPGGameInstance::getAllAvailablePawns()
 void UARPGGameInstance::setSelectedPawn(TSubclassOf<APawn> SelectedPawn)
 {
 	SelectedPawnsClass = SelectedPawn;
+}
+
+void UARPGGameInstance::Init()
+{
+	//SelectedPawnsClass = AvailablePawns[1];
 }

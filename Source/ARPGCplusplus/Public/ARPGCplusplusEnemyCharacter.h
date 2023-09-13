@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "ARPGCplusplusEnemyCharacter.generated.h"
 
 UCLASS()
-class ARPGCPLUSPLUS_API AARPGCplusplusEnemyCharacter : public ACharacter
+class ARPGCPLUSPLUS_API AARPGCplusplusEnemyCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -40,20 +41,24 @@ protected:
 
 	void AddInitialCharacterEffects();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = UI)
-	TSubclassOf<class UUserWidget> HealthBarWidgetClass;
-	
-	UPROPERTY(VisibleAnywhere, Category = UI)
+	//UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	//TSubclassOf<class UUserWidget> HealthBarWidgetClass;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
 	class UWidgetComponent* HealthBarWidgetComponent;
 
+	// todo jake - how to get this being set??
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	class UFloatingHealthBarWidget* FloatingHealthBarWidget;
+
 	// Called when the game starts or when spawned
-	//virtual void BeginPlay() override;
+	void BeginPlay();
 
-public:	
 	// Called every frame
-	//virtual void Tick(float DeltaTime) override;
+	void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Inherited via IAbilitySystemInterface
+	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 };
