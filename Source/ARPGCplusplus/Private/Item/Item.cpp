@@ -6,6 +6,6 @@
 UItem::UItem()
 {
 	UseActionText = FText::FromString("Description for on use action");
-	ItemDisplayName = FText::FromString("Item's Display Name");;
-	ItemDescription = FText::FromString("Item description");;
+	ItemDisplayName = FText::FromString("Item's Display Name");
+	ItemDescription = FText::FromString("Item description");
 }

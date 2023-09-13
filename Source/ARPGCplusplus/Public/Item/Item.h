@@ -45,4 +45,5 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnUse(class AARPGCplusplusCharacter* Character);
+	
 };

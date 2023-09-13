@@ -217,8 +217,8 @@ bool AARPGCplusplusCharacter::CanMove()
 
 	// get tags where cant move
 
-	// todo jake - has any and create configed container vs adding line for each
-	// todo jake - this currently stops the dodge impulse too
+	// todo - has any and create configed container vs adding line for each
+	// todo - this currently stops the dodge impulse too
 	//FGameplayTag dodge = UGameplayTagsManager::Get().RequestGameplayTag(TEXT("Character.State.Dodging"));
 	FGameplayTag attack = UGameplayTagsManager::Get().RequestGameplayTag(TEXT("Character.State.Attacking"));
 	//if (TargetTags.HasTag(dodge) || TargetTags.HasTag(attack)) {
@@ -254,7 +254,7 @@ bool AARPGCplusplusCharacter::CanMove()
 //		actorIgnore,
 //		outActors
 //	);
-//	// todo jake - remove after debug or flag passed in
+//	// todo - remove after debug or flag passed in
 //	DrawDebugSphere(GetWorld(), location, 50.f, 5, FColor::Green, false, 10.f, 2, 3.f);
 //
 //	if (bHitSomething) {

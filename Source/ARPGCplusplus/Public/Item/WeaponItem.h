@@ -14,4 +14,8 @@ class ARPGCPLUSPLUS_API UWeaponItem : public UItem
 {
 	GENERATED_BODY()
 	
+	// todo - add stats later
+protected:
+
+	virtual void Use(class AARPGCplusplusCharacter* Character) override;
 };
