@@ -9,13 +9,12 @@
 // Blueprints will bind to this to update UI
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class ARPGCPLUSPLUS_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
 
@@ -28,7 +27,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Instanced)
 	TArray<class UItem*> DefaultItems;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	int32 Capacity;
 

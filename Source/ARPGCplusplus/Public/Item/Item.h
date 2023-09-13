@@ -38,6 +38,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (MultiLine = true))
 	FText ItemDescription;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int MaxStackCount;
+
+	UPROPERTY(BlueprintReadWrite)
+	int CurrentStackCount;
+
 	UPROPERTY()
 	class UInventoryComponent* OwnerInventory;
 
@@ -45,5 +51,5 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnUse(class AARPGCplusplusCharacter* Character);
-	
+
 };
