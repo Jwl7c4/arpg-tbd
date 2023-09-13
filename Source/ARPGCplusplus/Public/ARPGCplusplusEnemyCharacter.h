@@ -57,7 +57,6 @@ protected:
 	// Called every frame
 	void Tick(float DeltaTime) override;
 
-
 	// Inherited via IAbilitySystemInterface
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
