@@ -7,8 +7,6 @@
 
 void UPotionItem::Use(AARPGCplusplusCharacter* Character)
 {
-	// add gameplay effect to character
-	UE_LOG(LogTemp, Warning, TEXT("UPotionItem::Use - use potion"));
-
+	// bp Use adds gameplay effect to character. we remove it here
 	OwnerInventory->RemoveItem(this);
 }
