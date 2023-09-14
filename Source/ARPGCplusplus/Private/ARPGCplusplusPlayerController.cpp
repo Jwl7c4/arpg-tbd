@@ -63,6 +63,7 @@ void AARPGCplusplusPlayerController::SetupInputComponent()
 
 		// pause menu
 		EnhancedInputComponent->BindAction(PauseGameAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::HandleMenu);
+		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::HandleInventory);
 
 		// need to figure out how to set this binding and call gameplay ability
 		EnhancedInputComponent->BindAction(DodgeAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::Dodge);

@@ -14,7 +14,7 @@ class ARPGCPLUSPLUS_API UFloatingHealthBarWidget : public UUserWidget
 
 public:
 
-	// todo jake - this should be handled by delegate and not called
+	// todo - this should be handled by delegate and not called
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void setHealthPercent(const float Health, const float MaxHealth);
 

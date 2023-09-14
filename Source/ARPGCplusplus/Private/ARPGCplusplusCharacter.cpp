@@ -24,7 +24,9 @@
 #include "Abilities/CharacterAttributeSet.h"
 #include "Abilities/GT_GameplayAbility.h"
 #include <Kismet/KismetSystemLibrary.h>
-#include "DrawDebugHelpers.h" // delete
+//#include "DrawDebugHelpers.h" // delete
+#include "Item/Item.h"
+#include "InventoryComponent.h"
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 {
@@ -58,6 +60,10 @@ AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	// Inventory
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	Inventory->Capacity = 20;
 
 	// Non Ability attributes
 	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
@@ -112,6 +118,15 @@ void AARPGCplusplusCharacter::OnRep_PlayerState()
 
 		//AddInitialCharacterAbilities();
 		AddInitialCharacterEffects();
+	}
+}
+
+void AARPGCplusplusCharacter::UseItem(UItem* Item)
+{
+	if (Item)
+	{
+		Item->Use(this);
+		Item->OnUse(this); // blue print callable
 	}
 }
 
@@ -202,8 +217,8 @@ bool AARPGCplusplusCharacter::CanMove()
 
 	// get tags where cant move
 
-	// todo jake - has any and create configed container vs adding line for each
-	// todo jake - this currently stops the dodge impulse too
+	// todo - has any and create configed container vs adding line for each
+	// todo - this currently stops the dodge impulse too
 	//FGameplayTag dodge = UGameplayTagsManager::Get().RequestGameplayTag(TEXT("Character.State.Dodging"));
 	FGameplayTag attack = UGameplayTagsManager::Get().RequestGameplayTag(TEXT("Character.State.Attacking"));
 	//if (TargetTags.HasTag(dodge) || TargetTags.HasTag(attack)) {
@@ -239,7 +254,7 @@ bool AARPGCplusplusCharacter::CanMove()
 //		actorIgnore,
 //		outActors
 //	);
-//	// todo jake - remove after debug or flag passed in
+//	// todo - remove after debug or flag passed in
 //	DrawDebugSphere(GetWorld(), location, 50.f, 5, FColor::Green, false, 10.f, 2, 3.f);
 //
 //	if (bHitSomething) {

@@ -112,7 +112,7 @@ void AARPGCplusplusEnemyCharacter::AddInitialCharacterEffects()
 }
 
 // Called every frame
-// todo jake - delegates for this
+// todo - delegates for this
 void AARPGCplusplusEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

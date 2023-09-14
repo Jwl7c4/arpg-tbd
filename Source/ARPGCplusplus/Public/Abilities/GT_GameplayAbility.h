@@ -8,7 +8,7 @@
 #include "GT_GameplayAbility.generated.h"
 
 /**
- * todo jake - rename this better
+ * todo - rename this better
  */
 UCLASS()
 class ARPGCPLUSPLUS_API UGT_GameplayAbility : public UGameplayAbility

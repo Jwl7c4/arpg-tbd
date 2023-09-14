@@ -47,7 +47,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
 	class UWidgetComponent* HealthBarWidgetComponent;
 
-	// todo jake - how to get this being set??
+	// todo - how to get this being set??
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
 	class UFloatingHealthBarWidget* FloatingHealthBarWidget;
 
@@ -56,7 +56,6 @@ protected:
 
 	// Called every frame
 	void Tick(float DeltaTime) override;
-
 
 	// Inherited via IAbilitySystemInterface
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;

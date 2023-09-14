@@ -21,8 +21,12 @@ void UCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModC
 	Super::PostGameplayEffectExecute(Data);
 
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute()) {
-		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
 		SetMaxHealth(GetMaxHealth());
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+
+		if (GetHealth() <= 0) {
+			UE_LOG(LogTemp, Warning, TEXT("UCharacterAttributeSet::PostGameplayEffectExecute - Health less than 0"));
+		}
 	}
 }
 
