@@ -4,10 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "ARPGCplusplus.h"
+
 #include "InventoryComponent.generated.h"
 
 // Blueprints will bind to this to update UI
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEquippedItemsUpdated);
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class ARPGCPLUSPLUS_API UInventoryComponent : public UActorComponent
@@ -36,4 +39,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Items")
 	TArray<class UItem*> Items;
+
+	UPROPERTY(BlueprintAssignable, Category = "Inventory")
+	FOnEquippedItemsUpdated OnEquippedUpdated;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Items")
+	TMap<EEquippableItemType, class UEquippableItem*> EquippedItems;
 };
