@@ -45,4 +45,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Items")
 	TMap<EEquippableItemType, class UEquippableItem*> EquippedItems;
+
+	bool EquipItem(class UEquippableItem* ToEquip, class UEquippableItem* CurrentSlot);
+
+	UFUNCTION(BlueprintCallable)
+	bool UnEquipItem(class UEquippableItem* EquippableItem);
 };

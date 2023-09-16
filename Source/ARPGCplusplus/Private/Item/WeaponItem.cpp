@@ -3,6 +3,8 @@
 
 #include "Item/WeaponItem.h"
 #include "InventoryComponent.h"
+#include "GameplayTagsModule.h"
+#include "ARPGCplusplusCharacter.h"
 
 UWeaponItem::UWeaponItem()
 {
@@ -14,28 +16,20 @@ void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 	UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - used weapon. todo - equip it"));
 
 	UEquippableItem** CurrentWeapon = OwnerInventory->EquippedItems.Find(EEquippableItemType::Weapon);
-	if (CurrentWeapon) 
+	if (CurrentWeapon)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - swap scenario"));
 		// get item from slot
 		UWeaponItem* CurrentWeapons = Cast<UWeaponItem>(*CurrentWeapon);
-
-		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - swapping %d for %d"), CurrentWeapons->WeaponType, this->WeaponType);
-
-		EquipItem(Character, this);
-		OwnerInventory->RemoveItem(this);
-		OwnerInventory->AddItem(CurrentWeapons);
+		bool bSwapSuccess = OwnerInventory->EquipItem(this, CurrentWeapons);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - empty slot scenario"));
-		EquipItem(Character, this);
-		OwnerInventory->RemoveItem(this);
+		bool bEquipSuccess = OwnerInventory->EquipItem(this, nullptr);
 	}
-}
 
-void UWeaponItem::EquipItem(AARPGCplusplusCharacter* Character, UItem* Item)
-{
-	UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::EquipItem - equip it!"));
-	OwnerInventory->EquippedItems.Add(EEquippableItemType::Weapon, this);
+	// todo - this not clean. check if set
+	Character->Tags.Remove(RemoveOtherWeaponTag.GetTagName());
+	Character->Tags.Add(EquippedWeaponTag.GetTagName());
 }

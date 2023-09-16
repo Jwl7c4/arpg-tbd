@@ -4,6 +4,7 @@
 #include "InventoryComponent.h"
 
 #include "Item/Item.h"
+#include "Item/EquippableItem.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -95,5 +96,48 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 		return true;
 	}
 	return false;
+}
+
+bool UInventoryComponent::EquipItem(UEquippableItem* ToEquip, UEquippableItem* CurrentSlot)
+{
+
+
+	if (CurrentSlot)
+	{
+		// swap scenario
+		EquippedItems.Add(ToEquip->ItemType, ToEquip);
+		// todo - both broadcast. optional param to not waste refreshing?
+		RemoveItem(ToEquip);
+		AddItem(CurrentSlot);
+	}
+	else
+	{
+		// equip to empty slot scenario
+		EquippedItems.Add(ToEquip->ItemType, ToEquip);
+		RemoveItem(ToEquip);
+	}
+
+	OnEquippedUpdated.Broadcast();
+
+	return false;
+}
+
+bool UInventoryComponent::UnEquipItem(UEquippableItem* EquippableItem)
+{
+	if (Items.Num() >= Capacity)
+	{
+		return false;
+	}
+
+	// todo - what does this do to EquippableItem if not found
+	bool bKeyFound = EquippedItems.RemoveAndCopyValue(EquippableItem->ItemType, EquippableItem);
+	if (bKeyFound)
+	{
+		AddItem(EquippableItem);
+	}
+
+	OnEquippedUpdated.Broadcast();
+
+	return true;
 }
 

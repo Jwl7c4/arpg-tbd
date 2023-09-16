@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Item/EquippableItem.h"
+#include "GameplayTagContainer.h"
 
 #include "WeaponItem.generated.h"
 
@@ -21,11 +22,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	EWeaponType WeaponType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	struct FGameplayTag RemoveOtherWeaponTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	struct FGameplayTag EquippedWeaponTag;
 	
 	// todo - add stats later
 protected:
 
 	virtual void Use(class AARPGCplusplusCharacter* Character) override;
-
-	virtual void EquipItem(class AARPGCplusplusCharacter* Character, class UItem* Item) override;
 };
