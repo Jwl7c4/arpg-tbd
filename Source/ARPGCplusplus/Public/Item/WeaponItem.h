@@ -23,11 +23,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	EWeaponType WeaponType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	struct FGameplayTag RemoveOtherWeaponTag;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	struct FGameplayTag EquippedWeaponTag;
+	// todo - gameplay ability for specific weapon
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
+	TSubclassOf<class UGameplayAbility> EquipAbility;
 	
 	// todo - add stats later
 protected:

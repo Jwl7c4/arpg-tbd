@@ -4,6 +4,7 @@
 #include "Item/WeaponItem.h"
 #include "InventoryComponent.h"
 #include "GameplayTagsModule.h"
+#include "AbilitySystemComponent.h"
 #include "ARPGCplusplusCharacter.h"
 
 UWeaponItem::UWeaponItem()
@@ -29,7 +30,19 @@ void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 		bool bEquipSuccess = OwnerInventory->EquipItem(this, nullptr);
 	}
 
-	// todo - this not clean. check if set
-	Character->Tags.Remove(RemoveOtherWeaponTag.GetTagName());
-	Character->Tags.Add(EquippedWeaponTag.GetTagName());
+	UAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
+	if (ASC)
+	{
+		// Create an ability spec
+		FGameplayAbilitySpecDef SpecDef = FGameplayAbilitySpecDef();
+		SpecDef.Ability = EquipAbility;
+		FGameplayAbilitySpec Spec(SpecDef, 1); // Set level to 1 or the desired level
+
+		// todo - should this just be permanent?
+		ASC->GiveAbilityAndActivateOnce(Spec);
+
+		// Remove the ability after activation (if needed)
+		//ASC->RemoveAbility(Spec.Handle);
+		ASC->ClearAbility(Spec.Handle);
+	}
 }
