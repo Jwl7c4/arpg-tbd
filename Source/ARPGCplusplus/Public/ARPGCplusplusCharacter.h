@@ -28,9 +28,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintREadOnly)
 	class UInventoryComponent* Inventory;
 
-	// called actions
-	void ActivateAbility(const EGT_AbilityInput AbilityInput);
-
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void HandleNotifyInitialAbility();
 

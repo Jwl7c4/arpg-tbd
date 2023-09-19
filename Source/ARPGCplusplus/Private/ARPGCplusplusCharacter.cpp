@@ -198,15 +198,6 @@ void AARPGCplusplusCharacter::SetupAbilitiesInputs()
 	bInputsBound = true;
 }
 
-void AARPGCplusplusCharacter::ActivateAbility(const EGT_AbilityInput AbilityInputId)
-{
-
-	UE_LOG(LogTemp, Warning, TEXT("ActivateAbility on character called. Ability id: %d"), AbilityInputId);
-
-	// ability system
-	AbilitySystemComponent->AbilityLocalInputPressed(static_cast<int32>(AbilityInputId));
-}
-
 bool AARPGCplusplusCharacter::CanMove()
 {
 
