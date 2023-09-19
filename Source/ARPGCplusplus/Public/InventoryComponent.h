@@ -31,7 +31,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Instanced)
 	TArray<class UItem*> DefaultItems;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory")
 	int32 Capacity;
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")

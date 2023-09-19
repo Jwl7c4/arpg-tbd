@@ -8,7 +8,6 @@
 
 void UPotionItem::Use(AARPGCplusplusCharacter* Character)
 {
-
 	if (PotionGameplayEffectClass)
 	{
 		UAbilitySystemComponent* AbilitySystemComponent = Character->GetAbilitySystemComponent();
@@ -23,6 +22,10 @@ void UPotionItem::Use(AARPGCplusplusCharacter* Character)
 			FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(PotionGameplayEffectClass, 1, ContextHandle);
 			AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), AbilitySystemComponent);
 		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UPotionItem::Use - No effect set up on item. Check BP"));
 	}
 
 	OwnerInventory->RemoveItem(this);
