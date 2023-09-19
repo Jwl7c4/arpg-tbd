@@ -42,7 +42,6 @@ void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 		ASC->GiveAbilityAndActivateOnce(Spec);
 
 		// Remove the ability after activation (if needed)
-		//ASC->RemoveAbility(Spec.Handle);
 		ASC->ClearAbility(Spec.Handle);
 	}
 }
