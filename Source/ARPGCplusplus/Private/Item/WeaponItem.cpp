@@ -14,19 +14,18 @@ UWeaponItem::UWeaponItem()
 
 void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 {
-	UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - used weapon. todo - equip it"));
 
 	UEquippableItem** CurrentWeapon = OwnerInventory->EquippedItems.Find(EEquippableItemType::Weapon);
 	if (CurrentWeapon)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - swap scenario"));
+		UE_LOG(LogTemp, Display, TEXT("UWeaponItem::Use - swap scenario"));
 		// get item from slot
 		UWeaponItem* CurrentWeapons = Cast<UWeaponItem>(*CurrentWeapon);
 		bool bSwapSuccess = OwnerInventory->EquipItem(this, CurrentWeapons);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - empty slot scenario"));
+		UE_LOG(LogTemp, Display, TEXT("UWeaponItem::Use - empty slot scenario"));
 		bool bEquipSuccess = OwnerInventory->EquipItem(this, nullptr);
 	}
 
