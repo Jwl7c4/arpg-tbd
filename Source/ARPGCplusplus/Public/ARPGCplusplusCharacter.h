@@ -28,13 +28,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintREadOnly)
 	class UInventoryComponent* Inventory;
 
-	// called actions
-	void ActivateAbility(const EGT_AbilityInput AbilityInput);
-
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void HandleNotifyInitialAbility();
 
 	bool CanMove();
+
+	// Inherited via IAbilitySystemInterface
+	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 
@@ -74,7 +74,11 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void UseItem(class UItem* Item);
 
+	UFUNCTION(BlueprintCallable)
+	void UnequipItem(class UEquippableItem* Item);
+
 private:
+
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* TopDownCameraComponent;
@@ -82,10 +86,6 @@ private:
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
-
-
-	// Inherited via IAbilitySystemInterface
-	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 };
 

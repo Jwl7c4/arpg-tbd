@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Item/Item.h"
+#include "GameplayEffect.h"
 #include "PotionItem.generated.h"
 
 /**
@@ -20,6 +21,9 @@ public:
 	float HealthToAdd;
 	
 protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
+	TSubclassOf<UGameplayEffect> PotionGameplayEffectClass;
 
 	virtual void Use(class AARPGCplusplusCharacter* Character) override;
 };

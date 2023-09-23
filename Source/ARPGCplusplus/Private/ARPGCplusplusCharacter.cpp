@@ -26,6 +26,7 @@
 #include <Kismet/KismetSystemLibrary.h>
 //#include "DrawDebugHelpers.h" // delete
 #include "Item/Item.h"
+#include "Item/EquippableItem.h"
 #include "InventoryComponent.h"
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
@@ -130,6 +131,15 @@ void AARPGCplusplusCharacter::UseItem(UItem* Item)
 	}
 }
 
+void AARPGCplusplusCharacter::UnequipItem(UEquippableItem* Item)
+{
+	if (Item)
+	{
+		Item->UnequipItem(this);
+		Item->OnUnequipItem(this);
+	}
+}
+
 UAbilitySystemComponent* AARPGCplusplusCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -198,19 +208,8 @@ void AARPGCplusplusCharacter::SetupAbilitiesInputs()
 	bInputsBound = true;
 }
 
-void AARPGCplusplusCharacter::ActivateAbility(const EGT_AbilityInput AbilityInputId)
-{
-
-	UE_LOG(LogTemp, Warning, TEXT("ActivateAbility on character called. Ability id: %d"), AbilityInputId);
-
-	// ability system
-	AbilitySystemComponent->AbilityLocalInputPressed(static_cast<int32>(AbilityInputId));
-}
-
 bool AARPGCplusplusCharacter::CanMove()
 {
-	//FGameplayTagContainer* TagContainer = {};
-	//AbilitySystemComponent->GetOwnedGameplayTags(*TagContainer);
 
 	FGameplayTagContainer TargetTags;
 	AbilitySystemComponent->GetOwnedGameplayTags(TargetTags);
@@ -227,56 +226,3 @@ bool AARPGCplusplusCharacter::CanMove()
 	}
 	return true;
 }
-
-//void AARPGCplusplusCharacter::HandleNotifyInitialAbility()
-//{
-//	UE_LOG(LogTemp, Warning, TEXT("HandleNotifyInitialAbility on character called"));
-//
-//	USkeletalMeshComponent* mesh = GetMesh();
-//	// todo - change to dynamic if different models
-//	FVector location = mesh->GetSocketLocation("RightHand");
-//	FVector locationL = mesh->GetSocketLocation("LeftHand");
-//
-//	const TArray<AActor*> actorIgnore{ this };
-//
-//	TArray<TEnumAsByte<EObjectTypeQuery>> collisionQuery;
-//	collisionQuery.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn));
-//
-//	TArray<AActor*> outActors;
-//
-//	bool bHitSomething = UKismetSystemLibrary::SphereOverlapActors
-//	(
-//		GetWorld(),
-//		location,
-//		50.0f,
-//		collisionQuery,
-//		AARPGCplusplusEnemyCharacter::StaticClass(),
-//		actorIgnore,
-//		outActors
-//	);
-//	// todo - remove after debug or flag passed in
-//	DrawDebugSphere(GetWorld(), location, 50.f, 5, FColor::Green, false, 10.f, 2, 3.f);
-//
-//	if (bHitSomething) {
-//		UE_LOG(LogTemp, Warning, TEXT("HandleNotifyInitialAbility - WE HAVE A HIT"));
-//
-//		//AbilitySystemComponent->tagcontainter
-//		for (auto actors : outActors)
-//		{
-//			ACharacter* actor = Cast<ACharacter>(actors);		
-//
-//			const FGameplayTag MyTag = FGameplayTag::RequestGameplayTag(FName("Event.InitialAbility.Hit"));
-//			FGameplayEventData x;
-//			x.Instigator = this;
-//			x.Target = actor;
-//			x.EventMagnitude = 1.f;
-//
-//			UGameplayAbility::execSendGameplayEvent();
-//			
-//			UGameplayAbility::SendGameplayEvent(MyTag, x);
-//		}
-//	}
-//	else {
-//		UE_LOG(LogTemp, Warning, TEXT("HandleNotifyInitialAbility - WHIFFFFFF"));
-//	}
-//}

@@ -9,6 +9,7 @@
 #include "InputMappingContext.h"
 #include "Blueprint/UserWidget.h"
 #include "ARPGCplusplusCharacter.h"
+#include "AbilitySystemComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Engine/World.h"
 #include "ARPGCplusplus.h"
@@ -181,7 +182,7 @@ void AARPGCplusplusPlayerController::Dodge()
 	UE_LOG(LogTemp, Warning, TEXT("Dodge on controller called"));
 	if (PossessedPawn != nullptr)
 	{
-		PossessedPawn->ActivateAbility(EGT_AbilityInput::Dodge);
+		PossessedPawn->GetAbilitySystemComponent()->AbilityLocalInputPressed(static_cast<int32>(EGT_AbilityInput::Dodge));
 	}
 }
 
@@ -190,6 +191,6 @@ void AARPGCplusplusPlayerController::BasicAttack()
 	UE_LOG(LogTemp, Warning, TEXT("InitialAbility on controller called"));
 	if (PossessedPawn != nullptr)
 	{
-		PossessedPawn->ActivateAbility(EGT_AbilityInput::InitialAbility);
+		PossessedPawn->GetAbilitySystemComponent()->AbilityLocalInputPressed(static_cast<int32>(EGT_AbilityInput::InitialAbility));
 	}
 }
