@@ -12,6 +12,7 @@ UWeaponItem::UWeaponItem()
 	WeaponType = EWeaponType::None;
 }
 
+// todo - failure state for any on use clicks. unequip. use, etc
 void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 {
 
@@ -35,6 +36,29 @@ void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 		// Create an ability spec
 		FGameplayAbilitySpecDef SpecDef = FGameplayAbilitySpecDef();
 		SpecDef.Ability = EquipAbility;
+		FGameplayAbilitySpec Spec(SpecDef, 1); // Set level to 1 or the desired level
+
+		// todo - should this just be permanent?
+		ASC->GiveAbilityAndActivateOnce(Spec);
+
+		// Remove the ability after activation (if needed)
+		ASC->ClearAbility(Spec.Handle);
+	}
+}
+
+void UWeaponItem::UnequipItem(AARPGCplusplusCharacter* Character)
+{
+	if (!OwnerInventory->UnEquipItem(this)) {
+		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::UnequipItem - could not unequip item"));
+		return;
+	}
+
+	UAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
+	if (ASC)
+	{
+		// Create an ability spec
+		FGameplayAbilitySpecDef SpecDef = FGameplayAbilitySpecDef();
+		SpecDef.Ability = UnEquipAbility;
 		FGameplayAbilitySpec Spec(SpecDef, 1); // Set level to 1 or the desired level
 
 		// todo - should this just be permanent?

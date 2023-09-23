@@ -36,6 +36,12 @@ public:
 	// Inherited via IAbilitySystemInterface
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
+	//UFUNCTION(BlueprintCallable)
+	//class UEquippableItem* GetEquippedItemFromSlot(EEquippableItemType equippedSlot);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory")
+	TArray<FName> WeaponSockets;
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -73,6 +79,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void UseItem(class UItem* Item);
+
+	UFUNCTION(BlueprintCallable)
+	void UnequipItem(class UEquippableItem* Item);
 
 private:
 

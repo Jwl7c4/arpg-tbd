@@ -87,8 +87,9 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 		}
 
 		if (!bItemFound) {
-			Item->OwnerInventory = nullptr;
-			Item->World = nullptr;
+			// todo - what did this actually do?
+			//Item->OwnerInventory = nullptr;
+			//Item->World = nullptr;
 			Items.RemoveSingle(Item);
 		}
 

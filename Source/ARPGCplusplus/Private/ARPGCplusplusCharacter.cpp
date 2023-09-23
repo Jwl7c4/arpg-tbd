@@ -26,6 +26,7 @@
 #include <Kismet/KismetSystemLibrary.h>
 //#include "DrawDebugHelpers.h" // delete
 #include "Item/Item.h"
+#include "Item/EquippableItem.h"
 #include "InventoryComponent.h"
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
@@ -127,6 +128,15 @@ void AARPGCplusplusCharacter::UseItem(UItem* Item)
 	{
 		Item->Use(this);
 		Item->OnUse(this); // blue print callable
+	}
+}
+
+void AARPGCplusplusCharacter::UnequipItem(UEquippableItem* Item)
+{
+	if (Item)
+	{
+		Item->UnequipItem(this);
+		Item->OnUnequipItem(this);
 	}
 }
 

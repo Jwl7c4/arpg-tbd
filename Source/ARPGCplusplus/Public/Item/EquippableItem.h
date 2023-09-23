@@ -23,4 +23,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	EEquippableItemType ItemType;
+
+	virtual void UnequipItem(class AARPGCplusplusCharacter* Character) PURE_VIRTUAL(UEquippableItem, );
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnUnequipItem(class AARPGCplusplusCharacter* Character);
 };

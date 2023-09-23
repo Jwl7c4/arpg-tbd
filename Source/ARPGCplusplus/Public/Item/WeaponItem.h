@@ -26,9 +26,14 @@ public:
 	// todo - gameplay ability for specific weapon
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	TSubclassOf<class UGameplayAbility> EquipAbility;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
+	TSubclassOf<class UGameplayAbility> UnEquipAbility;
 	
 	// todo - add stats later
 protected:
 
 	virtual void Use(class AARPGCplusplusCharacter* Character) override;
+	
+	virtual void UnequipItem(class AARPGCplusplusCharacter* Character) override;
 };
