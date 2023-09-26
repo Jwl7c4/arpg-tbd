@@ -5,8 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "CharacterBase.h"
-#include "ARPGCplusplus.h"
-#include "AbilitySystemInterface.h"
+
 #include "ARPGCplusplusCharacter.generated.h"
 
 UCLASS(Blueprintable)

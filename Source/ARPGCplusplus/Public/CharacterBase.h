@@ -33,16 +33,16 @@ protected:
 
 	class UAbilitySystemComponent* AbilitySystemComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Transient, Category = "Components")
 	class UCharacterAttributeSet* CharacterAttributeSet;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Transient, Category = "Components")
 	class UAbilityAttributeSet* AbilityAttributeSet;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Transient, Category = "Gameplay Ability System")
 	TArray<TSubclassOf<class UGT_GameplayAbility>> InitialGameplayAbility;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Transient, Category = "Gameplay Ability System")
 	TArray<TSubclassOf<class UGameplayEffect>> InitialGameplayEffects;
 
 	void AddInitialCharacterAbilities();
