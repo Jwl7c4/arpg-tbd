@@ -20,9 +20,12 @@ void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 	if (CurrentWeapon)
 	{
 		UE_LOG(LogTemp, Display, TEXT("UWeaponItem::Use - swap scenario"));
-		// get item from slot
+		// get item from slot and swap in inventory system
 		UWeaponItem* CurrentWeapons = Cast<UWeaponItem>(*CurrentWeapon);
 		bool bSwapSuccess = OwnerInventory->EquipItem(this, CurrentWeapons);
+
+		// unequip weapon actor
+		UnequipGameplayAbility(Character);
 	}
 	else
 	{
@@ -30,8 +33,22 @@ void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 		bool bEquipSuccess = OwnerInventory->EquipItem(this, nullptr);
 	}
 
-	UAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
-	if (ASC)
+	EquipGameplayAbility(Character);
+}
+
+void UWeaponItem::UnequipItem(AARPGCplusplusCharacter* Character)
+{
+	if (!OwnerInventory->UnEquipItem(this)) {
+		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::UnequipItem - could not unequip item"));
+		return;
+	}
+
+	UnequipGameplayAbility(Character);
+}
+
+void UWeaponItem::EquipGameplayAbility(AARPGCplusplusCharacter* Character)
+{
+	if (UAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent())
 	{
 		// Create an ability spec
 		FGameplayAbilitySpecDef SpecDef = FGameplayAbilitySpecDef();
@@ -44,17 +61,15 @@ void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 		// Remove the ability after activation (if needed)
 		ASC->ClearAbility(Spec.Handle);
 	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - Can't Equip. Ability System Component Not Set"));
+	}
 }
 
-void UWeaponItem::UnequipItem(AARPGCplusplusCharacter* Character)
+void UWeaponItem::UnequipGameplayAbility(AARPGCplusplusCharacter* Character)
 {
-	if (!OwnerInventory->UnEquipItem(this)) {
-		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::UnequipItem - could not unequip item"));
-		return;
-	}
-
-	UAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
-	if (ASC)
+	if (UAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent())
 	{
 		// Create an ability spec
 		FGameplayAbilitySpecDef SpecDef = FGameplayAbilitySpecDef();
@@ -66,5 +81,9 @@ void UWeaponItem::UnequipItem(AARPGCplusplusCharacter* Character)
 
 		// Remove the ability after activation (if needed)
 		ASC->ClearAbility(Spec.Handle);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::Use - Can't UnEquip. Ability System Component Not Set"));
 	}
 }
