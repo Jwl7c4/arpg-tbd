@@ -18,6 +18,8 @@
 // Sets default values
 AARPGCplusplusEnemyCharacter::AARPGCplusplusEnemyCharacter()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
