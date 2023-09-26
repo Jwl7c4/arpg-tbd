@@ -56,7 +56,6 @@ void AARPGCplusplusEnemyCharacter::BeginPlay()
 
 	FloatingHealthBarWidget = Cast<UFloatingHealthBarWidget>(HealthBarWidgetComponent->GetWidget());
 	FloatingHealthBarWidget->setHealthPercent(CharacterAttributeSet->GetHealth(), CharacterAttributeSet->GetMaxHealth());
-	//FloatingHealthBarWidget->setHealthPercent(200.f, 250.f);
 }
 
 void AARPGCplusplusEnemyCharacter::AddInitialCharacterAbilities()
@@ -123,11 +122,4 @@ UAbilitySystemComponent* AARPGCplusplusEnemyCharacter::GetAbilitySystemComponent
 {
 	return AbilitySystemComponent;
 }
-
-// Called to bind functionality to input
-//void AARPGCplusplusEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-//{
-//	Super::SetupPlayerInputComponent(PlayerInputComponent);
-//
-//}
 
