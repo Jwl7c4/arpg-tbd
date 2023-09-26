@@ -31,6 +31,25 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	TWeakObjectPtr<class UAbilitySystemComponent> AbilitySystemComponent;
+	class UAbilitySystemComponent* AbilitySystemComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	class UCharacterAttributeSet* CharacterAttributeSet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	class UAbilityAttributeSet* AbilityAttributeSet;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
+	TArray<TSubclassOf<class UGT_GameplayAbility>> InitialGameplayAbility;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay Ability System")
+	TArray<TSubclassOf<class UGameplayEffect>> InitialGameplayEffects;
+
+	void AddInitialCharacterAbilities();
+
+	void AddInitialCharacterEffects();
+
+	uint8 bWerecharacterAbilitiesGiven : 1;
+
+	uint8 bWereCharacterEffectsGiven : 1;
 };
