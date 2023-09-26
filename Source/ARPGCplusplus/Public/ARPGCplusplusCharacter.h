@@ -25,7 +25,7 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-	UPROPERTY(EditAnywhere, BlueprintREadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class UInventoryComponent* Inventory;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

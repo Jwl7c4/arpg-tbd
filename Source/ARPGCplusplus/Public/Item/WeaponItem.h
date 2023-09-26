@@ -36,4 +36,10 @@ protected:
 	virtual void Use(class AARPGCplusplusCharacter* Character) override;
 	
 	virtual void UnequipItem(class AARPGCplusplusCharacter* Character) override;
+
+private:
+
+	void EquipGameplayAbility(AARPGCplusplusCharacter* Character);
+
+	void UnequipGameplayAbility(AARPGCplusplusCharacter* Character);
 };
