@@ -68,3 +68,8 @@ void AARPGCplusplusEnemyCharacter::Tick(float DeltaTime)
 	FloatingHealthBarWidget->setHealthPercent(CharacterAttributeSet->GetHealth(), CharacterAttributeSet->GetMaxHealth());
 }
 
+void AARPGCplusplusEnemyCharacter::OnDeath()
+{
+	Super::OnDeath();
+}
+

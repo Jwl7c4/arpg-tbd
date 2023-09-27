@@ -32,4 +32,5 @@ protected:
 	// Called every frame
 	void Tick(float DeltaTime) override;
 
+	void OnDeath();
 };
