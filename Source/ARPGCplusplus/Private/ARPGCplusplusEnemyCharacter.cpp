@@ -14,6 +14,9 @@
 #include "Abilities/GT_GameplayAbility.h"
 #include <Widgets/FloatingHealthBarWidget.h>
 #include <Kismet/GameplayStatics.h>
+#include "InventoryComponent.h"
+#include "Item/Item.h"
+#include "Loot/LootComponent.h"
 
 // Sets default values
 AARPGCplusplusEnemyCharacter::AARPGCplusplusEnemyCharacter()
@@ -28,6 +31,12 @@ AARPGCplusplusEnemyCharacter::AARPGCplusplusEnemyCharacter()
 	HealthBarWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBar"));
 	HealthBarWidgetComponent->SetupAttachment(RootComponent);
 	HealthBarWidgetComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	// Inventory
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	Inventory->Capacity = 5;
+
+	LootDropComponent = CreateDefaultSubobject<ULootComponent>(TEXT("LootDropComponent"));
 
 	// Non Ability attributes
 	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
@@ -70,6 +79,21 @@ void AARPGCplusplusEnemyCharacter::Tick(float DeltaTime)
 
 void AARPGCplusplusEnemyCharacter::OnDeath()
 {
+	if (LootDropComponent) {
+		TArray<UItem*> ItemsToDrop = LootDropComponent->DroppedItems();
+
+		if (ItemsToDrop.Num() > 0)
+		{
+			for (auto& Item : ItemsToDrop)
+			{
+				Inventory->AddItem(Item);
+			}
+		}
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("AARPGCplusplusEnemyCharacter::OnDeath - LootComponent not set"));
+	}
+	
 	Super::OnDeath();
 }
 

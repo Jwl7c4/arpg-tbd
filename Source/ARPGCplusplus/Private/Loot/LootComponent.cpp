@@ -13,6 +13,18 @@ ULootComponent::ULootComponent()
 	// ...
 }
 
+TArray<class UItem*> ULootComponent::DroppedItems()
+{
+	// get items
+	//NewObject<UBaseMovementAdjustmentComponent>(this, AdjMovementComponent);
+	
+	
+	// add to array
+	
+	// return array
+	return TArray<class UItem*>();
+}
+
 
 // Called when the game starts
 void ULootComponent::BeginPlay()

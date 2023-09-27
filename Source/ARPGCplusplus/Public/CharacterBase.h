@@ -20,12 +20,15 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	// Called automatically by the Health Attribute Set when "Current Health" reaches zero.
-	void OnDeath();
+	virtual void OnDeath();
 
 	// Event called when the the Current Health attribute reaches zero.
 	// Note: This will only be called with Authority.
 	UFUNCTION(BlueprintImplementableEvent, Category = "Character Base")
 	void On_Death();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	class UInventoryComponent* Inventory;
 
 protected:
 	// Called when the game starts or when spawned

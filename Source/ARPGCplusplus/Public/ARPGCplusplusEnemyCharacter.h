@@ -26,11 +26,14 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
 	class UFloatingHealthBarWidget* FloatingHealthBarWidget;
 
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
+	class ULootComponent* LootDropComponent;
+
 	// Called when the game starts or when spawned
 	void BeginPlay();
 
 	// Called every frame
 	void Tick(float DeltaTime) override;
 
-	void OnDeath();
+	void OnDeath() override;
 };
