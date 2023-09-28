@@ -11,6 +11,8 @@ struct ARPGCPLUSPLUS_API FDropTableRow : public FTableRowBase
 {
     GENERATED_USTRUCT_BODY()
 
+public:
+
     // Reference to the master item DataTable
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loot Data")
     TSoftObjectPtr<UDataTable> MasterItemTable;

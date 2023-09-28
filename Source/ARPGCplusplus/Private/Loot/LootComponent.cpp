@@ -18,90 +18,66 @@ ULootComponent::ULootComponent()
 
 TArray<class UItem*> ULootComponent::DroppedItems()
 {
-	// Load a row from the DataTable
-	//FItemMasterTableRow* ItemDataRow = LootDropTable->FindRow<FItemMasterTableRow>(RowName, ContextString);
 
-	//if (ItemDataRow)
-	//{
-	//	// Access the Blueprint class reference
-	//	TSubclassOf<UItem> ItemBlueprintClass = ItemDataRow->ItemBlueprintClass;
-
-	//	if (ItemBlueprintClass)
-	//	{
-	//		// Create an instance of the Blueprint class
-	//		UItem* ItemInstance = NewObject<UItem>(this, ItemBlueprintClass);
-
-	//		if (ItemInstance)
-	//		{
-	//			// You can now work with the Blueprint-derived item instance as needed
-	//		}
-	//	}
-	//}
-
-
-	TArray<FName> ItemNames; // Store the names of all items
-
-	// rows to loop over
-	TArray<FName> RowNames = LootDropTable->GetRowNames();
+	if (!LootDropTable)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ULootComponent::DroppedItems - Drop Loot Table not assigned"));
+		return TArray<UItem*>();
+	}
 
 	float TotalDropChance = 0.0f;
-	for (const auto& RowName : RowNames)
+	TArray<FName> Names = LootDropTable->GetRowNames(); // store all names as we loop twice
+	for (const auto& RowName : Names)
 	{
-		FDropTableRow* ItemData = LootDropTable->FindRow<FDropTableRow>(RowName, "Looking up item calculating drop chance");//Item.Value;
+		FDropTableRow* CurrentRowForCalculation = LootDropTable->FindRow<FDropTableRow>(RowName, "Looking up item calculating drop chance");//Item.Value;
 
-		if (ItemData)
+		if (CurrentRowForCalculation)
 		{
-			TotalDropChance += ItemData->DropChance;
-			ItemNames.Add(RowName);
+			TotalDropChance += CurrentRowForCalculation->DropChance;
 		}
 	}
 
 	float RandomValue = FMath::FRandRange(0.0f, TotalDropChance);
 
 	FDropTableRow* ChosenItemData = nullptr;
-	for (const FName& ItemName : ItemNames)
+	for (const FName& ItemName : Names)
 	{
-		FDropTableRow* ItemData = LootDropTable->FindRow<FDropTableRow>(ItemName, "Looking up item name in loop");
+		FDropTableRow* CurrentRowCheckIfChosenDrop = LootDropTable->FindRow<FDropTableRow>(ItemName, "Looking up item name in loop");
 
-		if (ItemData)
+		if (CurrentRowCheckIfChosenDrop)
 		{
-			if (RandomValue <= ItemData->DropChance)
+			if (RandomValue <= CurrentRowCheckIfChosenDrop->DropChance)
 			{
-				ChosenItemData = ItemData;
+				ChosenItemData = CurrentRowCheckIfChosenDrop;
 				break;
 			}
 			else
 			{
-				RandomValue -= ItemData->DropChance;
+				RandomValue -= CurrentRowCheckIfChosenDrop->DropChance;
 			}
 		}
 	}
 
+	// todo - only 1 item ever into array
 	if (ChosenItemData)
 	{
-		FItemMasterTableRow* ItemData = LootDropTable->FindRow<FItemMasterTableRow>(ChosenItemData->ItemRowName, "Looking up master item name");
+		// get item details from master item table
+		FItemMasterTableRow* MasterItemData = ChosenItemData->MasterItemTable->FindRow<FItemMasterTableRow>(ChosenItemData->ItemRowName, "Looking up master item name");
 
-		// get items
-		UItem* DroppedItem = NewObject<UItem>(this, ItemData->ItemDefinition);
+		// create item
+		UItem* DroppedItem = NewObject<UItem>(this, MasterItemData->ItemDefinition);
 
 		// add to array
-		TArray<UItem*> DroppedItems = { DroppedItems };
+		TArray<UItem*> DroppedItems;
+		DroppedItems.Add(DroppedItem);
 
 		// return array
 		return DroppedItems;
-	} else
+	}
+	else
 	{
+		UE_LOG(LogTemp, Warning, TEXT("ULootComponent::DroppedItems - No drop selected"));
 		return TArray<UItem*>();
 	}
-}
-
-
-// Called when the game starts
-void ULootComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
 }
 

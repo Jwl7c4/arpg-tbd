@@ -26,7 +26,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
 	class UFloatingHealthBarWidget* FloatingHealthBarWidget;
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Loot Drops")
 	class ULootComponent* LootDropComponent;
 
 	// Called when the game starts or when spawned

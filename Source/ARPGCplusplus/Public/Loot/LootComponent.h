@@ -19,9 +19,7 @@ public:
 	TArray<class UItem*> DroppedItems();
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UDataTable* LootDropTable;
 };
