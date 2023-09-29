@@ -11,7 +11,6 @@ ACharacterBase::ACharacterBase()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
 }
 
 UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
@@ -23,7 +22,6 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void ACharacterBase::AddInitialCharacterAbilities()
@@ -78,6 +76,7 @@ void ACharacterBase::AddInitialCharacterEffects()
 
 void ACharacterBase::OnDeath()
 {
+	UE_LOG(LogTemp, Warning, TEXT("ACharacterBase::OnDeath - Calling BP"));
 	// call bp on death method
 	On_Death();
 }

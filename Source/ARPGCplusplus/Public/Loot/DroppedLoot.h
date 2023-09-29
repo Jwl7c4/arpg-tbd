@@ -22,18 +22,15 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
+	void Initialize(UStaticMesh* DroppedStaticMesh, TSubclassOf<class UItem> InitializeItemClass);
+
+	UFUNCTION(BlueprintCallable)
 	virtual bool Interact(class AActor* InteractingActor) override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UStaticMeshComponent* LootStaticMesh;
-	
-	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	//UStaticMeshComponent* PlatformMesh;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//class USphereComponent* LootRadiusSphere;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UItem> ItemClass;
 
 	class UItem* InventoryItem;

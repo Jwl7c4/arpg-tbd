@@ -4,6 +4,7 @@
 #include "Abilities/CharacterAttributeSet.h"
 #include "GamePlayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
+#include "CharacterBase.h"
 
 UCharacterAttributeSet::UCharacterAttributeSet()
 {
@@ -26,6 +27,11 @@ void UCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModC
 
 		if (GetHealth() <= 0) {
 			UE_LOG(LogTemp, Warning, TEXT("UCharacterAttributeSet::PostGameplayEffectExecute - Health less than 0"));
+
+			if (ACharacterBase* AvatarCharacter = Cast<ACharacterBase>(Data.Target.GetAvatarActor()))
+			{
+				AvatarCharacter->OnDeath();
+			}
 		}
 	}
 }
