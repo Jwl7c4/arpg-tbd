@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
+
 #include "PlayerStateBase.generated.h"
 
-class UCustomAbilitySystemComponent;
+// Blueprints will bind to this to update UI
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnXpUpdated);
 
 // This version of Player State has an Ability System Component and should be the base of any Player State sub-class when using GAS.
 UCLASS()
@@ -37,4 +39,28 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
 	float GetHealthRegenRate() const;
+
+	void AddXp(float AddXpAmount);
+
+	UPROPERTY(BlueprintAssignable, Category = "Inventory")
+	FOnXpUpdated OnXpUpdated;
+
+protected:
+
+	UPROPERTY(BlueprintReadOnly)
+	int CurrentLevel;
+
+	UPROPERTY(BlueprintReadOnly)
+	float CurrentXp;
+
+	UPROPERTY(BlueprintReadOnly)
+	float NextLevelXpNeeded;
+
+	// amount xp per level
+	float x = .07f;
+
+	// how quickly xp per level increases
+	float y = 2.f;
+
+	float NewLevelXpToGain(float NewCharacterLevel);
 };

@@ -36,4 +36,10 @@ protected:
 	void Tick(float DeltaTime) override;
 
 	void OnDeath() override;
+
+	UPROPERTY(BlueprintReadOnly)
+	int Level;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float GrantedXp;
 };

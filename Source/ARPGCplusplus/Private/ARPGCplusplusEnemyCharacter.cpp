@@ -48,6 +48,10 @@ AARPGCplusplusEnemyCharacter::AARPGCplusplusEnemyCharacter()
 	AbilityAttributeSet = CreateDefaultSubobject<UAbilityAttributeSet>(TEXT("AbilityAttributeSet"));
 	bWerecharacterAbilitiesGiven = false;
 	bWereCharacterEffectsGiven = false;
+
+	// level and xp granted
+	Level = 1;
+	GrantedXp = 45;
 }
 
 // Called when the game starts or when spawned

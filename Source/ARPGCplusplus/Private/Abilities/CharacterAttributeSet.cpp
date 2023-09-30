@@ -26,8 +26,7 @@ void UCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModC
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
 
 		if (GetHealth() <= 0) {
-			UE_LOG(LogTemp, Warning, TEXT("UCharacterAttributeSet::PostGameplayEffectExecute - Health less than 0"));
-
+			UE_LOG(LogTemp, Display, TEXT("UCharacterAttributeSet::PostGameplayEffectExecute - Health less than 0"));
 			if (ACharacterBase* AvatarCharacter = Cast<ACharacterBase>(Data.Target.GetAvatarActor()))
 			{
 				AvatarCharacter->OnDeath();
