@@ -17,6 +17,9 @@ public:
 	// Sets default values for this character's properties
 	AARPGCplusplusEnemyCharacter();
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float GrantedXp;
+
 protected:
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
@@ -40,6 +43,4 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	int Level;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	float GrantedXp;
 };

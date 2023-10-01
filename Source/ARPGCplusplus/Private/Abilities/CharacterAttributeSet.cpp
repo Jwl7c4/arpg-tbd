@@ -5,6 +5,9 @@
 #include "GamePlayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 #include "CharacterBase.h"
+#include "ARPGCplusplusEnemyCharacter.h"
+#include "ARPGCplusplusCharacter.h"
+#include "Player/PlayerStateBase.h"
 
 UCharacterAttributeSet::UCharacterAttributeSet()
 {
@@ -60,6 +63,20 @@ void UCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModC
 				if (Context.GetEffectCauser())
 				{
 					SourceActor = Context.GetEffectCauser();
+				}
+			}
+
+			float Xp = 0.f;
+			if (AARPGCplusplusEnemyCharacter* Enemy = Cast< AARPGCplusplusEnemyCharacter>(Data.Target.GetAvatarActor()))
+			{
+				Xp = Enemy->GrantedXp;
+
+				if (AARPGCplusplusCharacter* Player = Cast< AARPGCplusplusCharacter>(SourceCharacter))
+				{
+					if (APlayerStateBase* StateBase = Cast< APlayerStateBase>(Player->GetPlayerState()))
+					{
+						StateBase->AddXp(Xp);
+					}
 				}
 			}
 
