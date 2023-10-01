@@ -22,7 +22,7 @@ APlayerStateBase::APlayerStateBase()
 	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
 
 	CurrentLevel = 1;
-	CurrentXp = 25;
+	CurrentXp = 0.f;
 	x = .07f;
 	y = 2.f;
 	NextLevelXpNeeded = NewLevelXpToGain(CurrentLevel);
