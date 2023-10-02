@@ -51,7 +51,7 @@ AARPGCplusplusEnemyCharacter::AARPGCplusplusEnemyCharacter()
 
 	// level and xp granted
 	Level = 1;
-	GrantedXp = 45;
+	GrantedXp = 5000.f;
 }
 
 // Called when the game starts or when spawned

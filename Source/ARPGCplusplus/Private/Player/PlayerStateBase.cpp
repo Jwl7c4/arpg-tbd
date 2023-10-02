@@ -52,6 +52,19 @@ void APlayerStateBase::AddXp(float AddXpAmount)
 {
 	CurrentXp += AddXpAmount;
 
+	float preLevel = CurrentLevel;
+	LevelUp();
+
+	if (preLevel > CurrentLevel)
+	{
+		// todo - gameplay ability with effect/cue
+	}
+
+	OnXpUpdated.Broadcast();
+}
+
+void APlayerStateBase::LevelUp()
+{
 	if (CurrentXp >= NextLevelXpNeeded)
 	{
 		// increment level
@@ -65,10 +78,12 @@ void APlayerStateBase::AddXp(float AddXpAmount)
 		// get new xp needed
 		NextLevelXpNeeded = NewLevelXpToGain(CurrentLevel);
 
-		// todo - gameplay ability with effect/cue
+		if (CurrentXp > NextLevelXpNeeded)
+		{
+			// recursive call to get to next level
+			LevelUp();
+		}
 	}
-
-	OnXpUpdated.Broadcast();
 }
 
 float APlayerStateBase::NewLevelXpToGain(float NewCharacterLevel)

@@ -56,6 +56,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	float NextLevelXpNeeded;
 
+	void LevelUp();
+
 	// amount xp per level
 	float x = .07f;
 
