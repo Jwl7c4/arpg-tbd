@@ -52,12 +52,14 @@ void APlayerStateBase::AddXp(float AddXpAmount)
 {
 	CurrentXp += AddXpAmount;
 
-	float preLevel = CurrentLevel;
+	int preLevel = CurrentLevel;
 	LevelUp();
 
-	if (preLevel > CurrentLevel)
+	if (preLevel < CurrentLevel)
 	{
 		// todo - gameplay ability with effect/cue
+		FGameplayTag GameplayCueTag = FGameplayTag::RequestGameplayTag(FName("GameplayCue.LevelUp"));
+		AbilitySystemComponent->ExecuteGameplayCue(GameplayCueTag);
 	}
 
 	OnXpUpdated.Broadcast();
