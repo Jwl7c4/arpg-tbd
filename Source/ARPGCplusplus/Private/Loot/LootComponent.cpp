@@ -63,7 +63,7 @@ TArray<class UItem*> ULootComponent::DroppedItems()
 	{
 		// todo - do we need.get() ? ?
 		// get item details from master item table.
-		FItemMasterTableRow* MasterItemData = ChosenItemData->MasterItemTable.Get()->FindRow<FItemMasterTableRow>(ChosenItemData->ItemRowName, "Looking up master item name");
+		FItemMasterTableRow* MasterItemData = ChosenItemData->MasterItemTable->FindRow<FItemMasterTableRow>(ChosenItemData->ItemRowName, "Looking up master item name");
 
 		// create item
 		UItem* DroppedItem = NewObject<UItem>(this, MasterItemData->ItemDefinition);

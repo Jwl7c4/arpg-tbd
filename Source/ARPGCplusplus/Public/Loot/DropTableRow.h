@@ -15,7 +15,7 @@ public:
 
     // Reference to the master item DataTable
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loot Data")
-    TSoftObjectPtr<UDataTable> MasterItemTable;
+    UDataTable* MasterItemTable;
 
     // The row name in the master table to reference
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loot Data")
