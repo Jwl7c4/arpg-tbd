@@ -22,7 +22,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void Initialize(UStaticMesh* DroppedStaticMesh, TSubclassOf<class UItem> InitializeItemClass);
+	void Initialize(TSubclassOf<class UItem> InitializeItemClass);
 
 	UFUNCTION(BlueprintCallable)
 	virtual bool Interact(class AActor* InteractingActor) override;

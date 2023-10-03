@@ -20,6 +20,12 @@ APlayerStateBase::APlayerStateBase()
 
 	// Non Ability attributes
 	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
+
+	CurrentLevel = 1;
+	CurrentXp = 0.f;
+	x = .07f;
+	y = 2.f;
+	NextLevelXpNeeded = NewLevelXpToGain(CurrentLevel);
 }
 
 UAbilitySystemComponent* APlayerStateBase::GetAbilitySystemComponent() const
@@ -40,4 +46,49 @@ float APlayerStateBase::GetMaxHealth() const
 float APlayerStateBase::GetHealthRegenRate() const
 {
 	return CharacterAttributeSet->GetHealthRegenRate();
+}
+
+void APlayerStateBase::AddXp(float AddXpAmount)
+{
+	CurrentXp += AddXpAmount;
+
+	int preLevel = CurrentLevel;
+	LevelUp();
+
+	if (preLevel < CurrentLevel)
+	{
+		// todo - gameplay ability with effect/cue
+		FGameplayTag GameplayCueTag = FGameplayTag::RequestGameplayTag(FName("GameplayCue.LevelUp"));
+		AbilitySystemComponent->ExecuteGameplayCue(GameplayCueTag);
+	}
+
+	OnXpUpdated.Broadcast();
+}
+
+void APlayerStateBase::LevelUp()
+{
+	if (CurrentXp >= NextLevelXpNeeded)
+	{
+		// increment level
+		CurrentLevel++;
+
+		// reset current xp + add any overcapped
+		float OverLevelCapXp = CurrentXp - NextLevelXpNeeded;
+		CurrentXp = 0;
+		CurrentXp += OverLevelCapXp;
+
+		// get new xp needed
+		NextLevelXpNeeded = NewLevelXpToGain(CurrentLevel);
+
+		if (CurrentXp > NextLevelXpNeeded)
+		{
+			// recursive call to get to next level
+			LevelUp();
+		}
+	}
+}
+
+float APlayerStateBase::NewLevelXpToGain(float NewCharacterLevel)
+{
+	return pow(NewCharacterLevel / x, y);
 }

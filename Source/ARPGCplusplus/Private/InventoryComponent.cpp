@@ -43,6 +43,10 @@ bool UInventoryComponent::AddItem(UItem* Item)
 	bool bItemFound = false;
 	for (auto& CurrentItem : Items)
 	{
+		FString name = Item->ItemDisplayName.ToString();
+		UE_LOG(LogTemp, Warning, TEXT("UInventoryComponent::AddItem - item name: %s"), *name);
+		name = CurrentItem->ItemDisplayName.ToString();
+		UE_LOG(LogTemp, Warning, TEXT("UInventoryComponent::AddItem - item name: %s"), *name);
 		if (Item->ItemDisplayName.ToString() == CurrentItem->ItemDisplayName.ToString())
 		{
 			if (CurrentItem->CurrentStackCount < CurrentItem->MaxStackCount)

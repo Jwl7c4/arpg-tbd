@@ -17,23 +17,24 @@ ADroppedLoot::ADroppedLoot()
 	PrimaryActorTick.bCanEverTick = false;
 
 	LootStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
-	LootStaticMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	SetRootComponent(LootStaticMesh);
 }
 
 // Called when the game starts or when spawned
 void ADroppedLoot::BeginPlay()
 {
 	Super::BeginPlay();
-	if (InventoryItem)
+	if (ItemClass)
 	{
-		Initialize(InventoryItem->PickupMesh, ItemClass);
+		Initialize(ItemClass);
 	}
 }
 
-void ADroppedLoot::Initialize(UStaticMesh* DroppedStaticMesh, TSubclassOf<class UItem> InitializeItemClass)
+// todo - this is being called by begin play (default obj axe) + after calling initialize in bp (correct item)
+void ADroppedLoot::Initialize(TSubclassOf<class UItem> InitializeItemClass)
 {
 	InventoryItem = NewObject<UItem>(this, InitializeItemClass);
-	LootStaticMesh->SetStaticMesh(DroppedStaticMesh);
+	LootStaticMesh->SetStaticMesh(InventoryItem->PickupMesh);
 }
 
 bool ADroppedLoot::Interact(AActor* InteractingActor)
