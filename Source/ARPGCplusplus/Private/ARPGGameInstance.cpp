@@ -13,6 +13,11 @@ UARPGGameInstance::UARPGGameInstance()
 
 TSubclassOf<APawn> UARPGGameInstance::getCurrentDesiredPawn()
 {
+	if (!SelectedPawnsClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UARPGGameInstance::Init - No pawn selected when requested. defaulting"));
+		Init();
+	}
 	return SelectedPawnsClass;
 }
 
@@ -28,5 +33,5 @@ void UARPGGameInstance::setSelectedPawn(TSubclassOf<APawn> SelectedPawn)
 
 void UARPGGameInstance::Init()
 {
-	//SelectedPawnsClass = AvailablePawns[1];
+	SelectedPawnsClass = AvailablePawns[1];
 }
