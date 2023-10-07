@@ -7,7 +7,7 @@
 #include "ARPGGameInstance.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class ARPGCPLUSPLUS_API UARPGGameInstance : public UGameInstance
@@ -21,14 +21,28 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	TArray<TSubclassOf<APawn>> getAllAvailablePawns();
-	
+
 	UFUNCTION(BlueprintCallable)
 	void setSelectedPawn(TSubclassOf<APawn> SelectedPawn);
 
-	void Init();
+	bool AddSaveSlot(FString SlotName);
+
+	bool DeleteSlotName(FString SlotName);
+
+	// todo - save character/state info in CharacterSaveSlotName at index of character
+
+	// todo - set active save slot name somewhere
+	FString CharacterSaveSlotName;
 
 private:
+
+	virtual void Init() override;
+
 	TArray<TSubclassOf<APawn>> AvailablePawns;
 
 	TSubclassOf<APawn> SelectedPawnsClass;
+
+	class USaveGameSlots* SlotSaveData;
+
+	class URpgSaveGame* CharacterSaveData;
 };

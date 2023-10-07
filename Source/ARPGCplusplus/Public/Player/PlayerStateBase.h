@@ -45,13 +45,15 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnXpUpdated OnXpUpdated;
 
-protected:
-
 	UPROPERTY(BlueprintReadOnly)
 	int CurrentLevel;
 
 	UPROPERTY(BlueprintReadOnly)
 	float CurrentXp;
+
+	int SaveGameIndex;
+
+protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	float NextLevelXpNeeded;

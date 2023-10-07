@@ -3,12 +3,17 @@
 
 #include "ARPGGameInstance.h"
 
+#include "Save/SaveGameSlots.h"
+#include "Kismet/GameplayStatics.h"
+
 UARPGGameInstance::UARPGGameInstance()
 {
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassOne(TEXT("/Game/Characters/Mannequins/BP_TopDownCharacter"));
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClassTwo(TEXT("/Game/Characters/Knight/BP_KnightCharacter"));
 	AvailablePawns.Add(PlayerPawnBPClassOne.Class);
 	AvailablePawns.Add(PlayerPawnBPClassTwo.Class);
+
+	CharacterSaveSlotName = "";
 }
 
 TSubclassOf<APawn> UARPGGameInstance::getCurrentDesiredPawn()
@@ -31,7 +36,31 @@ void UARPGGameInstance::setSelectedPawn(TSubclassOf<APawn> SelectedPawn)
 	SelectedPawnsClass = SelectedPawn;
 }
 
+bool UARPGGameInstance::AddSaveSlot(FString SlotName)
+{
+	if (!SlotSaveData)
+	{
+		return false;
+	}
+
+	return SlotSaveData->AddSlotName(SlotName);
+}
+
+bool UARPGGameInstance::DeleteSlotName(FString SlotName)
+{
+	if (!SlotSaveData)
+	{
+		return false;
+	}
+
+	return SlotSaveData->DeleteSlotName(SlotName);
+}
+
 void UARPGGameInstance::Init()
 {
 	SelectedPawnsClass = AvailablePawns[1];
+
+	SlotSaveData = Cast<USaveGameSlots>(UGameplayStatics::LoadGameFromSlot("SlotsName", 0));
+	// todo - load async to not hold up load
+	//SlotSaveData = UGameplayStatics::AsyncLoadGameFromSlot("Slots", 0, );
 }
