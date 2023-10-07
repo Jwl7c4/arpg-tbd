@@ -33,6 +33,7 @@ void UARPGGameInstance::Init()
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("UARPGGameInstance::Init - no SlotSaveData exists yet"));
+		SlotSaveData = Cast<USaveGameSlots>(UGameplayStatics::CreateSaveGameObject(USaveGameSlots::StaticClass()));
 	}
 }
 

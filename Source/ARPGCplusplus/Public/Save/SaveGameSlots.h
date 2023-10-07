@@ -26,7 +26,9 @@ public:
 
 protected:
 
-	int8 MaxSlots;
+	UPROPERTY(BlueprintReadOnly)
+	int MaxSlots;
 
+	UPROPERTY(BlueprintReadOnly)
 	TArray<FString> SlotNames;
 };

@@ -34,7 +34,7 @@ public:
 	// todo - set active save slot name somewhere
 	FString CharacterSaveSlotName;
 
-private:
+protected:
 
 	UFUNCTION()
 	void OnAsyncLoadCompleted(bool bWasSuccessful, USaveGame* LoadedSaveGame);
@@ -47,6 +47,7 @@ private:
 
 	FString SlotsDataName;
 
+	UPROPERTY(BlueprintReadOnly)
 	class USaveGameSlots* SlotSaveData;
 
 	class URpgSaveGame* CharacterSaveData;
