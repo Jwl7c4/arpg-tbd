@@ -36,13 +36,19 @@ public:
 
 private:
 
+	UFUNCTION()
+	void OnAsyncLoadCompleted(bool bWasSuccessful, USaveGame* LoadedSaveGame);
+
 	virtual void Init() override;
 
 	TArray<TSubclassOf<APawn>> AvailablePawns;
 
 	TSubclassOf<APawn> SelectedPawnsClass;
 
+	FString SlotsDataName;
+
 	class USaveGameSlots* SlotSaveData;
 
 	class URpgSaveGame* CharacterSaveData;
+
 };

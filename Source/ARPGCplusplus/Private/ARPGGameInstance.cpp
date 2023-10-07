@@ -14,6 +14,26 @@ UARPGGameInstance::UARPGGameInstance()
 	AvailablePawns.Add(PlayerPawnBPClassTwo.Class);
 
 	CharacterSaveSlotName = "";
+	SlotsDataName = "Slots";
+}
+
+void UARPGGameInstance::Init()
+{
+	Super::Init();
+
+	SelectedPawnsClass = AvailablePawns[1];
+
+	bool bSaveExists = UGameplayStatics::DoesSaveGameExist(SlotsDataName, 0);
+	if (bSaveExists)
+	{
+		FAsyncLoadGameFromSlotDelegate LoadGameDelegate;
+		LoadGameDelegate.BindUFunction(this, FName("OnAsyncLoadCompleted"));
+
+		UGameplayStatics::AsyncLoadGameFromSlot(SlotsDataName, 0, LoadGameDelegate);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("UARPGGameInstance::Init - no SlotSaveData exists yet"));
+	}
 }
 
 TSubclassOf<APawn> UARPGGameInstance::getCurrentDesiredPawn()
@@ -56,11 +76,24 @@ bool UARPGGameInstance::DeleteSlotName(FString SlotName)
 	return SlotSaveData->DeleteSlotName(SlotName);
 }
 
-void UARPGGameInstance::Init()
-{
-	SelectedPawnsClass = AvailablePawns[1];
 
-	SlotSaveData = Cast<USaveGameSlots>(UGameplayStatics::LoadGameFromSlot("SlotsName", 0));
-	// todo - load async to not hold up load
-	//SlotSaveData = UGameplayStatics::AsyncLoadGameFromSlot("Slots", 0, );
+
+void UARPGGameInstance::OnAsyncLoadCompleted(bool bWasSuccessful, USaveGame* LoadedSaveGame)
+{
+	if (bWasSuccessful && LoadedSaveGame)
+	{
+		if (USaveGameSlots* LoadedSlots = Cast<USaveGameSlots>(LoadedSaveGame))
+		{
+			// Handle the loaded save game slots object here.
+			// not sure if will need anything here. just log else
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::OnAsyncLoadCompleted - could not cast to USaveGameSlots"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UARPGGameInstance::OnAsyncLoadCompleted - not successful or no saved slots found"));
+	}
 }
