@@ -28,7 +28,7 @@ public:
 
 protected:
 
-	int8 MaxCharacters = 5;
+	int MaxCharacters;
 
 	TArray<class UCharacterSaveData*> Characters;
 };

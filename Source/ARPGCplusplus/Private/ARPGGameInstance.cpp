@@ -26,10 +26,12 @@ void UARPGGameInstance::Init()
 	bool bSaveExists = UGameplayStatics::DoesSaveGameExist(SlotsDataName, 0);
 	if (bSaveExists)
 	{
-		FAsyncLoadGameFromSlotDelegate LoadGameDelegate;
-		LoadGameDelegate.BindUFunction(this, FName("OnAsyncLoadCompleted"));
+		// todo - async load for performance
+		//FAsyncLoadGameFromSlotDelegate LoadGameDelegate;
+		//LoadGameDelegate.BindUFunction(this, FName("OnAsyncLoadCompleted"));
+		//UGameplayStatics::AsyncLoadGameFromSlot(SlotsDataName, 0, LoadGameDelegate);
 
-		UGameplayStatics::AsyncLoadGameFromSlot(SlotsDataName, 0, LoadGameDelegate);
+		SlotSaveData = Cast<USaveGameSlots>(UGameplayStatics::LoadGameFromSlot(SlotsDataName, 0));
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("UARPGGameInstance::Init - no SlotSaveData exists yet"));
@@ -64,7 +66,14 @@ bool UARPGGameInstance::AddSaveSlot(FString SlotName)
 		return false;
 	}
 
-	return SlotSaveData->AddSlotName(SlotName);
+	if (SlotSaveData->AddSlotName(SlotName))
+	{
+		return UGameplayStatics::SaveGameToSlot(SlotSaveData, SlotsDataName, 0);
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::AddSaveSlot - could not add slot name: %s"), *SlotName);
+		return false;
+	}
 }
 
 bool UARPGGameInstance::DeleteSlotName(FString SlotName)
@@ -74,16 +83,23 @@ bool UARPGGameInstance::DeleteSlotName(FString SlotName)
 		return false;
 	}
 
-	return SlotSaveData->DeleteSlotName(SlotName);
+	if (SlotSaveData->DeleteSlotName(SlotName))
+	{
+		return UGameplayStatics::SaveGameToSlot(SlotSaveData, SlotsDataName, 0);
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::AddSaveSlot - could not delete slot name: %s"), *SlotName);
+		return false;
+	}
 }
 
-
-
+// todo - not used until async load
 void UARPGGameInstance::OnAsyncLoadCompleted(bool bWasSuccessful, USaveGame* LoadedSaveGame)
 {
 	if (bWasSuccessful && LoadedSaveGame)
 	{
-		if (USaveGameSlots* LoadedSlots = Cast<USaveGameSlots>(LoadedSaveGame))
+		SlotSaveData = Cast<USaveGameSlots>(LoadedSaveGame);
+		if (SlotSaveData)
 		{
 			// Handle the loaded save game slots object here.
 			// not sure if will need anything here. just log else

@@ -25,6 +25,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void setSelectedPawn(TSubclassOf<APawn> SelectedPawn);
 
+	UFUNCTION(BlueprintCallable)
 	bool AddSaveSlot(FString SlotName);
 
 	bool DeleteSlotName(FString SlotName);
