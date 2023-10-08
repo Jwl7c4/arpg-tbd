@@ -55,6 +55,10 @@ public:
 
 protected:
 
+	FString ProfileName;
+
+	FString CharacterName;
+
 	UPROPERTY(BlueprintReadOnly)
 	float NextLevelXpNeeded;
 

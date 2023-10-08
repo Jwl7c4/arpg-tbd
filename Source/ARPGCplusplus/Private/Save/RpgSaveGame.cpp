@@ -29,4 +29,12 @@ void URpgSaveGame::SaveCharacterData(int CharacterSlotIndex, AARPGCplusplusChara
 
 void URpgSaveGame::LoadCharacterData(int CharacterSlotIndex, AARPGCplusplusCharacter* OutCharacter, APlayerStateBase* OutPlayerState)
 {
+	if (!Characters.IsValidIndex(CharacterSlotIndex))
+	{
+		UE_LOG(LogTemp, Error, TEXT("URpgSaveGame::LoadCharacterData - slot index: %d not valid"), CharacterSlotIndex);
+	}
+	UCharacterSaveData* CharacterData = Characters[CharacterSlotIndex];
+
+	CharacterData->LoadPlayerCharacterData(OutCharacter);
+	CharacterData->LoadPlayerStateData(OutPlayerState);
 }

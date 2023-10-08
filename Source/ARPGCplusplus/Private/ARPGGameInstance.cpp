@@ -4,6 +4,7 @@
 #include "ARPGGameInstance.h"
 
 #include "Save/SaveGameSlots.h"
+#include "Save/RpgSaveGame.h"
 #include "Kismet/GameplayStatics.h"
 
 UARPGGameInstance::UARPGGameInstance()
@@ -13,6 +14,9 @@ UARPGGameInstance::UARPGGameInstance()
 	AvailablePawns.Add(PlayerPawnBPClassOne.Class);
 	AvailablePawns.Add(PlayerPawnBPClassTwo.Class);
 
+	// save data init
+	SlotSaveData = nullptr;
+	CharacterSaveData = nullptr;
 	CharacterSaveSlotName = "";
 	SlotsDataName = "Slots";
 }
@@ -91,6 +95,22 @@ bool UARPGGameInstance::DeleteSlotName(FString SlotName)
 		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::AddSaveSlot - could not delete slot name: %s"), *SlotName);
 		return false;
 	}
+}
+
+// todo - is there a way to decuple this from UI profile click?
+bool UARPGGameInstance::LoadCharacters(FString SlotName)
+{
+	bool bSaveExists = UGameplayStatics::DoesSaveGameExist(SlotName, 0);
+	if (bSaveExists)
+	{
+		CharacterSaveData = Cast<URpgSaveGame>(UGameplayStatics::LoadGameFromSlot(SlotName, 0));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("UARPGGameInstance::LoadCharacters - no CharacterSaveData exists yet"));
+		CharacterSaveData = Cast<URpgSaveGame>(UGameplayStatics::CreateSaveGameObject(URpgSaveGame::StaticClass()));
+	}
+
+	return CharacterSaveData != nullptr ? true : false;
 }
 
 // todo - not used until async load

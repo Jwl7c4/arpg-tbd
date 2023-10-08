@@ -31,8 +31,10 @@ public:
 	bool DeleteSlotName(FString SlotName);
 
 	// todo - save character/state info in CharacterSaveSlotName at index of character
+	UFUNCTION(BlueprintCallable)
+	bool LoadCharacters(FString SlotName);
 
-	// todo - set active save slot name somewhere
+	// todo - set active save slot name somewhere. - player state? or need both?
 	FString CharacterSaveSlotName;
 
 protected:
@@ -51,6 +53,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	class USaveGameSlots* SlotSaveData;
 
+	UPROPERTY(BlueprintReadOnly)
 	class URpgSaveGame* CharacterSaveData;
 
 };
