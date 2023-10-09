@@ -31,6 +31,9 @@ public:
 	bool DeleteSlotName(FString SlotName);
 
 	// todo - save character/state info in CharacterSaveSlotName at index of character
+	//UFUNCTION(BlueprintCallable)
+	bool SaveCharacter(class APlayerStateBase* PlayerState, class AARPGCplusplusCharacter* Character);
+
 	UFUNCTION(BlueprintCallable)
 	bool LoadCharacters(FString SlotName);
 

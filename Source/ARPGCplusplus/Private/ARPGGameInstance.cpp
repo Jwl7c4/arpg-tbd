@@ -5,6 +5,9 @@
 
 #include "Save/SaveGameSlots.h"
 #include "Save/RpgSaveGame.h"
+#include "Save/CharacterSaveData.h"
+#include "ARPGCplusplusCharacter.h"
+#include "Player/PlayerStateBase.h"
 #include "Kismet/GameplayStatics.h"
 
 UARPGGameInstance::UARPGGameInstance()
@@ -95,6 +98,25 @@ bool UARPGGameInstance::DeleteSlotName(FString SlotName)
 		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::DeleteSlotName - could not delete slot name: %s"), *SlotName);
 		return false;
 	}
+}
+
+// todo save character
+bool UARPGGameInstance::SaveCharacter(APlayerStateBase* PlayerState, AARPGCplusplusCharacter* Character)
+{
+	if (!CharacterSaveData)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - CharacterSaveData not set"));
+		return false;
+	}
+	else if (CharacterSaveSlotName == "")
+	{
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - CharacterSaveSlotName not set"));
+		return false;
+	}
+
+	// todo - where does index come from?
+	CharacterSaveData->SaveCharacterData(0, Character, PlayerState);
+	return UGameplayStatics::SaveGameToSlot(CharacterSaveData, CharacterSaveSlotName, 0);
 }
 
 // todo - is there a way to decuple this from UI profile click?
