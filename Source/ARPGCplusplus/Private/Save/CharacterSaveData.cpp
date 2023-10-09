@@ -16,9 +16,18 @@ UCharacterSaveData::UCharacterSaveData()
 
 void UCharacterSaveData::SavePlayerStateData(APlayerStateBase* PlayerState)
 {
+	CharacterName = PlayerState->CharacterName;
 	CurrentLevel = PlayerState->CurrentLevel;
 	CurrentXp = PlayerState->CurrentXp;
 	SaveGameIndex = PlayerState->SaveGameIndex;
+}
+
+void UCharacterSaveData::LoadPlayerStateData(APlayerStateBase* OutPlayerState)
+{
+	OutPlayerState->CharacterName = CharacterName;
+	OutPlayerState->CurrentLevel = CurrentLevel;
+	OutPlayerState->CurrentXp = CurrentXp;
+	OutPlayerState->SaveGameIndex = SaveGameIndex;
 }
 
 void UCharacterSaveData::SavePlayerCharacterData(AARPGCplusplusCharacter* Character)
@@ -27,13 +36,6 @@ void UCharacterSaveData::SavePlayerCharacterData(AARPGCplusplusCharacter* Charac
 	{
 		this->Items.Add(Item);
 	}
-}
-
-void UCharacterSaveData::LoadPlayerStateData(APlayerStateBase* OutPlayerState)
-{
-	OutPlayerState->CurrentLevel = CurrentLevel;
-	OutPlayerState->CurrentXp = CurrentXp;
-	OutPlayerState->SaveGameIndex = SaveGameIndex;
 }
 
 void UCharacterSaveData::LoadPlayerCharacterData(AARPGCplusplusCharacter* OutCharacter)

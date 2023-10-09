@@ -92,7 +92,7 @@ bool UARPGGameInstance::DeleteSlotName(FString SlotName)
 		return UGameplayStatics::SaveGameToSlot(SlotSaveData, SlotsDataName, 0);
 	}
 	else {
-		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::AddSaveSlot - could not delete slot name: %s"), *SlotName);
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::DeleteSlotName - could not delete slot name: %s"), *SlotName);
 		return false;
 	}
 }

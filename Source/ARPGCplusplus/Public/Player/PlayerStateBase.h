@@ -53,11 +53,11 @@ public:
 
 	int SaveGameIndex;
 
-protected:
-
 	FString ProfileName;
 
 	FString CharacterName;
+
+protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	float NextLevelXpNeeded;

@@ -28,7 +28,9 @@ public:
 
 protected:
 
+	UPROPERTY(BlueprintReadOnly)
 	int MaxCharacters;
 
+	UPROPERTY(BlueprintReadOnly)
 	TArray<class UCharacterSaveData*> Characters;
 };

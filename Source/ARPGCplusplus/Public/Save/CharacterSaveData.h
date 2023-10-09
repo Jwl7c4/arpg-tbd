@@ -9,7 +9,8 @@
 /**
  *
  */
-UCLASS()
+//UCLASS()
+UCLASS(Blueprintable)
 class ARPGCPLUSPLUS_API UCharacterSaveData : public UObject
 {
 	GENERATED_BODY()
@@ -29,6 +30,10 @@ public:
 protected:
 
 	// Player State
+	UPROPERTY(BlueprintReadOnly)
+	FString CharacterName;
+
+	UPROPERTY(BlueprintReadOnly)
 	int CurrentLevel;
 
 	float CurrentXp;
