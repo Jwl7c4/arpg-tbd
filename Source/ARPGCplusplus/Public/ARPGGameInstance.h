@@ -35,7 +35,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadProfile(FString LookUpProfileName);
 
-	// todo - save character/state info in CharacterSaveSlotName at index of character
 	UFUNCTION(BlueprintCallable)
 	bool CreateCharacter(FString CharacterName, FCharacterSelectTableRow CharacterRow);
 
@@ -45,7 +44,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool LoadCharacters(FString SlotName);
 
-	// todo - set active save slot name somewhere. - player state? or need both?
 	FString ProfileName;
 
 protected:

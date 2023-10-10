@@ -8,6 +8,32 @@
 
 #include "RpgSaveGame.generated.h"
 
+USTRUCT(BlueprintType)
+struct FCharacterData
+{
+	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
+	TSubclassOf<APawn> CharacterClass;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
+	FString CharacterName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
+	int CharacterLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
+	float CurrentXp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
+	int SaveGameIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
+	TArray<class UItem*> Items;
+};
+
 /**
  *
  */
@@ -34,5 +60,5 @@ protected:
 	int MaxCharacters;
 
 	UPROPERTY(BlueprintReadOnly)
-	TArray<class UCharacterSaveData*> Characters;
+	TArray<FCharacterData> Characters;
 };
