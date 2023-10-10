@@ -25,6 +25,8 @@ bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<APawn> Cha
 	StructCharacter.CharacterClass = CharacterClass;
 	StructCharacter.CharacterName = CharacterName;
 	StructCharacter.CharacterLevel = 1;
+	StructCharacter.CurrentXp = 0.f;
+	StructCharacter.SaveGameIndex = -1;
 	Characters.Add(StructCharacter);
 
 	return Characters.Num() > InitialCharacterCount;
