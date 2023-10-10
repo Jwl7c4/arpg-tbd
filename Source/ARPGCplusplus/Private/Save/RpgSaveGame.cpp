@@ -21,7 +21,7 @@ bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<APawn> Cha
 		return false;
 	}
 
-	UCharacterSaveData* CreatedCharacterData = NewObject< UCharacterSaveData>(this, UCharacterSaveData::StaticClass());
+	UCharacterSaveData* CreatedCharacterData = NewObject<UCharacterSaveData>();
 	CreatedCharacterData->CreateInitialCharacterData(CharacterName, CharacterClass);
 	Characters.Add(CreatedCharacterData);
 
