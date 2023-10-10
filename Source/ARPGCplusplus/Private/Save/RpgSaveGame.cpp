@@ -3,11 +3,8 @@
 
 #include "Save/RpgSaveGame.h"
 
-#include "Save/CharacterSaveData.h"
 #include "Player/PlayerStateBase.h"
 #include "ARPGCplusplusCharacter.h"
-
-// struct imports
 #include "InventoryComponent.h"
 
 URpgSaveGame::URpgSaveGame()
@@ -29,29 +26,12 @@ bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<APawn> Cha
 	StructCharacter.CharacterName = CharacterName;
 	StructCharacter.CharacterLevel = 1;
 	Characters.Add(StructCharacter);
-	
-
-	//UCharacterSaveData* CreatedCharacterData = NewObject<UCharacterSaveData>();
-	//CreatedCharacterData->CreateInitialCharacterData(CharacterName, CharacterClass);
-	//Characters.Add(CreatedCharacterData);
 
 	return Characters.Num() > InitialCharacterCount;
 }
 
 void URpgSaveGame::SaveCharacterData(int CharacterSlotIndex, AARPGCplusplusCharacter* Character, APlayerStateBase* PlayerState)
 {
-	//UCharacterSaveData* CharacterData;
-	//if (Characters.Num() == 0)
-	//{
-	//	CharacterData = NewObject<UCharacterSaveData>(this, UCharacterSaveData::StaticClass());
-	//}
-	//else {
-	//	CharacterData = Characters[CharacterSlotIndex];
-	//}
-
-	//CharacterData->SavePlayerCharacterData(Character);
-	//CharacterData->SavePlayerStateData(PlayerState);
-
 	FCharacterData StructCharacter;
 	if (Characters.Num() > 0)
 	{
@@ -77,8 +57,17 @@ void URpgSaveGame::LoadCharacterData(int CharacterSlotIndex, AARPGCplusplusChara
 	{
 		UE_LOG(LogTemp, Error, TEXT("URpgSaveGame::LoadCharacterData - slot index: %d not valid"), CharacterSlotIndex);
 	}
-	UCharacterSaveData* CharacterData = Characters[CharacterSlotIndex];
+	FCharacterData CharacterData = Characters[CharacterSlotIndex];
 
-	CharacterData->LoadPlayerCharacterData(OutCharacter);
-	CharacterData->LoadPlayerStateData(OutPlayerState);
+	// load character data
+	for (auto& Item : CharacterData.Items)
+	{
+		OutCharacter->Inventory->AddItem(Item);
+	}
+
+	// load player state
+	OutPlayerState->CharacterName = CharacterData.CharacterName;
+	OutPlayerState->CurrentLevel = CharacterData.CharacterLevel;
+	OutPlayerState->CurrentXp = CharacterData.CurrentXp;
+	OutPlayerState->SaveGameIndex = CharacterData.SaveGameIndex;
 }

@@ -60,6 +60,5 @@ protected:
 	int MaxCharacters;
 
 	UPROPERTY(BlueprintReadOnly)
-	//TArray<class UCharacterSaveData*> Characters;
 	TArray<FCharacterData> Characters;
 };
