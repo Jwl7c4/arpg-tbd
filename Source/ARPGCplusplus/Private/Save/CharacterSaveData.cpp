@@ -9,9 +9,17 @@
 
 UCharacterSaveData::UCharacterSaveData()
 {
+	CharacterClass = nullptr;
+	CharacterName = "Name";
 	CurrentLevel = 0;
 	CurrentXp = 0;
 	SaveGameIndex = -1;
+}
+
+void UCharacterSaveData::CreateInitialCharacterData(FString CreatedCharacterName, TSubclassOf<APawn> CreatedCharacterClass)
+{
+	CharacterName = CreatedCharacterName;
+	CharacterClass = CharacterClass;
 }
 
 void UCharacterSaveData::SavePlayerStateData(APlayerStateBase* PlayerState)

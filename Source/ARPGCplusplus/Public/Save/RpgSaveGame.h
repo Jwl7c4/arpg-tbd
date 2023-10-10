@@ -20,6 +20,8 @@ public:
 
 	URpgSaveGame();
 
+	bool CreateCharacter(FString CharacterName, TSubclassOf<APawn> CharacterClass);
+
 	// update character data at index with character and state data
 	void SaveCharacterData(int CharacterSlotIndex, class AARPGCplusplusCharacter* Character, class APlayerStateBase* PlayerState);
 

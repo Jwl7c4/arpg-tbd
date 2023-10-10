@@ -20,7 +20,7 @@ UARPGGameInstance::UARPGGameInstance()
 	// save data init
 	SlotSaveData = nullptr;
 	CharacterSaveData = nullptr;
-	CharacterSaveSlotName = "";
+	ProfileName = "";
 	SlotsDataName = "Slots";
 }
 
@@ -100,6 +100,23 @@ bool UARPGGameInstance::DeleteSlotName(FString SlotName)
 	}
 }
 
+void UARPGGameInstance::LoadProfile(FString LookUpProfileName)
+{
+	ProfileName = LookUpProfileName;
+}
+
+bool UARPGGameInstance::CreateCharacter(FString CharacterName, FCharacterSelectTableRow CharacterRow)
+{
+	if (!CharacterSaveData)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::CreateCharacter - CharacterSaveData not set"));
+		return false;
+	}
+
+	bool bWasCharacterAdded = CharacterSaveData->CreateCharacter(CharacterName, CharacterRow.BlueprintType);
+	return UGameplayStatics::SaveGameToSlot(CharacterSaveData, ProfileName, 0);
+}
+
 // todo save character
 bool UARPGGameInstance::SaveCharacter(APlayerStateBase* PlayerState, AARPGCplusplusCharacter* Character)
 {
@@ -108,15 +125,15 @@ bool UARPGGameInstance::SaveCharacter(APlayerStateBase* PlayerState, AARPGCplusp
 		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - CharacterSaveData not set"));
 		return false;
 	}
-	else if (CharacterSaveSlotName == "")
+	else if (ProfileName == "")
 	{
-		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - CharacterSaveSlotName not set"));
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - ProfileName not set"));
 		return false;
 	}
 
 	// todo - where does index come from?
 	CharacterSaveData->SaveCharacterData(0, Character, PlayerState);
-	return UGameplayStatics::SaveGameToSlot(CharacterSaveData, CharacterSaveSlotName, 0);
+	return UGameplayStatics::SaveGameToSlot(CharacterSaveData, ProfileName, 0);
 }
 
 // todo - is there a way to decuple this from UI profile click?

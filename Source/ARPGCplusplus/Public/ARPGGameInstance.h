@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Character/CharacterSelectTableRow.h"
+
 #include "ARPGGameInstance.generated.h"
 
 /**
@@ -30,15 +32,21 @@ public:
 
 	bool DeleteSlotName(FString SlotName);
 
+	UFUNCTION(BlueprintCallable)
+	void LoadProfile(FString LookUpProfileName);
+
 	// todo - save character/state info in CharacterSaveSlotName at index of character
-	//UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
+	bool CreateCharacter(FString CharacterName, FCharacterSelectTableRow CharacterRow);
+
+	UFUNCTION(BlueprintCallable)
 	bool SaveCharacter(class APlayerStateBase* PlayerState, class AARPGCplusplusCharacter* Character);
 
 	UFUNCTION(BlueprintCallable)
 	bool LoadCharacters(FString SlotName);
 
 	// todo - set active save slot name somewhere. - player state? or need both?
-	FString CharacterSaveSlotName;
+	FString ProfileName;
 
 protected:
 

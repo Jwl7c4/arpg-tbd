@@ -21,6 +21,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Select")
     TSubclassOf<APawn> BlueprintType;
 
+    // todo figure out how to show. picture or render or camera somehow?
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Select")
     UAnimSequence* AnimationSequence;
 };

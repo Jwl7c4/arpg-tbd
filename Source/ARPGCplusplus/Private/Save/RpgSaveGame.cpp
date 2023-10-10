@@ -12,6 +12,22 @@ URpgSaveGame::URpgSaveGame()
 	MaxCharacters = 5;
 }
 
+bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<APawn> CharacterClass)
+{
+	int InitialCharacterCount = Characters.Num();
+	if (Characters.Num() >= MaxCharacters)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("URpgSaveGame::CreateCharacter - max characters already created"));
+		return false;
+	}
+
+	UCharacterSaveData* CreatedCharacterData = NewObject< UCharacterSaveData>(this, UCharacterSaveData::StaticClass());
+	CreatedCharacterData->CreateInitialCharacterData(CharacterName, CharacterClass);
+	Characters.Add(CreatedCharacterData);
+
+	return Characters.Num() > InitialCharacterCount;
+}
+
 void URpgSaveGame::SaveCharacterData(int CharacterSlotIndex, AARPGCplusplusCharacter* Character, APlayerStateBase* PlayerState)
 {
 	UCharacterSaveData* CharacterData;

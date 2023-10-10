@@ -19,6 +19,8 @@ public:
 
 	UCharacterSaveData();
 
+	void CreateInitialCharacterData(FString CreatedCharacterName, TSubclassOf<APawn> CreatedCharacterClass);
+
 	void SavePlayerStateData(class APlayerStateBase* PlayerState);
 
 	void SavePlayerCharacterData(class AARPGCplusplusCharacter* Character);
@@ -28,6 +30,9 @@ public:
 	void LoadPlayerCharacterData(class AARPGCplusplusCharacter* OutCharacter);
 
 protected:
+
+	// BP Class to spawn
+	TSubclassOf<APawn> CharacterClass;
 
 	// Player State
 	UPROPERTY(BlueprintReadOnly)
