@@ -27,6 +27,8 @@
 #include "Item/Item.h"
 #include "Item/EquippableItem.h"
 #include "Item/InventoryComponent.h"
+#include "Game/ARPGGameInstance.h"
+#include <Kismet/GameplayStatics.h>
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 {
@@ -84,14 +86,12 @@ void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 
 	if (APlayerStateBase* PlayerStateBase = GetPlayerState<APlayerStateBase>())
 	{
+		
 		// Set the ASC on the Server. Clients do this in OnRep_PlayerState()
 		AbilitySystemComponent = Cast<UAbilitySystemComponent>(PlayerStateBase->GetAbilitySystemComponent());
-
-		// AI won't have PlayerControllers so we can init again here just to be sure. No harm in initing twice for heroes that have PlayerControllers.
 		PlayerStateBase->GetAbilitySystemComponent()->InitAbilityActorInfo(PlayerStateBase, this);
-
 		CharacterAttributeSet = PlayerStateBase->CharacterAttributeSet;
-
+		// todo - initial vs loaded character abilities in the future
 		AddInitialCharacterAbilities();
 		AddInitialCharacterEffects();
 	}
@@ -110,13 +110,12 @@ void AARPGCplusplusCharacter::OnRep_PlayerState()
 	{
 		// Set the ASC on the Server. Clients do this in OnRep_PlayerState()
 		AbilitySystemComponent = PlayerStateBase->GetAbilitySystemComponent();
-
-		// AI won't have PlayerControllers so we can init again here just to be sure. No harm in initing twice for heroes that have PlayerControllers.
 		PlayerStateBase->GetAbilitySystemComponent()->InitAbilityActorInfo(PlayerStateBase, this);
-
 		CharacterAttributeSet = PlayerStateBase->CharacterAttributeSet;
-
 		SetupAbilitiesInputs();
+
+		UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		GameInstance->LoadCharacter(this, PlayerStateBase);
 	}
 }
 

@@ -12,7 +12,7 @@ URpgSaveGame::URpgSaveGame()
 	MaxCharacters = 5;
 }
 
-bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<APawn> CharacterClass)
+bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<AARPGCplusplusCharacter> CharacterClass)
 {
 	int InitialCharacterCount = Characters.Num();
 	if (Characters.Num() >= MaxCharacters)

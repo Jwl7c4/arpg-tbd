@@ -16,7 +16,7 @@ struct FCharacterData
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
-	TSubclassOf<APawn> CharacterClass;
+	TSubclassOf<class AARPGCplusplusCharacter> CharacterClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
 	FString CharacterName;
@@ -46,7 +46,7 @@ public:
 
 	URpgSaveGame();
 
-	bool CreateCharacter(FString CharacterName, TSubclassOf<APawn> CharacterClass);
+	bool CreateCharacter(FString CharacterName, TSubclassOf<class AARPGCplusplusCharacter> CharacterClass);
 
 	// update character data at index with character and state data
 	void SaveCharacterData(int CharacterSlotIndex, class AARPGCplusplusCharacter* Character, class APlayerStateBase* PlayerState);
@@ -54,7 +54,7 @@ public:
 	// get character data from index and update character and state
 	void LoadCharacterData(int CharacterSlotIndex, class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState);
 
-protected:
+//protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	int MaxCharacters;

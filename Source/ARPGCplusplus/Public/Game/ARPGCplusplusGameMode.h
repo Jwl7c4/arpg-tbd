@@ -14,6 +14,10 @@ class AARPGCplusplusGameMode : public AGameModeBase
 public:
 	AARPGCplusplusGameMode();
 
+protected:
+	
+	virtual void StartPlay() override;
+
 private:
 	class UARPGGameInstance* GameInstance;
 };
