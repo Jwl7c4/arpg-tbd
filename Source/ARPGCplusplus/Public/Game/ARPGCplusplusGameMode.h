@@ -14,9 +14,7 @@ class AARPGCplusplusGameMode : public AGameModeBase
 public:
 	AARPGCplusplusGameMode();
 
-protected:
-	
-	virtual void StartPlay() override;
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage);
 
 private:
 	class UARPGGameInstance* GameInstance;

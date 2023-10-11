@@ -61,4 +61,5 @@ enum class EClassType : uint8
 {
 	None,
 	Knight,
+	TestManny,
 };
