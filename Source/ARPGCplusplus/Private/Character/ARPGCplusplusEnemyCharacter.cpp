@@ -1,20 +1,20 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "ARPGCplusplusEnemyCharacter.h"
+#include "Character/ARPGCplusplusEnemyCharacter.h"
 
 #include "AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/Actor.h"
 #include "UObject/Object.h"
-#include "AbilityAttributeSet.h"
+#include "Abilities/AbilityAttributeSet.h"
 #include "Abilities/CharacterAttributeSet.h"
 #include "Components/WidgetComponent.h"
 #include "AttributeSet.h"
 #include "Abilities/GT_GameplayAbility.h"
 #include <Widgets/FloatingHealthBarWidget.h>
 #include <Kismet/GameplayStatics.h>
-#include "InventoryComponent.h"
+#include "Item/InventoryComponent.h"
 #include "Item/Item.h"
 #include "Loot/LootComponent.h"
 

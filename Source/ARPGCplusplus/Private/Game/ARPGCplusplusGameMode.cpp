@@ -1,12 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "ARPGCplusplusGameMode.h"
+#include "Game/ARPGCplusplusGameMode.h"
 
-#include "ARPGCplusplusPlayerController.h"
+#include "Player/ARPGCplusplusPlayerController.h"
 #include "Kismet/GameplayStatics.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 #include "Player/PlayerStateBase.h"
-#include "ARPGGameInstance.h"
+#include "Game/ARPGGameInstance.h"
 #include "UObject/ConstructorHelpers.h"
 
 AARPGCplusplusGameMode::AARPGCplusplusGameMode()

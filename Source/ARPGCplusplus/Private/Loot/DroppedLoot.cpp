@@ -4,11 +4,9 @@
 #include "Loot/DroppedLoot.h"
 
 #include "Item/Item.h"
-#include "ARPGCplusplusCharacter.h"
-
-
+#include "Character/ARPGCplusplusCharacter.h"
+#include "Item/InventoryComponent.h"
 #include "Components/SphereComponent.h" 
-#include "InventoryComponent.h"
 
 // Sets default values
 ADroppedLoot::ADroppedLoot()

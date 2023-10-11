@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ARPGGameInstance.h"
+#include "Game/ARPGGameInstance.h"
 
 #include "Save/SaveGameSlots.h"
 #include "Save/RpgSaveGame.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 #include "Player/PlayerStateBase.h"
 #include "Kismet/GameplayStatics.h"
 

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "InventoryComponent.h"
+#include "Item/InventoryComponent.h"
 
 #include "Item/Item.h"
 #include "Item/EquippableItem.h"

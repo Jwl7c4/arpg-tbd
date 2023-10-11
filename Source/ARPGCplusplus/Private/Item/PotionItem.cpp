@@ -2,9 +2,9 @@
 
 
 #include "Item/PotionItem.h"
-#include "InventoryComponent.h"
+#include "Item/InventoryComponent.h"
 #include "AbilitySystemComponent.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 
 void UPotionItem::Use(AARPGCplusplusCharacter* Character)
 {

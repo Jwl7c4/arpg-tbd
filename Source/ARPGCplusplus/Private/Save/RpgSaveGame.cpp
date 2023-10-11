@@ -4,8 +4,8 @@
 #include "Save/RpgSaveGame.h"
 
 #include "Player/PlayerStateBase.h"
-#include "ARPGCplusplusCharacter.h"
-#include "InventoryComponent.h"
+#include "Character/ARPGCplusplusCharacter.h"
+#include "Item/InventoryComponent.h"
 
 URpgSaveGame::URpgSaveGame()
 {

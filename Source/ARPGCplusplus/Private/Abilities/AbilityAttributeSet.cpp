@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AbilityAttributeSet.h"
+#include "Abilities/AbilityAttributeSet.h"
 #include "GamePlayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 

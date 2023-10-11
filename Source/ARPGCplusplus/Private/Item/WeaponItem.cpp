@@ -2,10 +2,10 @@
 
 
 #include "Item/WeaponItem.h"
-#include "InventoryComponent.h"
+#include "Item/InventoryComponent.h"
 #include "GameplayTagsModule.h"
 #include "AbilitySystemComponent.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 
 UWeaponItem::UWeaponItem()
 {

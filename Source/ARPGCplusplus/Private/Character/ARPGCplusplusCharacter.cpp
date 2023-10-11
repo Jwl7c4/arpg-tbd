@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 
 #include "AbilitySystemComponent.h"
 #include "UObject/ConstructorHelpers.h"
@@ -17,8 +17,8 @@
 #include "GameplayTagsManager.h"
 #include "Engine/World.h"
 #include "Player/PlayerStateBase.h"
-#include "ARPGCplusplusEnemyCharacter.h"
-#include "AbilityAttributeSet.h"
+#include "Character/ARPGCplusplusEnemyCharacter.h"
+#include "Abilities/AbilityAttributeSet.h"
 #include "Abilities/GameplayAbility.h"
 #include "Components/WidgetComponent.h"
 #include "Abilities/CharacterAttributeSet.h"
@@ -26,7 +26,7 @@
 #include <Kismet/KismetSystemLibrary.h>
 #include "Item/Item.h"
 #include "Item/EquippableItem.h"
-#include "InventoryComponent.h"
+#include "Item/InventoryComponent.h"
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 {
