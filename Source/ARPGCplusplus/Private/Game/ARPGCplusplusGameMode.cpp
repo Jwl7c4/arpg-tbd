@@ -17,15 +17,16 @@ AARPGCplusplusGameMode::AARPGCplusplusGameMode()
 
 	GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	// set default pawn class to our Blueprinted character
-	if (GameInstance != nullptr)
-	{
-		UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusGameMode::AARPGCplusplusGameMode - Game mode setting pawn class"));
-		DefaultPawnClass = GameInstance->getCurrentDesiredPawn();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("AARPGCplusplusGameMode::AARPGCplusplusGameMode - Game mode could not cast"));
-	}
+	//if (GameInstance != nullptr)
+	//{
+	//	UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusGameMode::AARPGCplusplusGameMode - Game mode setting pawn class"));
+	//	DefaultPawnClass = GameInstance->getCurrentDesiredPawn();
+	//}
+	//else
+	//{
+	//	UE_LOG(LogTemp, Error, TEXT("AARPGCplusplusGameMode::AARPGCplusplusGameMode - Game mode could not cast"));
+	//}
+	DefaultPawnClass = nullptr;
 
 	// set default controller to our Blueprinted controller
 	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/Characters/BP_TopDownPlayerController"));
@@ -51,4 +52,20 @@ void AARPGCplusplusGameMode::InitGame(const FString& MapName, const FString& Opt
 		UE_LOG(LogTemp, Error, TEXT("AARPGCplusplusGameMode::AARPGCplusplusGameMode - Game mode could not cast"));
 	}
 	Super::InitGame(MapName, Options, ErrorMessage);
+}
+
+UClass* AARPGCplusplusGameMode::GetDefaultPawnClassForController_Implementation(AController* InController)
+{
+	// set default pawn class to our Blueprinted character
+	if (GameInstance != nullptr)
+	{
+		UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusGameMode::AARPGCplusplusGameMode - Game mode setting pawn class"));
+		DefaultPawnClass = GameInstance->getCurrentDesiredPawn();
+		return Super::GetDefaultPawnClassForController_Implementation(InController);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("AARPGCplusplusGameMode::AARPGCplusplusGameMode - Game mode could not cast"));
+		return nullptr;
+	}
 }

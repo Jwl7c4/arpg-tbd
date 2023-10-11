@@ -47,6 +47,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadCharacter(class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState);
 
+	UFUNCTION(BlueprintCallable)
 	void SetCharacterIndex(int SelectedIndex);
 
 protected:	
