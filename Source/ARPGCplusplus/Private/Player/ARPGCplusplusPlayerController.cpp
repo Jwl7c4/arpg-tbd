@@ -77,6 +77,15 @@ void AARPGCplusplusPlayerController::OnPossess(APawn* aPawn)
 	Super::OnPossess(aPawn);
 
 	PossessedPawn = Cast<AARPGCplusplusCharacter>(aPawn);
+	HandleCreateHUD(true);
+}
+
+void AARPGCplusplusPlayerController::OnUnPossess()
+{
+	Super::OnUnPossess();
+	// todo - do we want to unassign 
+	PossessedPawn = nullptr;
+	HandleCreateHUD(false);
 }
 
 void AARPGCplusplusPlayerController::OnRep_PlayerState()

@@ -14,8 +14,6 @@ class AARPGCplusplusGameMode : public AGameModeBase
 public:
 	AARPGCplusplusGameMode();
 
-	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage);
-
 	UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
 
 private:
