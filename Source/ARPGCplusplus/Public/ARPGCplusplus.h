@@ -55,3 +55,10 @@ enum class EWeaponType : uint8
 	Spear,
 	Staff
 };
+
+UENUM()
+enum class EClassType : uint8
+{
+	None,
+	Knight,
+};

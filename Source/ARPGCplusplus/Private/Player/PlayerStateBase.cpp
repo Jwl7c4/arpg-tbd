@@ -26,6 +26,8 @@ APlayerStateBase::APlayerStateBase()
 	x = .07f;
 	y = 2.f;
 	NextLevelXpNeeded = NewLevelXpToGain(CurrentLevel);
+
+	SaveGameIndex = -1;
 }
 
 UAbilitySystemComponent* APlayerStateBase::GetAbilitySystemComponent() const
