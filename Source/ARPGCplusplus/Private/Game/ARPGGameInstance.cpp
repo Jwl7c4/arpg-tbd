@@ -21,6 +21,7 @@ UARPGGameInstance::UARPGGameInstance()
 	CharacterSaveData = nullptr;
 	ProfileName = "";
 	SlotsDataName = "Slots";
+	CharacterSaveIndex = -1;
 }
 
 void UARPGGameInstance::Init()
@@ -149,6 +150,17 @@ bool UARPGGameInstance::LoadCharacters(FString SlotName)
 	}
 
 	return CharacterSaveData != nullptr ? true : false;
+}
+
+void UARPGGameInstance::LoadCharacter(class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState)
+{
+	CharacterSaveData->LoadCharacterData(CharacterSaveIndex, OutCharacter, OutPlayerState);
+}
+
+void UARPGGameInstance::SetCharacterIndex(int SelectedIndex)
+{
+	CharacterSaveIndex = SelectedIndex;
+	setSelectedPawn(CharacterSaveData->Characters[CharacterSaveIndex].CharacterClass);
 }
 
 // todo - not used until async load
