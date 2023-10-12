@@ -34,23 +34,25 @@ bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<AARPGCplus
 
 void URpgSaveGame::SaveCharacterData(int CharacterSlotIndex, AARPGCplusplusCharacter* Character, APlayerStateBase* PlayerState)
 {
-	FCharacterData StructCharacter;
-	if (Characters.Num() > 0)
+	if (Characters.Num() == 0)
 	{
-		StructCharacter = Characters[CharacterSlotIndex];
+		UE_LOG(LogTemp, Warning, TEXT("URpgSaveGame::SaveCharacterData - character array no indexes"));
+		return;
 	}
+
+	FCharacterData* StructCharacter = &Characters[CharacterSlotIndex];
 
 	// save character data
 	for (auto& Item : Character->Inventory->Items)
 	{
-		StructCharacter.Items.Add(Item);
+		StructCharacter->Items.Add(Item);
 	}
 
 	// save player state data
-	StructCharacter.CharacterName = PlayerState->CharacterName;
-	StructCharacter.CharacterLevel = PlayerState->CurrentLevel;
-	StructCharacter.CurrentXp = PlayerState->CurrentXp;
-	StructCharacter.SaveGameIndex = PlayerState->SaveGameIndex;
+	StructCharacter->CharacterName = PlayerState->CharacterName;
+	StructCharacter->CharacterLevel = PlayerState->CurrentLevel;
+	StructCharacter->CurrentXp = PlayerState->CurrentXp;
+	StructCharacter->SaveGameIndex = PlayerState->SaveGameIndex;
 }
 
 void URpgSaveGame::LoadCharacterData(int CharacterSlotIndex, AARPGCplusplusCharacter* OutCharacter, APlayerStateBase* OutPlayerState)

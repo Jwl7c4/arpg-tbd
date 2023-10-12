@@ -131,8 +131,8 @@ bool UARPGGameInstance::SaveCharacter(APlayerStateBase* PlayerState, AARPGCplusp
 		return false;
 	}
 
-	// todo - where does index come from?
-	CharacterSaveData->SaveCharacterData(0, Character, PlayerState);
+	// todo - where does index come from? -- prob should come from player info
+	CharacterSaveData->SaveCharacterData(CharacterSaveIndex, Character, PlayerState);
 	return UGameplayStatics::SaveGameToSlot(CharacterSaveData, ProfileName, 0);
 }
 

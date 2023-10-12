@@ -94,11 +94,15 @@ void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 		// todo - initial vs loaded character abilities in the future
 		AddInitialCharacterAbilities();
 		AddInitialCharacterEffects();
+
+		UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		GameInstance->LoadCharacter(this, PlayerStateBase);
 	}
 }
 
 void AARPGCplusplusCharacter::OnRep_PlayerState()
 {
+	
 	Super::OnRep_PlayerState();
 
 	if (AbilitySystemComponent == nullptr) {
@@ -113,9 +117,6 @@ void AARPGCplusplusCharacter::OnRep_PlayerState()
 		PlayerStateBase->GetAbilitySystemComponent()->InitAbilityActorInfo(PlayerStateBase, this);
 		CharacterAttributeSet = PlayerStateBase->CharacterAttributeSet;
 		SetupAbilitiesInputs();
-
-		UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-		GameInstance->LoadCharacter(this, PlayerStateBase);
 	}
 }
 
