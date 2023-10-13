@@ -38,6 +38,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
 	int CurrentStackCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	EEquippableItemType ItemType;
 };
 
 USTRUCT(BlueprintType)
@@ -66,7 +69,7 @@ public:
 	TArray<FItemData> Items;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
-	TMap<EEquippableItemType, class UEquippableItem*> EquippedItems;	
+	TMap<EEquippableItemType, FItemData> EquippedItems;
 };
 
 /**

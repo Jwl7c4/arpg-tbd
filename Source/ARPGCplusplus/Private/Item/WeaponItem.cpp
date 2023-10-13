@@ -16,6 +16,7 @@ FItemData UWeaponItem::CreateItemSaveObject()
 {
 	FItemData ItemData = Super::CreateItemSaveObject();
 	ItemData.ItemClass = this->StaticClass();
+	ItemData.ItemType = ItemType;
 	// todo - add more props?
 	UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::CreateItemSaveObject - set more undefault values"));
 	return ItemData;
