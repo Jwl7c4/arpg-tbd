@@ -22,6 +22,8 @@ public:
 
 	FItemData CreateItemSaveObject() override;
 
+	void ConstructItem(AARPGCplusplusCharacter* OutCharacter, FItemData ItemData) override;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	EWeaponType WeaponType;
 

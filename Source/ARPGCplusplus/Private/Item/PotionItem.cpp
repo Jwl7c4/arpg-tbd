@@ -10,9 +10,14 @@ FItemData UPotionItem::CreateItemSaveObject()
 {
 	FItemData ItemData = Super::CreateItemSaveObject();
 	ItemData.ItemClass = this->StaticClass();
-	// todo - add more props?
-	UE_LOG(LogTemp, Warning, TEXT("UPotionItem::CreateItemSaveObject - set more undefault values"));
+	ItemData.GameplayEffectClass = PotionGameplayEffectClass;
 	return ItemData;
+}
+
+void UPotionItem::ConstructItem(AARPGCplusplusCharacter* OutCharacter, FItemData ItemData)
+{
+	Super::ConstructItem(OutCharacter, ItemData);
+	PotionGameplayEffectClass = ItemData.GameplayEffectClass;
 }
 
 void UPotionItem::Use(AARPGCplusplusCharacter* Character)

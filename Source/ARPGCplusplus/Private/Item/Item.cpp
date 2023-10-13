@@ -16,7 +16,7 @@ UItem::UItem()
 FItemData UItem::CreateItemSaveObject()
 {
 	FItemData ItemData;
-	//ItemData.ItemClass = this->StaticClass();
+	ItemData.ItemClass = this->StaticClass();
 	ItemData.UseActionText = UseActionText;
 	ItemData.PickupMesh = PickupMesh;
 	ItemData.Thumbnail = Thumbnail;
@@ -24,6 +24,7 @@ FItemData UItem::CreateItemSaveObject()
 	ItemData.ItemDescription = ItemDescription;
 	ItemData.MaxStackCount = MaxStackCount;
 	ItemData.CurrentStackCount = CurrentStackCount;
+	ItemData.ItemType = EEquippableItemType::None;
 
 	return ItemData;
 }

@@ -41,6 +41,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
 	EEquippableItemType ItemType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	EWeaponType WeaponType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	TSubclassOf<class UGameplayEffect> GameplayEffectClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	TSubclassOf<class UGameplayAbility> EquipAbility;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	TSubclassOf<class UGameplayAbility> UnEquipAbility;
 };
 
 USTRUCT(BlueprintType)
