@@ -66,7 +66,7 @@ AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 	// Inventory
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Inventory->Capacity = 20;
-	// Bind the function to the delegate
+	// Bind the save function to the delegate
 	FScriptDelegate Delegate;
 	Delegate.BindUFunction(this, "Save");
 	Inventory->OnEquippedUpdated.Add(Delegate);
@@ -101,7 +101,13 @@ void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 		AddInitialCharacterEffects();
 
 		UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-		GameInstance->LoadCharacter(this, PlayerStateBase);
+		bool bCharacterLoaded = GameInstance->LoadCharacter(this, PlayerStateBase);
+
+		if (bCharacterLoaded && Inventory)
+		{
+			// do not add for loaded profiles
+			Inventory->DefaultItems.Empty();
+		}
 	}
 }
 

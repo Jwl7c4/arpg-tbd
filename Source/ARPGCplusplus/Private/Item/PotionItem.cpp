@@ -6,6 +6,15 @@
 #include "AbilitySystemComponent.h"
 #include "Character/ARPGCplusplusCharacter.h"
 
+FItemData UPotionItem::CreateItemSaveObject()
+{
+	FItemData ItemData = Super::CreateItemSaveObject();
+	ItemData.ItemClass = this->StaticClass();
+	// todo - add more props?
+	UE_LOG(LogTemp, Warning, TEXT("UPotionItem::CreateItemSaveObject - set more undefault values"));
+	return ItemData;
+}
+
 void UPotionItem::Use(AARPGCplusplusCharacter* Character)
 {
 	if (PotionGameplayEffectClass)

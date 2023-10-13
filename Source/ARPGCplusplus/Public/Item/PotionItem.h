@@ -25,5 +25,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
 	TSubclassOf<UGameplayEffect> PotionGameplayEffectClass;
 
+	FItemData CreateItemSaveObject();
+
 	virtual void Use(class AARPGCplusplusCharacter* Character) override;
 };

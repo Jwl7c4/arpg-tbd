@@ -2,6 +2,7 @@
 
 
 #include "Item/Item.h"
+#include "Character/ARPGCplusplusCharacter.h"
 
 UItem::UItem()
 {
@@ -10,4 +11,32 @@ UItem::UItem()
 	ItemDescription = FText::FromString("Item description");
 	MaxStackCount = 1;
 	CurrentStackCount = 0;
+}
+
+FItemData UItem::CreateItemSaveObject()
+{
+	FItemData ItemData;
+	//ItemData.ItemClass = this->StaticClass();
+	ItemData.UseActionText = UseActionText;
+	ItemData.PickupMesh = PickupMesh;
+	ItemData.Thumbnail = Thumbnail;
+	ItemData.ItemDisplayName = ItemDisplayName;
+	ItemData.ItemDescription = ItemDescription;
+	ItemData.MaxStackCount = MaxStackCount;
+	ItemData.CurrentStackCount = CurrentStackCount;
+
+	return ItemData;
+}
+
+void UItem::ConstructItem(AARPGCplusplusCharacter* OutCharacter, FItemData ItemData)
+{
+	World = GetWorld();
+	UseActionText = ItemData.UseActionText;
+	PickupMesh = ItemData.PickupMesh;
+	Thumbnail = ItemData.Thumbnail;
+	ItemDisplayName = ItemData.ItemDisplayName;
+	ItemDescription = ItemData.ItemDescription;
+	MaxStackCount = ItemData.MaxStackCount;
+	CurrentStackCount = ItemData.CurrentStackCount;
+	OwnerInventory = OutCharacter->Inventory;
 }

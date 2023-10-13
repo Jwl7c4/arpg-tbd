@@ -20,6 +20,8 @@ public:
 
 	UWeaponItem();
 
+	FItemData CreateItemSaveObject() override;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	EWeaponType WeaponType;
 

@@ -12,6 +12,15 @@ UWeaponItem::UWeaponItem()
 	WeaponType = EWeaponType::None;
 }
 
+FItemData UWeaponItem::CreateItemSaveObject()
+{
+	FItemData ItemData = Super::CreateItemSaveObject();
+	ItemData.ItemClass = this->StaticClass();
+	// todo - add more props?
+	UE_LOG(LogTemp, Warning, TEXT("UWeaponItem::CreateItemSaveObject - set more undefault values"));
+	return ItemData;
+}
+
 // todo - failure state for any on use clicks. unequip. use, etc
 void UWeaponItem::Use(AARPGCplusplusCharacter* Character)
 {

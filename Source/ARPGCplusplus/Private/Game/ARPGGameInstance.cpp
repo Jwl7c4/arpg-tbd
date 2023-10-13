@@ -152,12 +152,14 @@ bool UARPGGameInstance::LoadCharacters(FString SlotName)
 	return CharacterSaveData != nullptr ? true : false;
 }
 
-void UARPGGameInstance::LoadCharacter(class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState)
+bool UARPGGameInstance::LoadCharacter(class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState)
 {
-	if (CharacterSaveIndex > 0)
+	if (CharacterSaveIndex < 0)
 	{
-		CharacterSaveData->LoadCharacterData(CharacterSaveIndex, OutCharacter, OutPlayerState);
+		return false;
 	}
+	CharacterSaveData->LoadCharacterData(CharacterSaveIndex, OutCharacter, OutPlayerState);
+	return true;
 }
 
 void UARPGGameInstance::SetCharacterIndex(int SelectedIndex)

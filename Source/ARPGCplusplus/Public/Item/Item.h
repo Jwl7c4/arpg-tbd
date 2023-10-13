@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Save/RpgSaveGame.h"
 
 #include "Item.generated.h"
 
@@ -53,4 +54,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnUse(class AARPGCplusplusCharacter* Character);
 
+	virtual FItemData CreateItemSaveObject();
+
+	virtual void ConstructItem(class AARPGCplusplusCharacter* OutCharacter, FItemData ItemData);
 };

@@ -9,6 +9,38 @@
 #include "RpgSaveGame.generated.h"
 
 USTRUCT(BlueprintType)
+struct FItemData
+{
+	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	TSubclassOf<class UItem> ItemClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	FText UseActionText;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	UStaticMesh* PickupMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	UTexture2D* Thumbnail;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	FText ItemDisplayName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	FText ItemDescription;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	int MaxStackCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	int CurrentStackCount;
+};
+
+USTRUCT(BlueprintType)
 struct FCharacterData
 {
 	GENERATED_BODY()
@@ -31,7 +63,7 @@ public:
 	int SaveGameIndex;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
-	TArray<class UItem*> Items;
+	TArray<FItemData> Items;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
 	TMap<EEquippableItemType, class UEquippableItem*> EquippedItems;	
