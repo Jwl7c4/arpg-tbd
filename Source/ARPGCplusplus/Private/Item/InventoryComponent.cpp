@@ -41,12 +41,12 @@ bool UInventoryComponent::AddItem(UItem* Item)
 	Item->World = GetWorld();
 
 	bool bItemFound = false;
+	FString name = Item->ItemDisplayName.ToString();
+	UE_LOG(LogTemp, Warning, TEXT("UInventoryComponent::AddItem - incoming item name: %s"), *name);
 	for (auto& CurrentItem : Items)
 	{
-		FString name = Item->ItemDisplayName.ToString();
-		UE_LOG(LogTemp, Warning, TEXT("UInventoryComponent::AddItem - item name: %s"), *name);
 		name = CurrentItem->ItemDisplayName.ToString();
-		UE_LOG(LogTemp, Warning, TEXT("UInventoryComponent::AddItem - item name: %s"), *name);
+		UE_LOG(LogTemp, Warning, TEXT("UInventoryComponent::AddItem - loop current item name: %s"), *name);
 		if (Item->ItemDisplayName.ToString() == CurrentItem->ItemDisplayName.ToString())
 		{
 			if (CurrentItem->CurrentStackCount < CurrentItem->MaxStackCount)

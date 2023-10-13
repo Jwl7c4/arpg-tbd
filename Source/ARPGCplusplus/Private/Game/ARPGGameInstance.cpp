@@ -154,7 +154,10 @@ bool UARPGGameInstance::LoadCharacters(FString SlotName)
 
 void UARPGGameInstance::LoadCharacter(class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState)
 {
-	CharacterSaveData->LoadCharacterData(CharacterSaveIndex, OutCharacter, OutPlayerState);
+	if (CharacterSaveIndex > 0)
+	{
+		CharacterSaveData->LoadCharacterData(CharacterSaveIndex, OutCharacter, OutPlayerState);
+	}
 }
 
 void UARPGGameInstance::SetCharacterIndex(int SelectedIndex)

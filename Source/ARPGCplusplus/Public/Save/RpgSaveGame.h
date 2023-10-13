@@ -32,6 +32,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
 	TArray<class UItem*> Items;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
+	TMap<EEquippableItemType, class UEquippableItem*> EquippedItems;	
 };
 
 /**

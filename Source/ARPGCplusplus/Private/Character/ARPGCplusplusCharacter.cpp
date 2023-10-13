@@ -66,6 +66,11 @@ AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 	// Inventory
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Inventory->Capacity = 20;
+	// Bind the function to the delegate
+	FScriptDelegate Delegate;
+	Delegate.BindUFunction(this, "Save");
+	Inventory->OnEquippedUpdated.Add(Delegate);
+	Inventory->OnInventoryUpdated.Add(Delegate);
 
 	// Non Ability attributes
 	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
@@ -135,6 +140,16 @@ void AARPGCplusplusCharacter::UnequipItem(UEquippableItem* Item)
 	{
 		Item->UnequipItem(this);
 		Item->OnUnequipItem(this);
+	}
+}
+
+void AARPGCplusplusCharacter::Save()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AARPGCplusplusCharacter::Save - delegate save"));
+	if (APlayerStateBase* PlayerStateBase = GetPlayerState<APlayerStateBase>())
+	{
+		UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		GameInstance->SaveCharacter(PlayerStateBase, this);
 	}
 }
 

@@ -43,9 +43,15 @@ void URpgSaveGame::SaveCharacterData(int CharacterSlotIndex, AARPGCplusplusChara
 	FCharacterData* StructCharacter = &Characters[CharacterSlotIndex];
 
 	// save character data
+	// bag items
 	for (auto& Item : Character->Inventory->Items)
 	{
 		StructCharacter->Items.Add(Item);
+	}
+	// equipped items
+	for (auto& EquippedItem : Character->Inventory->EquippedItems)
+	{
+		StructCharacter->EquippedItems.Add(EquippedItem.Key, EquippedItem.Value);
 	}
 
 	// save player state data
@@ -64,9 +70,15 @@ void URpgSaveGame::LoadCharacterData(int CharacterSlotIndex, AARPGCplusplusChara
 	FCharacterData CharacterData = Characters[CharacterSlotIndex];
 
 	// load character data
+    // bag items
 	for (auto& Item : CharacterData.Items)
 	{
 		OutCharacter->Inventory->AddItem(Item);
+	}
+	// equipped items
+	for (auto& EquippedItem : CharacterData.EquippedItems)
+	{
+		OutCharacter->Inventory->EquippedItems.Add(EquippedItem.Key, EquippedItem.Value);
 	}
 
 	// load player state
