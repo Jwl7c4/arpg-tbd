@@ -29,6 +29,7 @@
 #include "Item/InventoryComponent.h"
 #include "Game/ARPGGameInstance.h"
 #include <Kismet/GameplayStatics.h>
+#include <Item/WeaponItem.h>
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 {
@@ -91,7 +92,7 @@ void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 
 	if (APlayerStateBase* PlayerStateBase = GetPlayerState<APlayerStateBase>())
 	{
-		
+
 		// Set the ASC on the Server. Clients do this in OnRep_PlayerState()
 		AbilitySystemComponent = Cast<UAbilitySystemComponent>(PlayerStateBase->GetAbilitySystemComponent());
 		PlayerStateBase->GetAbilitySystemComponent()->InitAbilityActorInfo(PlayerStateBase, this);
@@ -108,12 +109,20 @@ void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 			// do not add for loaded profiles
 			Inventory->DefaultItems.Empty();
 		}
+
+		if (Inventory->EquippedItems.Contains(EEquippableItemType::Weapon))
+		{
+			if (UWeaponItem* Item = Cast<UWeaponItem>(Inventory->EquippedItems[EEquippableItemType::Weapon]))
+			{
+				Item->EquipGameplayAbility(this);
+			}
+		}
 	}
 }
 
 void AARPGCplusplusCharacter::OnRep_PlayerState()
 {
-	
+
 	Super::OnRep_PlayerState();
 
 	if (AbilitySystemComponent == nullptr) {
