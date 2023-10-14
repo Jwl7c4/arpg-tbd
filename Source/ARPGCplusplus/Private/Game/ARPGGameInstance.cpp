@@ -33,11 +33,6 @@ void UARPGGameInstance::Init()
 	bool bSaveExists = UGameplayStatics::DoesSaveGameExist(SlotsDataName, 0);
 	if (bSaveExists)
 	{
-		// todo - async load for performance
-		//FAsyncLoadGameFromSlotDelegate LoadGameDelegate;
-		//LoadGameDelegate.BindUFunction(this, FName("OnAsyncLoadCompleted"));
-		//UGameplayStatics::AsyncLoadGameFromSlot(SlotsDataName, 0, LoadGameDelegate);
-
 		SlotSaveData = Cast<USaveGameSlots>(UGameplayStatics::LoadGameFromSlot(SlotsDataName, 0));
 	}
 	else {
@@ -128,6 +123,11 @@ bool UARPGGameInstance::SaveCharacter(APlayerStateBase* PlayerState, AARPGCplusp
 	else if (ProfileName == "")
 	{
 		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - ProfileName not set"));
+		return false;
+	}
+	else if (CharacterSaveIndex < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - CharacterSaveIndex not set"));
 		return false;
 	}
 

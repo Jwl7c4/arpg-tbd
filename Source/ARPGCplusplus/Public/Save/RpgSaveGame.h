@@ -8,6 +8,9 @@
 
 #include "RpgSaveGame.generated.h"
 
+/*
+* item save data in struct datastructure for save/load game
+*/
 USTRUCT(BlueprintType)
 struct FItemData
 {
@@ -55,6 +58,9 @@ public:
 	TSubclassOf<class UGameplayAbility> UnEquipAbility;
 };
 
+/*
+* character save data in struct datastructure for save/load game
+*/
 USTRUCT(BlueprintType)
 struct FCharacterData
 {
@@ -84,9 +90,7 @@ public:
 	TMap<EEquippableItemType, FItemData> EquippedItems;
 };
 
-/**
- *
- */
+
 UCLASS()
 class ARPGCPLUSPLUS_API URpgSaveGame : public USaveGame
 {

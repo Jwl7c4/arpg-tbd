@@ -52,10 +52,8 @@ void URpgSaveGame::SaveCharacterData(int CharacterSlotIndex, AARPGCplusplusChara
 		FItemData ItemData = Item->CreateItemSaveObject();
 		TempArray.Add(ItemData);
 	}
-	if (TempArray.Num() > 0)
-	{
-		CharacterData->Items = TempArray;
-	}
+	CharacterData->Items = TempArray;
+
 	// equipped items
 	TMap<EEquippableItemType, FItemData> TempMap;
 	for (auto& EquippedItem : Character->Inventory->EquippedItems)
