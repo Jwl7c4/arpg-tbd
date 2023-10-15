@@ -16,7 +16,6 @@
 #include "Blueprint/UserWidget.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include <Player/PlayerStateBase.h>
 
 AARPGCplusplusPlayerController::AARPGCplusplusPlayerController()
 {
@@ -66,9 +65,13 @@ void AARPGCplusplusPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(PauseGameAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::HandleMenu);
 		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::HandleInventory);
 
-		// need to figure out how to set this binding and call gameplay ability
-		EnhancedInputComponent->BindAction(DodgeAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::Dodge);
-		EnhancedInputComponent->BindAction(BasicAttackAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::BasicAttack);
+		// Ability Mappings
+		EnhancedInputComponent->BindAction(DodgeInputAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::Dodge);
+		EnhancedInputComponent->BindAction(PrimaryAttackInputAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::PrimaryAttack);
+		EnhancedInputComponent->BindAction(AbilityOneInputAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::AbilityOne);
+		EnhancedInputComponent->BindAction(AbilityTwoInputAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::AbilityTwo);
+		EnhancedInputComponent->BindAction(AbilityThreeInputAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::AbilityThree);
+		EnhancedInputComponent->BindAction(AbilityFourInputAction, ETriggerEvent::Started, this, &AARPGCplusplusPlayerController::AbilityFour);
 	}
 }
 
@@ -188,18 +191,54 @@ void AARPGCplusplusPlayerController::HandleMenu()
 
 void AARPGCplusplusPlayerController::Dodge()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Dodge on controller called"));
+	UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusPlayerController::Dodge - called"));
 	if (PossessedPawn != nullptr)
 	{
 		PossessedPawn->GetAbilitySystemComponent()->AbilityLocalInputPressed(static_cast<int32>(EGT_AbilityInput::Dodge));
 	}
 }
 
-void AARPGCplusplusPlayerController::BasicAttack()
+void AARPGCplusplusPlayerController::PrimaryAttack()
 {
-	UE_LOG(LogTemp, Warning, TEXT("InitialAbility on controller called"));
+	UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusPlayerController::PrimaryAttack - called"));
 	if (PossessedPawn != nullptr)
 	{
 		PossessedPawn->GetAbilitySystemComponent()->AbilityLocalInputPressed(static_cast<int32>(EGT_AbilityInput::InitialAbility));
+	}
+}
+
+void AARPGCplusplusPlayerController::AbilityOne()
+{
+	UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusPlayerController::AbilityOne - called"));
+	if (PossessedPawn != nullptr)
+	{
+		PossessedPawn->GetAbilitySystemComponent()->AbilityLocalInputPressed(static_cast<int32>(EGT_AbilityInput::AbilityOne));
+	}
+}
+
+void AARPGCplusplusPlayerController::AbilityTwo()
+{
+	UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusPlayerController::AbilityTwo - called"));
+	if (PossessedPawn != nullptr)
+	{
+		PossessedPawn->GetAbilitySystemComponent()->AbilityLocalInputPressed(static_cast<int32>(EGT_AbilityInput::AbilityTwo));
+	}
+}
+
+void AARPGCplusplusPlayerController::AbilityThree()
+{
+	UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusPlayerController::AbilityThree - called"));
+	if (PossessedPawn != nullptr)
+	{
+		PossessedPawn->GetAbilitySystemComponent()->AbilityLocalInputPressed(static_cast<int32>(EGT_AbilityInput::AbilityThree));
+	}
+}
+
+void AARPGCplusplusPlayerController::AbilityFour()
+{
+	UE_LOG(LogTemp, Display, TEXT("AARPGCplusplusPlayerController::AbilityFour - called"));
+	if (PossessedPawn != nullptr)
+	{
+		PossessedPawn->GetAbilitySystemComponent()->AbilityLocalInputPressed(static_cast<int32>(EGT_AbilityInput::AbilityFour));
 	}
 }

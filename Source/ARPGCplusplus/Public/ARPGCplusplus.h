@@ -14,10 +14,10 @@ enum class EGT_AbilityInput : uint8
 	Cancel,
 	Dodge,
 	InitialAbility,
-	Attack1,
-	Attack2,
-	Attack3,
-	Attack4
+	AbilityOne,
+	AbilityTwo,
+	AbilityThree,
+	AbilityFour
 };
 
 // todo - move to own class for items?

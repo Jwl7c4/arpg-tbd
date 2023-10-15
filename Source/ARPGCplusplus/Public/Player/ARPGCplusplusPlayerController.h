@@ -61,10 +61,22 @@ public:
 
 	/** Dodge Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* DodgeAction;
+	class UInputAction* DodgeInputAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* BasicAttackAction;
+	class UInputAction* PrimaryAttackInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* AbilityOneInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* AbilityTwoInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* AbilityThreeInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* AbilityFourInputAction;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsMenuActive;
@@ -98,7 +110,11 @@ protected:
 
 	// abilities
 	void Dodge();
-	void BasicAttack();
+	void PrimaryAttack();
+	void AbilityOne();
+	void AbilityTwo();
+	void AbilityThree();
+	void AbilityFour();
 
 private:
 	FVector CachedDestination;
