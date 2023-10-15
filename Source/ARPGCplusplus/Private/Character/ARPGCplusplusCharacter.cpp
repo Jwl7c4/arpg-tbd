@@ -160,7 +160,6 @@ void AARPGCplusplusCharacter::UnequipItem(UEquippableItem* Item)
 
 void AARPGCplusplusCharacter::Save()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AARPGCplusplusCharacter::Save - delegate save"));
 	if (APlayerStateBase* PlayerStateBase = GetPlayerState<APlayerStateBase>())
 	{
 		UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
