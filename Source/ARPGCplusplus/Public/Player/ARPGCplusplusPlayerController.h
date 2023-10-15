@@ -23,8 +23,6 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void HandleCreateHUD(bool shouldCreate);
 
-	//class URPGHud* GetHUD();
-
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float ShortPressThreshold;

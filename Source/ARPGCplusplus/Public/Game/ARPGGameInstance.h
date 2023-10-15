@@ -50,7 +50,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetCharacterIndex(int SelectedIndex);
 
-protected:	
+protected:
 
 	UFUNCTION()
 	void OnAsyncLoadCompleted(bool bWasSuccessful, USaveGame* LoadedSaveGame);

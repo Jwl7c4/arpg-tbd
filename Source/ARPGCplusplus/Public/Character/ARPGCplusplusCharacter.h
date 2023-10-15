@@ -9,9 +9,6 @@
 
 #include "ARPGCplusplusCharacter.generated.h"
 
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEquippedItemsUpdated);
-
 UCLASS(Blueprintable)
 class AARPGCplusplusCharacter : public ACharacterBase
 {
@@ -49,7 +46,6 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void UnequipItem(class UEquippableItem* Item);
 
-	//UPROPERTY(BlueprintAssignable)
 	FOnEquippedItemsUpdated OnEquippedUpdated;
 
 	FOnInventoryUpdated OnInventoryUpdated;
