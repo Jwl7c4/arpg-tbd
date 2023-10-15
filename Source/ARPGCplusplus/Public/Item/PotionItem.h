@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Item/Item.h"
-#include "GameplayEffect.h"
+
 #include "PotionItem.generated.h"
 
 /**
@@ -14,16 +14,15 @@ UCLASS()
 class ARPGCPLUSPLUS_API UPotionItem : public UItem
 {
 	GENERATED_BODY()
-
-public:
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item", meta = (ClampMin = 0.0))
-	float HealthToAdd;
 	
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
-	TSubclassOf<UGameplayEffect> PotionGameplayEffectClass;
+	TSubclassOf<class UGameplayEffect> PotionGameplayEffectClass;
+
+	FItemData CreateItemSaveObject() override;
+
+	void ConstructItem(AARPGCplusplusCharacter* OutCharacter, FItemData ItemData) override;
 
 	virtual void Use(class AARPGCplusplusCharacter* Character) override;
 };

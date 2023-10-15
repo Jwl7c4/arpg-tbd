@@ -2,14 +2,32 @@
 
 
 #include "Item/WeaponItem.h"
-#include "InventoryComponent.h"
+#include "Item/InventoryComponent.h"
 #include "GameplayTagsModule.h"
 #include "AbilitySystemComponent.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 
 UWeaponItem::UWeaponItem()
 {
 	WeaponType = EWeaponType::None;
+}
+
+FItemData UWeaponItem::CreateItemSaveObject()
+{
+	FItemData ItemData = Super::CreateItemSaveObject();
+	ItemData.ItemClass = this->StaticClass();
+	ItemData.WeaponType = WeaponType;
+	ItemData.EquipAbility = EquipAbility;
+	ItemData.UnEquipAbility = UnEquipAbility;
+	return ItemData;
+}
+
+void UWeaponItem::ConstructItem(AARPGCplusplusCharacter* OutCharacter, FItemData ItemData)
+{
+	Super::ConstructItem(OutCharacter, ItemData);
+	WeaponType = ItemData.WeaponType;
+	EquipAbility = ItemData.EquipAbility;
+	UnEquipAbility = ItemData.UnEquipAbility;
 }
 
 // todo - failure state for any on use clicks. unequip. use, etc

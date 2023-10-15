@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CharacterBase.h"
+#include "Character/CharacterBase.h"
 
 #include "AbilitySystemComponent.h"
 #include "Abilities/GT_GameplayAbility.h"

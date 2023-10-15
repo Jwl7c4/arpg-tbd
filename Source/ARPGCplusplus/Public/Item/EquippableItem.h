@@ -21,6 +21,10 @@ public:
 
 	UEquippableItem();
 
+	FItemData CreateItemSaveObject() override;
+
+	void ConstructItem(AARPGCplusplusCharacter* OutCharacter, FItemData ItemData);
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	EEquippableItemType ItemType;
 

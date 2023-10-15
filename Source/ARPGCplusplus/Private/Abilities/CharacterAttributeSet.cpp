@@ -4,9 +4,9 @@
 #include "Abilities/CharacterAttributeSet.h"
 #include "GamePlayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
-#include "CharacterBase.h"
-#include "ARPGCplusplusEnemyCharacter.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/CharacterBase.h"
+#include "Character/ARPGCplusplusEnemyCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 #include "Player/PlayerStateBase.h"
 
 UCharacterAttributeSet::UCharacterAttributeSet()

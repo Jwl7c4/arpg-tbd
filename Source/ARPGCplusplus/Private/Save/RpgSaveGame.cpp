@@ -4,15 +4,18 @@
 #include "Save/RpgSaveGame.h"
 
 #include "Player/PlayerStateBase.h"
-#include "ARPGCplusplusCharacter.h"
-#include "InventoryComponent.h"
+#include "Character/ARPGCplusplusCharacter.h"
+#include "Item/InventoryComponent.h"
+#include "Item/Item.h"
+#include <Item/WeaponItem.h>
+#include <Item/PotionItem.h>
 
 URpgSaveGame::URpgSaveGame()
 {
 	MaxCharacters = 5;
 }
 
-bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<APawn> CharacterClass)
+bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<AARPGCplusplusCharacter> CharacterClass)
 {
 	int InitialCharacterCount = Characters.Num();
 	if (Characters.Num() >= MaxCharacters)
@@ -21,36 +24,50 @@ bool URpgSaveGame::CreateCharacter(FString CharacterName, TSubclassOf<APawn> Cha
 		return false;
 	}
 
-	FCharacterData StructCharacter;
-	StructCharacter.CharacterClass = CharacterClass;
-	StructCharacter.CharacterName = CharacterName;
-	StructCharacter.CharacterLevel = 1;
-	StructCharacter.CurrentXp = 0.f;
-	StructCharacter.SaveGameIndex = -1;
-	Characters.Add(StructCharacter);
+	FCharacterData CharacterData;
+	CharacterData.CharacterClass = CharacterClass;
+	CharacterData.CharacterName = CharacterName;
+	CharacterData.CharacterLevel = 1;
+	CharacterData.CurrentXp = 0.f;
+	CharacterData.SaveGameIndex = -1;
+	Characters.Add(CharacterData);
 
 	return Characters.Num() > InitialCharacterCount;
 }
 
 void URpgSaveGame::SaveCharacterData(int CharacterSlotIndex, AARPGCplusplusCharacter* Character, APlayerStateBase* PlayerState)
 {
-	FCharacterData StructCharacter;
-	if (Characters.Num() > 0)
+	if (Characters.Num() == 0)
 	{
-		StructCharacter = Characters[CharacterSlotIndex];
+		UE_LOG(LogTemp, Warning, TEXT("URpgSaveGame::SaveCharacterData - character array no indexes"));
+		return;
 	}
 
-	// save character data
+	FCharacterData* CharacterData = &Characters[CharacterSlotIndex];
+
+	// bag items
+	TArray<FItemData> TempArray;
 	for (auto& Item : Character->Inventory->Items)
 	{
-		StructCharacter.Items.Add(Item);
+		FItemData ItemData = Item->CreateItemSaveObject();
+		TempArray.Add(ItemData);
 	}
+	CharacterData->Items = TempArray;
+
+	// equipped items
+	TMap<EEquippableItemType, FItemData> TempMap;
+	for (auto& EquippedItem : Character->Inventory->EquippedItems)
+	{
+		FItemData ItemData = EquippedItem.Value->CreateItemSaveObject();
+		TempMap.Add(EquippedItem.Key, ItemData);
+	}
+	CharacterData->EquippedItems = TempMap;
 
 	// save player state data
-	StructCharacter.CharacterName = PlayerState->CharacterName;
-	StructCharacter.CharacterLevel = PlayerState->CurrentLevel;
-	StructCharacter.CurrentXp = PlayerState->CurrentXp;
-	StructCharacter.SaveGameIndex = PlayerState->SaveGameIndex;
+	CharacterData->CharacterName = PlayerState->CharacterName;
+	CharacterData->CharacterLevel = PlayerState->CurrentLevel;
+	CharacterData->CurrentXp = PlayerState->CurrentXp;
+	CharacterData->SaveGameIndex = PlayerState->SaveGameIndex;
 }
 
 void URpgSaveGame::LoadCharacterData(int CharacterSlotIndex, AARPGCplusplusCharacter* OutCharacter, APlayerStateBase* OutPlayerState)
@@ -61,11 +78,45 @@ void URpgSaveGame::LoadCharacterData(int CharacterSlotIndex, AARPGCplusplusChara
 	}
 	FCharacterData CharacterData = Characters[CharacterSlotIndex];
 
-	// load character data
+	// bag items
+	TArray<UItem*> TempArray;
 	for (auto& Item : CharacterData.Items)
 	{
-		OutCharacter->Inventory->AddItem(Item);
+		UItem* InvItem = nullptr;
+		if (Item.ItemClass == UWeaponItem::StaticClass())
+		{
+			InvItem = NewObject<UWeaponItem>();
+		}
+		else if (Item.ItemClass == UPotionItem::StaticClass())
+		{
+			InvItem = NewObject<UPotionItem>();
+		}
+		else {
+			UE_LOG(LogTemp, Error, TEXT("URpgSaveGame::LoadCharacterData - Not found class of item found. please add type here"));
+		}
+
+		InvItem->ConstructItem(OutCharacter, Item);
+		TempArray.Add(InvItem);
 	}
+	OutCharacter->Inventory->Items = TempArray;
+
+
+	// equipped items
+	TMap<EEquippableItemType, class UEquippableItem*> TempMap;
+	for (auto& EquippedItem : CharacterData.EquippedItems)
+	{
+		UEquippableItem* Item = nullptr;
+		if (EquippedItem.Value.ItemClass == UWeaponItem::StaticClass())
+		{
+			Item = NewObject<UWeaponItem>();
+		}
+		else {
+			UE_LOG(LogTemp, Error, TEXT("URpgSaveGame::LoadCharacterData - Not found class of item found. please add type here"));
+		}
+		Item->ConstructItem(OutCharacter, EquippedItem.Value);
+		TempMap.Add(EquippedItem.Key, Item);
+	}
+	OutCharacter->Inventory->EquippedItems = TempMap;
 
 	// load player state
 	OutPlayerState->CharacterName = CharacterData.CharacterName;

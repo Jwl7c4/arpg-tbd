@@ -20,9 +20,8 @@ class AARPGCplusplusPlayerController : public APlayerController
 public:
 	AARPGCplusplusPlayerController();
 
-	void CreateHUD();
-
-	class URPGHud* GetHUD();
+	UFUNCTION(BlueprintImplementableEvent)
+	void HandleCreateHUD(bool shouldCreate);
 
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
@@ -78,6 +77,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void OnPossess(APawn* aPawn) override;
+
+	UFUNCTION(BlueprintCallable)
+	virtual void OnUnPossess() override;
 
 	virtual void OnRep_PlayerState() override;
 

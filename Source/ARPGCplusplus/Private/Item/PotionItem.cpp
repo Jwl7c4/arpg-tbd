@@ -2,9 +2,23 @@
 
 
 #include "Item/PotionItem.h"
-#include "InventoryComponent.h"
+#include "Item/InventoryComponent.h"
 #include "AbilitySystemComponent.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
+
+FItemData UPotionItem::CreateItemSaveObject()
+{
+	FItemData ItemData = Super::CreateItemSaveObject();
+	ItemData.ItemClass = this->StaticClass();
+	ItemData.GameplayEffectClass = PotionGameplayEffectClass;
+	return ItemData;
+}
+
+void UPotionItem::ConstructItem(AARPGCplusplusCharacter* OutCharacter, FItemData ItemData)
+{
+	Super::ConstructItem(OutCharacter, ItemData);
+	PotionGameplayEffectClass = ItemData.GameplayEffectClass;
+}
 
 void UPotionItem::Use(AARPGCplusplusCharacter* Character)
 {

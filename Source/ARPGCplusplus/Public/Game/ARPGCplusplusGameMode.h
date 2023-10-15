@@ -14,6 +14,8 @@ class AARPGCplusplusGameMode : public AGameModeBase
 public:
 	AARPGCplusplusGameMode();
 
+	UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
+
 private:
 	class UARPGGameInstance* GameInstance;
 };

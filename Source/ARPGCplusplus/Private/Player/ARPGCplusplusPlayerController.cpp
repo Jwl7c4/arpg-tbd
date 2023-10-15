@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "ARPGCplusplusPlayerController.h"
+#include "Player/ARPGCplusplusPlayerController.h"
 
 #include "GameFramework/Pawn.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
@@ -8,7 +8,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "InputMappingContext.h"
 #include "Blueprint/UserWidget.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 #include "AbilitySystemComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Engine/World.h"
@@ -77,6 +77,15 @@ void AARPGCplusplusPlayerController::OnPossess(APawn* aPawn)
 	Super::OnPossess(aPawn);
 
 	PossessedPawn = Cast<AARPGCplusplusCharacter>(aPawn);
+	HandleCreateHUD(true);
+}
+
+void AARPGCplusplusPlayerController::OnUnPossess()
+{
+	Super::OnUnPossess();
+	// todo - do we want to unassign 
+	PossessedPawn = nullptr;
+	HandleCreateHUD(false);
 }
 
 void AARPGCplusplusPlayerController::OnRep_PlayerState()

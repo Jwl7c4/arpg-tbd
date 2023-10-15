@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 
 #include "AbilitySystemComponent.h"
 #include "UObject/ConstructorHelpers.h"
@@ -17,8 +17,8 @@
 #include "GameplayTagsManager.h"
 #include "Engine/World.h"
 #include "Player/PlayerStateBase.h"
-#include "ARPGCplusplusEnemyCharacter.h"
-#include "AbilityAttributeSet.h"
+#include "Character/ARPGCplusplusEnemyCharacter.h"
+#include "Abilities/AbilityAttributeSet.h"
 #include "Abilities/GameplayAbility.h"
 #include "Components/WidgetComponent.h"
 #include "Abilities/CharacterAttributeSet.h"
@@ -26,7 +26,10 @@
 #include <Kismet/KismetSystemLibrary.h>
 #include "Item/Item.h"
 #include "Item/EquippableItem.h"
-#include "InventoryComponent.h"
+#include "Item/InventoryComponent.h"
+#include "Game/ARPGGameInstance.h"
+#include <Kismet/GameplayStatics.h>
+#include <Item/WeaponItem.h>
 
 AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 {
@@ -64,6 +67,11 @@ AARPGCplusplusCharacter::AARPGCplusplusCharacter()
 	// Inventory
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Inventory->Capacity = 20;
+	// Bind the save function to the delegate
+	FScriptDelegate Delegate;
+	Delegate.BindUFunction(this, "Save");
+	Inventory->OnEquippedUpdated.Add(Delegate);
+	Inventory->OnInventoryUpdated.Add(Delegate);
 
 	// Non Ability attributes
 	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
@@ -84,21 +92,37 @@ void AARPGCplusplusCharacter::PossessedBy(AController* NewController)
 
 	if (APlayerStateBase* PlayerStateBase = GetPlayerState<APlayerStateBase>())
 	{
+
 		// Set the ASC on the Server. Clients do this in OnRep_PlayerState()
 		AbilitySystemComponent = Cast<UAbilitySystemComponent>(PlayerStateBase->GetAbilitySystemComponent());
-
-		// AI won't have PlayerControllers so we can init again here just to be sure. No harm in initing twice for heroes that have PlayerControllers.
 		PlayerStateBase->GetAbilitySystemComponent()->InitAbilityActorInfo(PlayerStateBase, this);
-
 		CharacterAttributeSet = PlayerStateBase->CharacterAttributeSet;
-
+		// todo - initial vs loaded character abilities in the future
 		AddInitialCharacterAbilities();
 		AddInitialCharacterEffects();
+
+		UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		bool bCharacterLoaded = GameInstance->LoadCharacter(this, PlayerStateBase);
+
+		if (bCharacterLoaded && Inventory)
+		{
+			// do not add for loaded profiles
+			Inventory->DefaultItems.Empty();
+		}
+
+		if (Inventory->EquippedItems.Contains(EEquippableItemType::Weapon))
+		{
+			if (UWeaponItem* Item = Cast<UWeaponItem>(Inventory->EquippedItems[EEquippableItemType::Weapon]))
+			{
+				Item->EquipGameplayAbility(this);
+			}
+		}
 	}
 }
 
 void AARPGCplusplusCharacter::OnRep_PlayerState()
 {
+
 	Super::OnRep_PlayerState();
 
 	if (AbilitySystemComponent == nullptr) {
@@ -110,12 +134,8 @@ void AARPGCplusplusCharacter::OnRep_PlayerState()
 	{
 		// Set the ASC on the Server. Clients do this in OnRep_PlayerState()
 		AbilitySystemComponent = PlayerStateBase->GetAbilitySystemComponent();
-
-		// AI won't have PlayerControllers so we can init again here just to be sure. No harm in initing twice for heroes that have PlayerControllers.
 		PlayerStateBase->GetAbilitySystemComponent()->InitAbilityActorInfo(PlayerStateBase, this);
-
 		CharacterAttributeSet = PlayerStateBase->CharacterAttributeSet;
-
 		SetupAbilitiesInputs();
 	}
 }
@@ -135,6 +155,15 @@ void AARPGCplusplusCharacter::UnequipItem(UEquippableItem* Item)
 	{
 		Item->UnequipItem(this);
 		Item->OnUnequipItem(this);
+	}
+}
+
+void AARPGCplusplusCharacter::Save()
+{
+	if (APlayerStateBase* PlayerStateBase = GetPlayerState<APlayerStateBase>())
+	{
+		UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		GameInstance->SaveCharacter(PlayerStateBase, this);
 	}
 }
 

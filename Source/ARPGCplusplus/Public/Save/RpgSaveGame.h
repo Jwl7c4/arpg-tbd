@@ -8,6 +8,59 @@
 
 #include "RpgSaveGame.generated.h"
 
+/*
+* item save data in struct datastructure for save/load game
+*/
+USTRUCT(BlueprintType)
+struct FItemData
+{
+	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	TSubclassOf<class UItem> ItemClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	FText UseActionText;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	UStaticMesh* PickupMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	UTexture2D* Thumbnail;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	FText ItemDisplayName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	FText ItemDescription;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	int MaxStackCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	int CurrentStackCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	EEquippableItemType ItemType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	EWeaponType WeaponType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	TSubclassOf<class UGameplayEffect> GameplayEffectClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	TSubclassOf<class UGameplayAbility> EquipAbility;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData")
+	TSubclassOf<class UGameplayAbility> UnEquipAbility;
+};
+
+/*
+* character save data in struct datastructure for save/load game
+*/
 USTRUCT(BlueprintType)
 struct FCharacterData
 {
@@ -16,7 +69,7 @@ struct FCharacterData
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
-	TSubclassOf<APawn> CharacterClass;
+	TSubclassOf<class AARPGCplusplusCharacter> CharacterClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
 	FString CharacterName;
@@ -31,12 +84,13 @@ public:
 	int SaveGameIndex;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
-	TArray<class UItem*> Items;
+	TArray<FItemData> Items;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterData")
+	TMap<EEquippableItemType, FItemData> EquippedItems;
 };
 
-/**
- *
- */
+
 UCLASS()
 class ARPGCPLUSPLUS_API URpgSaveGame : public USaveGame
 {
@@ -46,7 +100,7 @@ public:
 
 	URpgSaveGame();
 
-	bool CreateCharacter(FString CharacterName, TSubclassOf<APawn> CharacterClass);
+	bool CreateCharacter(FString CharacterName, TSubclassOf<class AARPGCplusplusCharacter> CharacterClass);
 
 	// update character data at index with character and state data
 	void SaveCharacterData(int CharacterSlotIndex, class AARPGCplusplusCharacter* Character, class APlayerStateBase* PlayerState);
@@ -54,7 +108,7 @@ public:
 	// get character data from index and update character and state
 	void LoadCharacterData(int CharacterSlotIndex, class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState);
 
-protected:
+//protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	int MaxCharacters;

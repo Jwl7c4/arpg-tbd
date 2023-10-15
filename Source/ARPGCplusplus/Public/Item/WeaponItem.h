@@ -9,7 +9,7 @@
 #include "WeaponItem.generated.h"
 
 /**
- * 
+ * todo - add stats later
  */
 UCLASS()
 class ARPGCPLUSPLUS_API UWeaponItem : public UEquippableItem
@@ -20,6 +20,10 @@ public:
 
 	UWeaponItem();
 
+	FItemData CreateItemSaveObject() override;
+
+	void ConstructItem(AARPGCplusplusCharacter* OutCharacter, FItemData ItemData) override;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	EWeaponType WeaponType;
 
@@ -29,17 +33,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	TSubclassOf<class UGameplayAbility> UnEquipAbility;
-	
-	// todo - add stats later
+
+	void EquipGameplayAbility(AARPGCplusplusCharacter* Character);
+
+	void UnequipGameplayAbility(AARPGCplusplusCharacter* Character);
+
 protected:
 
 	virtual void Use(class AARPGCplusplusCharacter* Character) override;
 	
 	virtual void UnequipItem(class AARPGCplusplusCharacter* Character) override;
 
-private:
-
-	void EquipGameplayAbility(AARPGCplusplusCharacter* Character);
-
-	void UnequipGameplayAbility(AARPGCplusplusCharacter* Character);
 };

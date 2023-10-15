@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ARPGGameInstance.h"
+#include "Game/ARPGGameInstance.h"
 
 #include "Save/SaveGameSlots.h"
 #include "Save/RpgSaveGame.h"
-#include "ARPGCplusplusCharacter.h"
+#include "Character/ARPGCplusplusCharacter.h"
 #include "Player/PlayerStateBase.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -21,6 +21,7 @@ UARPGGameInstance::UARPGGameInstance()
 	CharacterSaveData = nullptr;
 	ProfileName = "";
 	SlotsDataName = "Slots";
+	CharacterSaveIndex = -1;
 }
 
 void UARPGGameInstance::Init()
@@ -32,11 +33,6 @@ void UARPGGameInstance::Init()
 	bool bSaveExists = UGameplayStatics::DoesSaveGameExist(SlotsDataName, 0);
 	if (bSaveExists)
 	{
-		// todo - async load for performance
-		//FAsyncLoadGameFromSlotDelegate LoadGameDelegate;
-		//LoadGameDelegate.BindUFunction(this, FName("OnAsyncLoadCompleted"));
-		//UGameplayStatics::AsyncLoadGameFromSlot(SlotsDataName, 0, LoadGameDelegate);
-
 		SlotSaveData = Cast<USaveGameSlots>(UGameplayStatics::LoadGameFromSlot(SlotsDataName, 0));
 	}
 	else {
@@ -129,9 +125,14 @@ bool UARPGGameInstance::SaveCharacter(APlayerStateBase* PlayerState, AARPGCplusp
 		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - ProfileName not set"));
 		return false;
 	}
+	else if (CharacterSaveIndex < 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UARPGGameInstance::SaveCharacter - CharacterSaveIndex not set"));
+		return false;
+	}
 
-	// todo - where does index come from?
-	CharacterSaveData->SaveCharacterData(0, Character, PlayerState);
+	// todo - where does index come from? -- prob should come from player info
+	CharacterSaveData->SaveCharacterData(CharacterSaveIndex, Character, PlayerState);
 	return UGameplayStatics::SaveGameToSlot(CharacterSaveData, ProfileName, 0);
 }
 
@@ -149,6 +150,22 @@ bool UARPGGameInstance::LoadCharacters(FString SlotName)
 	}
 
 	return CharacterSaveData != nullptr ? true : false;
+}
+
+bool UARPGGameInstance::LoadCharacter(class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState)
+{
+	if (CharacterSaveIndex < 0)
+	{
+		return false;
+	}
+	CharacterSaveData->LoadCharacterData(CharacterSaveIndex, OutCharacter, OutPlayerState);
+	return true;
+}
+
+void UARPGGameInstance::SetCharacterIndex(int SelectedIndex)
+{
+	CharacterSaveIndex = SelectedIndex;
+	setSelectedPawn(CharacterSaveData->Characters[CharacterSaveIndex].CharacterClass);
 }
 
 // todo - not used until async load

@@ -19,7 +19,7 @@ public:
     EClassType ClassType;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Select")
-    TSubclassOf<APawn> BlueprintType;
+    TSubclassOf<class AARPGCplusplusCharacter> BlueprintType;
 
     // todo figure out how to show. picture or render or camera somehow?
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Select")

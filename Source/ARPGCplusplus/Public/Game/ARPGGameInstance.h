@@ -44,7 +44,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool LoadCharacters(FString SlotName);
 
-	FString ProfileName;
+	UFUNCTION(BlueprintCallable)
+	bool LoadCharacter(class AARPGCplusplusCharacter* OutCharacter, class APlayerStateBase* OutPlayerState);
+
+	UFUNCTION(BlueprintCallable)
+	void SetCharacterIndex(int SelectedIndex);
 
 protected:
 
@@ -59,10 +63,14 @@ protected:
 
 	FString SlotsDataName;
 
+	FString ProfileName;
+
 	UPROPERTY(BlueprintReadOnly)
 	class USaveGameSlots* SlotSaveData;
 
 	UPROPERTY(BlueprintReadOnly)
 	class URpgSaveGame* CharacterSaveData;
+
+	int CharacterSaveIndex;
 
 };

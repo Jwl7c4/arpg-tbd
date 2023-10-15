@@ -1,8 +1,10 @@
 
 #include "Player/PlayerStateBase.h"
 #include "Abilities/CharacterAttributeSet.h"
-#include <ARPGCplusplusCharacter.h>
-#include <ARPGCplusplusPlayerController.h>
+#include "Character/ARPGCplusplusCharacter.h"
+#include "Player/ARPGCplusplusPlayerController.h"
+#include "Game/ARPGGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 APlayerStateBase::APlayerStateBase()
 {
@@ -63,6 +65,10 @@ void APlayerStateBase::AddXp(float AddXpAmount)
 		FGameplayTag GameplayCueTag = FGameplayTag::RequestGameplayTag(FName("GameplayCue.LevelUp"));
 		AbilitySystemComponent->ExecuteGameplayCue(GameplayCueTag);
 	}
+
+	UARPGGameInstance* GameInstance = Cast<UARPGGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	AARPGCplusplusCharacter* Character = Cast<AARPGCplusplusCharacter>(UGameplayStatics::GetPlayerController(this, 0)->GetCharacter());
+	GameInstance->SaveCharacter(this, Character);
 
 	OnXpUpdated.Broadcast();
 }

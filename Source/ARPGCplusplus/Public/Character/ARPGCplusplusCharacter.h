@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "CharacterBase.h"
+#include "Item/InventoryComponent.h"
 
 #include "ARPGCplusplusCharacter.generated.h"
 
@@ -44,6 +45,13 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void UnequipItem(class UEquippableItem* Item);
+
+	FOnEquippedItemsUpdated OnEquippedUpdated;
+
+	FOnInventoryUpdated OnInventoryUpdated;
+
+	UFUNCTION()
+	void Save();
 
 private:
 
