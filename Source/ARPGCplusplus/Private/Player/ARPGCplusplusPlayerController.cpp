@@ -23,16 +23,14 @@ AARPGCplusplusPlayerController::AARPGCplusplusPlayerController()
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
+	bIsMenuActive = false;
 }
 
 void AARPGCplusplusPlayerController::BeginPlay()
 {
-	// Call the base class  
 	Super::BeginPlay();
 
-	bIsMenuActive = false;
-
-	//Add Input Mapping Context
+	// Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
@@ -172,17 +170,14 @@ void AARPGCplusplusPlayerController::HandleMenu()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Configure the Pause Menue Widget in Controller"));
+		UE_LOG(LogTemp, Error, TEXT("Configure the Pause Menue Widget in Controller"));
 	}
 
-	if (WidgetInstance != nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("HandleMenu - in widget on controller called"));
+	if (WidgetInstance) {
 		if (bIsMenuActive) {
-			UE_LOG(LogTemp, Warning, TEXT("HandleMenu - menu active on controller called"));
 			WidgetInstance->RemoveFromParent();
 		}
 		else {
-			UE_LOG(LogTemp, Warning, TEXT("HandleMenu - menu inactive on controller called"));
 			WidgetInstance->AddToViewport(0);
 		}
 		bIsMenuActive = !bIsMenuActive;
