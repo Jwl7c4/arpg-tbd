@@ -2,14 +2,15 @@
 
 using UnrealBuildTool;
 using System.Collections.Generic;
+using System;
 
 public class ARPGCplusplusEditorTarget : TargetRules
 {
-	public ARPGCplusplusEditorTarget(TargetInfo Target) : base(Target)
-	{
-		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;
-		ExtraModuleNames.Add("ARPGCplusplus");
-	}
+    public ARPGCplusplusEditorTarget(TargetInfo Target) : base(Target)
+    {
+        Type = TargetType.Editor;
+        DefaultBuildSettings = BuildSettingsVersion.V5;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_5;
+        ExtraModuleNames.Add("ARPGCplusplus");
+    }
 }
